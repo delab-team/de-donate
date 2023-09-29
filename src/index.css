@@ -15,6 +15,14 @@ body {
     background: #1c1c20;
 }
 
+:root {
+    --black: #000;
+    --gray: #3D3D3D;
+    --gray2: #1C1C20;
+    --gray3: #232323;
+    --blue: #2E7DDB;
+}
+
 button {
     background: none;
     border: none;
@@ -29,6 +37,27 @@ a {
   text-decoration: none;
 }
 
+.action-btn {
+    padding: 24.5px 5px;
+    font-weight: 400;
+}
+
+.action-btn:hover {
+    background: #0e0d0d;
+}
+
+.input {
+    border-radius: 20px;
+    background: #3D3D3D;
+    border: 0;
+    width: auto;
+}
+
+.input::placeholder {
+    font-weight: 500;
+    font-size: 15px;
+}
+
 .link {
     width: 100%;
     height: 46px;
@@ -39,4 +68,12 @@ a {
     border-radius: 20px;
     background: #3d3d3d;
     outline: none;
+}
+
+.pd1hhM4VsZwE2OkpOmOD {
+    width: 100%;
+}
+
+.Dmb0xu0JMO_f60BeLU7l {
+    background: #3D3D3D !important;
 }

@@ -1,0 +1,20 @@
+.innerActions {
+  padding: 19px 15px;
+  background: var(--gray3);
+  border-radius: 20px;
+  margin-top: 10px;
+}
+
+.selectInner {
+  background: #3D3D3D;
+  padding: 0 5px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.select {
+  background: #3D3D3D;
+  border: 0;
+  flex-direction: row-reverse;
+  min-width: 85px;
+}

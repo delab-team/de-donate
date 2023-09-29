@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { FC } from 'react'
 
-import { PageWrapper, MobileMenu, MobileHeader } from '@delab-team/de-ui'
+import { PageWrapper, MobileMenu, IconSelector, HeaderPanel, Text, Button } from '@delab-team/de-ui'
 
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
+import { TonConnectButton, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
 import { ROUTES } from '../utils/router'
 
@@ -14,21 +17,78 @@ interface LayoutProps {
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
     const navigate = useNavigate()
+
+    const [ tonConnectUI ] = useTonConnectUI()
+
+    const rawAddress = useTonAddress()
+
     const MobileMenuItems = [
-        { text: 'Home', onClick: () => navigate(ROUTES.HOME) },
-        { text: 'Add', onClick: () => navigate(ROUTES.COLLECTING_CREATE) },
-        { text: 'Profile', onClick: () => navigate(ROUTES.PROFILE) }
+        {
+            icon: <IconSelector id="home" size="30px" className={s.actionIcon} />,
+            text: '',
+            onClick: () => {
+                navigate(ROUTES.HOME)
+            }
+        },
+        {
+            icon: <IconSelector id="plus" size="30px" className={s.actionIcon} />,
+            text: '',
+            onClick: () => {
+                !rawAddress ? tonConnectUI.connectWallet() : navigate(ROUTES.FUNDRAISER_CREATE)
+            }
+        },
+        {
+            icon: <IconSelector id="user" size="30px" className={s.actionIcon} />,
+            text: '',
+            onClick: () => {
+                !rawAddress ? tonConnectUI.connectWallet() : navigate(ROUTES.PROFILE)
+            }
+        }
     ]
-    const MobileHeaderItems = [
-        { mobileComponent: <span className={s.logo}>Logo</span> },
-        { mobileComponent: <div className={s.connect}>Connect <br /> + wallet adress</div> }
-    ]
+
     return (
         <div className={s.wrapper}>
             <PageWrapper
-            className={s.wrapper}
-                header={<MobileHeader mobileClassName={s.header} mobileTop={MobileHeaderItems}></MobileHeader>}
-                footer={<MobileMenu backgroundMenu="#3D3D3D" items={MobileMenuItems}></MobileMenu>}
+                className={s.wrapper}
+                header={
+                    <div className={s.innerHeader}>
+                        <HeaderPanel
+                            title=""
+                            containerWidth={330}
+                            className={s.header}
+                            variant='black'
+                            actionLeft={
+                                <Link to={ROUTES.HOME} className={s.logo}>
+                                    <Text fontSize='large' fontFamily='Inter'>
+                                        DeDonate
+                                    </Text>
+                                </Link>
+                            }
+                            actionRight={
+                                <>
+                                    {rawAddress ? (
+                                        <TonConnectButton />
+                                    ) : (
+                                        <button
+                                            className={s.connectButton}
+                                            onClick={() => tonConnectUI.connectWallet()}
+                                        >
+                                            Connect Wallet
+                                        </button>
+                                    )}
+                                </>
+                            }
+                        />
+                    </div>
+                }
+                footer={
+                    <MobileMenu
+                        backgroundMenu="#3D3D3D"
+                        borderRadius='100px'
+                        items={MobileMenuItems}
+                        className={s.actions}
+                    />
+                }
                 pageTitle="DeDonate"
                 content={<div className={s.content}>
                     {children}

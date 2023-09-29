@@ -1,0 +1,62 @@
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.innerInputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+
+.timeLifeTitle {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.70);
+  margin-bottom: 7px;
+}
+
+.timeLifeItems {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 35px;
+}
+
+.timeLifeItem {
+  padding: 7px 20px;
+  border-radius: 15px;
+  font-size: 16px;
+  color: #fff;
+  background: #3D3D3D;
+  cursor: pointer;
+}
+
+.activeLifeItem {
+  background: #000;
+}
+
+.fileInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearImages {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.fileData {
+  margin-bottom: 30px;
+}
+
+.amount {
+  margin: 37px 0 25px 0;
+}

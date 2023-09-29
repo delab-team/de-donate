@@ -1,7 +1,7 @@
 export const ROUTES = {
     HOME: '/',
-    COLLECTING_DETAIL: '/collecting-detail',
-    COLLECTING_CREATE: '/collecting-create',
-    PROFILE: '/profile',
-    SETTINGS: '/settings'
+    FUNDRAISER_DETAIL: '/fundraiser-detail',
+    FUNDRAISER_CREATE: '/fundraiser-create',
+    FUNDRAISER_UPDATE: '/fundraiser-update',
+    PROFILE: '/profile'
 } as const

@@ -1,0 +1,20 @@
+.relative {
+  position: relative;
+}
+
+.expandButton {
+  margin-top: 2rem;
+  color: #45AEF5 !important;
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  text-align: right;
+  transition: duration 300ms;
+  margin-bottom: 10px;
+}
+
+.expanded {
+  width: 100%;
+  bottom: -20px;
+}

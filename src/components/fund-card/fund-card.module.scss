@@ -1,0 +1,49 @@
+.cardTop {
+  border-radius: 20px 20px 0 0;
+}
+
+.cardTop > img {
+  max-width: 100%;
+}
+
+.progressBar {
+  border-radius: 20px;
+  height: 3px;
+}
+
+.cardDetail {
+  padding: 19px 15px;
+  margin-top: -10px;
+  border-radius: 0 0 20px 20px;
+  background: var(--gray3);
+}
+
+.title {
+  margin-bottom: 8px;
+}
+
+.cardInfo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 7px;
+}
+
+.cardTarget {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.customClassName {
+  margin-top: 20px;
+}
+
+.cardDescription {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.70);
+  position: relative;
+}

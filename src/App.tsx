@@ -4,14 +4,18 @@ import { Address, TonClient } from 'ton'
 import { TonConnectUI, TonConnectUIContext, useTonAddress, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react'
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
 
-import { ROUTES } from './utils/router'
-import { HomePage } from './pages/home'
-import { Layout } from './layout'
-import { CollectingCreate } from './pages/collecting-create'
-import { CollectingDetail } from './pages/collecting-detail'
-import { Settings } from './pages/settings'
+import { FundraiserCreate } from './pages/fundraiser-create'
+import { FundraiserDetail } from './pages/fundraiser-detail'
+import { FundraiserUpdate } from './pages/fundraiser-update'
 import { Profile } from './pages/profile'
+import { HomePage } from './pages/home'
 
+import { ROUTES } from './utils/router'
+import { fixAmount } from './utils/fixAmount'
+
+import { Layout } from './layout'
+
+import { Ton } from './logic/ton'
 
 const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
@@ -23,15 +27,7 @@ export const App: FC = () => {
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
 
-    const [tonConnectUI, setOptions] = useTonConnectUI();
-
-    const [ tonClient, setTonClient ] = useState<TonClient>(
-        new TonClient({
-            endpoint: isTestnet
-                ? 'https://testnet.tonhubapi.com/jsonRPC'
-                : 'https://mainnet.tonhubapi.com/jsonRPC'
-        })
-    )
+    const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const RawAddress = useTonAddress()
 
@@ -49,8 +45,8 @@ export const App: FC = () => {
 
     useEffect(() => {
         if (RawAddress) {
-            tonClient.getBalance(Address.parse(RawAddress)).then((bl) => {
-                setBalance(bl.toString())
+            Ton.getBalanceProfile(RawAddress, isTestnet).then((bl) => {
+                setBalance(fixAmount(bl.toString()))
             })
         }
     }, [ RawAddress ])
@@ -59,10 +55,10 @@ export const App: FC = () => {
         <Layout>
             <Routes>
                 <Route element={<HomePage />} path={ROUTES.HOME} />
-                <Route element={<CollectingCreate />} path={ROUTES.COLLECTING_CREATE} />
-                <Route element={<CollectingDetail />} path={ROUTES.COLLECTING_DETAIL} />
-                <Route element={<Profile />} path={ROUTES.PROFILE} />
-                <Route element={<Settings />} path={ROUTES.SETTINGS} />
+                <Route element={<FundraiserCreate />} path={ROUTES.FUNDRAISER_CREATE} />
+                <Route element={<FundraiserDetail />} path={ROUTES.FUNDRAISER_DETAIL} />
+                <Route element={<FundraiserUpdate />} path={ROUTES.FUNDRAISER_UPDATE} />
+                <Route element={<Profile balance={balance} />} path={ROUTES.PROFILE} />
                 <Route path="*" element={<Navigate to='/' replace />} />
             </Routes>
         </Layout>
