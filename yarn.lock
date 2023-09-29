@@ -1309,6 +1309,29 @@
     stream-browserify "^3.0.0"
     style-loader "^3.3.3"
 
+"@delab-team/ton-network-react@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@delab-team/ton-network-react/-/ton-network-react-0.0.4.tgz#0befde43a82a7533168488e952b29a1cb6e476d4"
+  integrity sha512-fh15h2TS+uC2mCMuXbOXidVJ+XyEmZU/v4zbgQ98VvzXdbC64GZr+7QynfEPO45koCwtdch+RDOcxkk0H+gEyA==
+  dependencies:
+    "@emotion/react" "^11.11.1"
+    "@emotion/styled" "^11.11.0"
+    "@tonconnect/ui" "^2.0.0-beta.2"
+    "@types/classnames" "^2.3.1"
+    "@types/react" "^18.2.21"
+    classnames "^2.3.2"
+    copy-webpack-plugin "^11.0.0"
+    css-loader "^6.8.1"
+    mini-css-extract-plugin "^2.7.6"
+    react-dom "^18.2.0"
+    react-router-dom "^6.15.0"
+    react-scripts "5.0.1"
+    stream-browserify "^3.0.0"
+    style-loader "^3.3.3"
+    ton "^13.6.1"
+    ton-core "^0.52.0"
+    ton-crypto "^3.2.0"
+
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
@@ -2149,7 +2172,7 @@
     tweetnacl "^1.0.3"
     tweetnacl-util "^0.15.1"
 
-"@tonconnect/sdk@^2.1.3", "@tonconnect/sdk@^2.1.4", "@tonconnect/sdk@^2.2.0":
+"@tonconnect/sdk@^2.1.3":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@tonconnect/sdk/-/sdk-2.2.0.tgz#8b0432102a4634ed3a1d2de1f44e1e03e4059591"
   integrity sha512-8plnAXzaLhapUnt47ZqAOQSIQ8NHSvgTSR74QVJdPWqg8128smgGM4cDYewKdBfTD6Lup0odT1WMMrJu+rE4NQ==
@@ -2158,19 +2181,28 @@
     "@tonconnect/isomorphic-fetch" "^0.0.2"
     "@tonconnect/protocol" "^2.2.5"
 
-"@tonconnect/ui-react@^1.0.0-beta.9":
-  version "1.0.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@tonconnect/ui-react/-/ui-react-1.0.0-beta.9.tgz#066b4c6ed373f662752915526f55147c810af4ca"
-  integrity sha512-Y+03djw2dUkBNSbm1oI+zrbFS6VfQB1IXUj6ptd39okI2hITG4VLHNWdpDA+wUKdiqGDrIgjCpabC3ZtTMzQrw==
+"@tonconnect/sdk@^3.0.0-beta.1":
+  version "3.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@tonconnect/sdk/-/sdk-3.0.0-beta.1.tgz#522d88409dd8ae9b3aa2eabfddfd3cee28bdb514"
+  integrity sha512-YcTO3USLNblaB+ClPFcQ8LwR68GaZ78kFbxBLANi6tvRORP0d0aSSjTODRs0lDOfVN0gkLCwo+7JxrRBoF/20w==
   dependencies:
-    "@tonconnect/ui" "^1.0.0-beta.7"
+    "@tonconnect/isomorphic-eventsource" "^0.0.1"
+    "@tonconnect/isomorphic-fetch" "^0.0.2"
+    "@tonconnect/protocol" "^2.2.5"
 
-"@tonconnect/ui@^1.0.0-beta.7":
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@tonconnect/ui/-/ui-1.0.0-beta.7.tgz#60517704b04a7a7dbae30a02eda5c593ed832d9c"
-  integrity sha512-Id69mNBzeNEiBomceKl0aRgy6x56Eq7Nyg7zYPE6ootrVDh60l//WB0xxyqVX2cSB7CxfjHcf0apXDAVgKCkKw==
+"@tonconnect/ui-react@^2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@tonconnect/ui-react/-/ui-react-2.0.0-beta.2.tgz#3251334c556686147e6635bc00a952c2a508a136"
+  integrity sha512-h3n8dg2BilyegmGh0cdcoX/e/zaYg0NTJ8U/s6ZloXz47fqLNLk5wjtDqInxLM8zDuMOyuLnx1clN4uGT4P23g==
   dependencies:
-    "@tonconnect/sdk" "^2.2.0"
+    "@tonconnect/ui" "^2.0.0-beta.2"
+
+"@tonconnect/ui@^2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@tonconnect/ui/-/ui-2.0.0-beta.2.tgz#36ed411dfe109e090dbf2f83d3e6c2bd34e88a8c"
+  integrity sha512-oVaJ/o8+inYNDA4Jq1WbZm8mdexyW+FjSBnYKQhqneH883HeLpiIA63dmbIWMiHAbkY8S6uRO9ffKPUjEWzGjw==
+  dependencies:
+    "@tonconnect/sdk" "^3.0.0-beta.1"
     classnames "^2.3.2"
     deepmerge "^4.2.2"
     ua-parser-js "^1.0.35"
@@ -11180,7 +11212,7 @@ toidentifier@1.0.1:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-ton-core@>=0.49.0:
+ton-core@>=0.49.0, ton-core@^0.52.0:
   version "0.52.0"
   resolved "https://registry.yarnpkg.com/ton-core/-/ton-core-0.52.0.tgz#1af32e2fb3a9ea9aa6423d0578bce2a2985c2323"
   integrity sha512-9X6HZsO87i78tk5LBW+OKxtpSZU9L8GznMwhzrmNIySj+oFCq1/fi7yJhLVb7KMvzcInLZc2Kmm7H3pzQnCBiw==
@@ -11275,7 +11307,7 @@ ton@9.8.0:
     ton-crypto "2.1.0"
     tweetnacl "1.0.3"
 
-ton@^13.5.0:
+ton@^13.5.0, ton@^13.6.1:
   version "13.6.1"
   resolved "https://registry.yarnpkg.com/ton/-/ton-13.6.1.tgz#72b8b4da460f67209a1a7594452b28d027abd531"
   integrity sha512-CZlFsmO+l+uPSI2zgnUd8zCS5XuWnUSFRVUjRGl5X5fKXYnjaVba4vMaIyFTJwel+uEMnolGMSlNP8DAa9mfVg==
