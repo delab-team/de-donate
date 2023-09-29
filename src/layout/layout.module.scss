@@ -1,0 +1,27 @@
+.wrapper {
+    margin: 0 auto;
+    padding: 0 30px;
+    max-width: 450px;
+}
+
+@media (max-width: 389px) {
+    .wrapper {
+        padding: 0 15px;
+    }
+}
+
+.header {
+    padding: 15px 0 0 0;
+}
+
+.connect {
+    text-align: right;
+}
+
+.content {
+    margin-top: 44px;
+}
+
+footer {
+    margin-top: auto;
+}

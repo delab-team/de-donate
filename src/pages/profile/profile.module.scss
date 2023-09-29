@@ -1,0 +1,33 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 31px;
+}
+
+.profileActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 0 4px 0;
+}
+
+.profileActionsLink {
+  width: 45%;
+}
+
+@media (max-width: 389px) {
+  .profileActionsLink {
+    width: 45% !important;
+  }
+}
+
+@media (max-width: 330px) {
+  .profileActions {
+    flex-direction: column;
+    gap: 31px;
+    margin-top: 31px;
+  }
+  .profileActionsLink {
+    width: 100% !important;
+  }
+}

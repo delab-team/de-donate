@@ -5,6 +5,11 @@ import { useTonAddress } from '@tonconnect/ui-react'
 
 import { ROUTES } from './utils/router'
 import { HomePage } from './pages/home'
+import { Layout } from './layout'
+import { CollectingCreate } from './pages/collecting-create'
+import { CollectingDetail } from './pages/collecting-detail'
+import { Settings } from './pages/settings'
+import { Profile } from './pages/profile'
 
 const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
@@ -41,9 +46,15 @@ export const App: FC = () => {
     }, [ RawAddress ])
 
     return (
-        <Routes>
-            <Route element={<HomePage />} path={ROUTES.HOME} />
-            <Route path="*" element={<Navigate to='/' replace />} />
-        </Routes>
+        <Layout>
+            <Routes>
+                <Route element={<HomePage />} path={ROUTES.HOME} />
+                <Route element={<CollectingCreate />} path={ROUTES.COLLECTING_CREATE} />
+                <Route element={<CollectingDetail />} path={ROUTES.COLLECTING_DETAIL} />
+                <Route element={<Profile />} path={ROUTES.PROFILE} />
+                <Route element={<Settings />} path={ROUTES.SETTINGS} />
+                <Route path="*" element={<Navigate to='/' replace />} />
+            </Routes>
+        </Layout>
     )
 }
