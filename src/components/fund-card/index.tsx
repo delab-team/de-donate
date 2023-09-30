@@ -56,9 +56,11 @@ export const FundCard: FC<FundCardProps> = ({
                         {progressValue + '%'}
                     </Text>
                     {description && (
-                        <Text fontSize="medium" fontWeight="bold" customClassName={s.cardDescription}>
-                            <ExpandableText text={description} />
-                        </Text>
+                        <>
+                            <Text fontSize="medium" fontWeight="bold" customClassName={s.cardDescription}>
+                                <ExpandableText text={description} />
+                            </Text>
+                        </>
                     )}
                 </div>
             </div>

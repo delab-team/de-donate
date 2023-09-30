@@ -1,0 +1,34 @@
+.inner {
+  position: relative;
+  margin: 23px 0;
+}
+
+.select {
+  border: none;
+}
+
+.selectBtn {
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  gap: 3px;
+  right: 0;
+}
+
+.selectBtn > div > svg > path {
+  stroke: #fff;
+}
+
+.selectBtn:hover {
+  background: transparent;
+  color: #666;
+}
+
+.input {
+ padding-right: 90px;
+}
+
+.tokenTitle {
+  margin-bottom: 10px;
+}

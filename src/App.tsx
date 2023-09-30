@@ -12,6 +12,7 @@ import { HomePage } from './pages/home'
 
 import { ROUTES } from './utils/router'
 import { fixAmount } from './utils/fixAmount'
+import { PrivateRoute } from './utils/privateRouter'
 
 import { Layout } from './layout'
 
@@ -54,11 +55,14 @@ export const App: FC = () => {
     return (
         <Layout>
             <Routes>
+                <Route element={<PrivateRoute />}>
+                    <Route element={<FundraiserCreate />} path={ROUTES.FUNDRAISER_CREATE} />
+                    <Route element={<FundraiserUpdate />} path={ROUTES.FUNDRAISER_UPDATE} />
+                    <Route element={<Profile balance={balance} />} path={ROUTES.PROFILE} />
+                </Route>
+
                 <Route element={<HomePage />} path={ROUTES.HOME} />
-                <Route element={<FundraiserCreate />} path={ROUTES.FUNDRAISER_CREATE} />
                 <Route element={<FundraiserDetail />} path={ROUTES.FUNDRAISER_DETAIL} />
-                <Route element={<FundraiserUpdate />} path={ROUTES.FUNDRAISER_UPDATE} />
-                <Route element={<Profile balance={balance} />} path={ROUTES.PROFILE} />
                 <Route path="*" element={<Navigate to='/' replace />} />
             </Routes>
         </Layout>

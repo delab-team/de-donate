@@ -8,7 +8,7 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    background: #000;
+    background: #333;
     position: absolute;
     width: 100%;
     padding: 0 30px;
@@ -16,12 +16,13 @@
 
 .header {
     padding: 10px 0;
+    background: #333;
 }
 
 .actions {
     position: fixed;
     bottom: 15px;
-    background: #000 !important;
+    background: #222 !important;
     left: 50%;
     transform: translateX(-50%);
     max-width: 280px;
@@ -41,6 +42,8 @@
     padding: 9px 17px;
     background: var(--blue);
     border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
     transition: all 0.3s ease 0s;
 }
 

@@ -33,7 +33,7 @@ export const ExpandableText: FC<ExpandableTextProps> = ({ text, className }) => 
     const truncatedText = text.length > 260 ? text.substring(0, 260) + '...' : text
 
     return (
-        <div className={`relative ${className}`}>
+        <p className={`relative ${className}`}>
             {renderParagraphs(expanded ? text : truncatedText)}
             {text.length > 260 && (
                 <button
@@ -43,6 +43,6 @@ export const ExpandableText: FC<ExpandableTextProps> = ({ text, className }) => 
                     {expanded ? 'Hide' : 'Show'}
                 </button>
             )}
-        </div>
+        </p>
     )
 }

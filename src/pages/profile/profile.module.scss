@@ -6,7 +6,7 @@
 
 .profileInfo {
   border-radius: 15px;
-  background: linear-gradient(180deg, #2F44FF 0%, rgba(243, 206, 206, 0.00) 100%);
+  background: linear-gradient(180deg, #16ADFF 51.56%, #1B76FF 100%);
   margin-bottom: 25px;
   padding: 32px 30px 15px 30px;
   display: flex;
@@ -23,6 +23,7 @@
 
 .profileInfoAddress {
   font-size: 32px;
+  font-weight: 800;
 }
 
 .cards {
@@ -36,4 +37,11 @@
   align-items: center;
   gap: 5px;
   flex-wrap: wrap;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.profileInfoBalance > img {
+  width: 20px;
+  height: 20px;
 }

@@ -1,6 +1,9 @@
 import { FC, useState } from 'react'
 import { Button, Title, Input, Text, FileUpload, FileUploadProps } from '@delab-team/de-ui'
 
+import { jettons } from '../../constants/jettons'
+import { Amount } from '../../components/amount'
+
 import s from './fundraiser-create.module.scss'
 
 interface FundraiserCreateProps {}
@@ -8,8 +11,9 @@ interface FundraiserCreateProps {}
 type FundraiserCreateDataType = {
     name: string;
     description: string;
-    amount: number | null;
+    amount: number | string;
     timeLife: number;
+    token: string;
     file: null | File;
 }
 
@@ -19,10 +23,13 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [ uploadedFile, setUploadedFile ] = useState<File | null>(null)
 
+    const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
+
     const [ createData, setCreateData ] = useState<FundraiserCreateDataType>({
         name: '',
         description: '',
-        amount: null,
+        amount: '',
+        token: 'TOH',
         timeLife: 7,
         file: null
     })
@@ -45,11 +52,19 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         })
     }
 
+    const handleSelect = (value: string) => {
+        setSelectedValue(value)
+        setCreateData({
+            ...createData,
+            token: value
+        })
+    }
+
     return (<div className={s.inner}>
         <Title variant="h1" customClassName={s.title}>
         Top fundraiser
         </Title>
-        <form onSubmit={() => {}}>
+        <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
             <div className={s.innerInputs}>
                 <Input
                     value={createData.name}
@@ -81,8 +96,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                 />
             </div>
             <div className={s.amount}>
-                <Input
-                    type="number"
+                <Amount
+                    options={jettons}
                     value={String(createData.amount)}
                     onChange={
                         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,9 +107,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                             })
                         }
                     }
-                    variant="black"
-                    className="input"
-                    placeholder="Amount"
+                    selectedValue={selectedValue}
+                    handleSelect={handleSelect}
                 />
             </div>
             <div>
@@ -145,7 +159,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                     </div>
                 )}
             </div>
-            <Button rounded="l" size="stretched" className="action-btn" type="submit">Create</Button>
+            <Button rounded="l" size="stretched" className="action-btn">Create</Button>
         </form>
     </div>
     )

@@ -1,8 +1,11 @@
 /* eslint-disable max-len */
 import { FC, useState } from 'react'
 
-import { Button, Input, Select } from '@delab-team/de-ui'
+import { Button } from '@delab-team/de-ui'
+
 import { FundCard } from '../../components/fund-card'
+import { Amount } from '../../components/amount'
+import { jettons } from '../../constants/jettons'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 
@@ -12,20 +15,26 @@ import IMG1 from '../../assets/img/01.png'
 
 interface FundraiserDetailProps {}
 
-// const options = [
-//     { value: 'TON', label: 'TON' },
-//     { value: 'TON', label: 'TON' },
-//     { value: 'TON', label: 'TON' }
-// ]
+type DataType = {
+    amount: string | number
+    token: string
+}
 
 export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
-    const [ amount, setAmount ] = useState<number>(0)
+    const [ data, setData ] = useState<DataType>({
+        amount: '',
+        token: 'TOH'
+    })
 
-    // const [ selectedValue, setSelectedValue ] = useState<string>(options[0].value)
+    const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
 
-    // const handleSelect = (value: string) => {
-    //     setSelectedValue(value)
-    // }
+    const handleSelect = (value: string) => {
+        setSelectedValue(value)
+        setData({
+            ...data,
+            token: value
+        })
+    }
 
     return (
         <div className={s.inner}>
@@ -35,34 +44,27 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
                 img={IMG1}
                 amount={310}
                 formatNumberWithCommas={formatNumberWithCommas}
-                description='
-            🚀 xRocket x Tonstarter | 🌠 Tokenfall of cosmic dimensions
-
-            👏 We’re launching a campaign where participants will go on an adventure through the world of centralized multichain Telegram exchange xRocket!
-            '
+                description='🚀 xRocket x Tonstarter | 🌠 Tokenfall of cosmic dimensions
+                    👏 We’re launching a campaign where participants will go on an adventure through the world of centralized multichain Telegram exchange xRocket!
+                '
             />
 
             <div className={s.innerActions}>
-                <div className={s.selectInner}>
-                    <Input
-                        type="number"
-                        value={String(amount)}
+                <div className={s.amount}>
+                    <Amount
+                        options={jettons}
+                        value={String(data.amount)}
                         onChange={
                             (e: React.ChangeEvent<HTMLInputElement>) => {
-                                setAmount(Number(e.target.value))
+                                setData({
+                                    ...data,
+                                    amount: Number(e.target.value)
+                                })
                             }
                         }
-                        variant="black"
-                        className="input"
-                        placeholder="Name"
-                    />
-                    {/* <Select
-                        options={options}
                         selectedValue={selectedValue}
-                        onSelect={handleSelect}
-                        variant="black"
-                        className={s.select}
-                    /> */}
+                        handleSelect={handleSelect}
+                    />
                 </div>
                 <Button rounded="l" size="stretched" className="action-btn">
                   Donate Now
