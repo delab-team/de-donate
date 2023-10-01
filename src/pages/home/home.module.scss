@@ -20,3 +20,22 @@
   flex-direction: column;
   row-gap: 27px;
 }
+
+.searchInner {
+  position: relative;
+}
+
+.searchHome {
+  padding-left: 45px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.searchIcon > path {
+  stroke: #98989E;
+}

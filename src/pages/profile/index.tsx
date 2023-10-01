@@ -11,8 +11,6 @@ import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 import { smlAddr } from '../../utils/smlAddr'
 
 import IMG1 from '../../assets/img/01.png'
-import IMG2 from '../../assets/img/02.png'
-
 import TON from '../../assets/icons/ton.svg'
 
 import s from './profile.module.scss'

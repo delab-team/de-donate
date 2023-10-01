@@ -3,7 +3,7 @@
 import { FC, useState } from 'react'
 import { v1 } from 'uuid'
 
-import { Input, Title } from '@delab-team/de-ui'
+import { IconSelector, Input, Title } from '@delab-team/de-ui'
 
 import { FundCard } from '../../components/fund-card'
 
@@ -38,13 +38,16 @@ export const HomePage: FC<HomePageProps> = () => {
 
     return (
         <div className={s.home}>
-            <Input
-                placeholder="Search"
-                value={value}
-                onChange={onChange}
-                variant="black"
-                className={s.search}
-            />
+            <div className={s.searchInner}>
+                <IconSelector id="search" className={s.searchIcon} size="20" />
+                <Input
+                    placeholder="Search"
+                    value={value}
+                    onChange={onChange}
+                    variant="black"
+                    className={`${s.search} ${s.searchHome}`}
+                />
+            </div>
             <div className={s.filterBlock}>
                 <Title variant="h1" customClassName={s.title} color='#fff'>
                     Top fundraiser
