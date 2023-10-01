@@ -36,14 +36,14 @@ export const Profile: FC<ProfileProps> = ({ balance }) => {
     return (
         <div className={s.profile}>
             <div className={s.profileInfo}>
-                <Title variant="h1" customClassName={s.profileInfoTitle}>Your wallet adress:</Title>
+                <Title variant="h1" customClassName={s.profileInfoTitle} color='#fff'>Your wallet adress:</Title>
                 <Text customClassName={s.profileInfoAddress} fontWeight='bold'>{smlAddr(rawAddress)}</Text>
                 <Text customClassName={s.profileInfoBalance}>
                     {balance}
                     <img src={TON} alt="icon" />
                 </Text>
             </div>
-            <Title variant="h2" customClassName={s.title}>
+            <Title variant="h2" customClassName={s.title} color='#fff'>
             My fundraiser
             </Title>
             <div className={s.cards}>

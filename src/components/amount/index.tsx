@@ -3,6 +3,7 @@ import { FC, useState } from 'react'
 import { Button, IconSelector, Input, Modal, Select, Title } from '@delab-team/de-ui'
 
 import s from './amount.module.scss'
+import { jettons } from '../../constants/jettons'
 
 interface AmountProps {
     value: string;
@@ -42,13 +43,16 @@ export const Amount: FC<AmountProps> = ({ value, onChange, selectedValue, handle
             </Button>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal} className={s.modal}>
                 <Title variant="h6" customClassName={s.tokenTitle}>Select Token</Title>
-                <Select
-                    options={options}
-                    selectedValue={selectedValue}
-                    onSelect={handleSelect}
-                    className={s.select}
-                    variant="black"
-                />
+                <div className={s.jettons}>
+                    {jettons.map(el => (
+                        <Button className={s.btnSelect} key={el.label} onClick={() => handleSelect(el.label)}>
+                            {el.label}
+                            {selectedValue === el.value && (
+                                <IconSelector id="check" size="20px" />
+                            )}
+                        </Button>
+                    ))}
+                </div>
             </Modal>
         </div>
     )

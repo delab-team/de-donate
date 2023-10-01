@@ -59,7 +59,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                             variant='black'
                             actionLeft={
                                 <Link to={ROUTES.HOME} className={s.logo}>
-                                    <Text fontSize='large' fontFamily='Inter'>
+                                    <Text fontSize='large' fontWeight='bold'>
                                         DeDonate
                                     </Text>
                                 </Link>

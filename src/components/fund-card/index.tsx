@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ProgressBar, Text } from '@delab-team/de-ui'
+import { ProgressBar, Text, Tooltip } from '@delab-team/de-ui'
 
 import { Link } from 'react-router-dom'
 
@@ -16,6 +16,8 @@ interface FundCardProps {
     amount: number;
     target: number;
     description?: string;
+    daysTarget?: number;
+    daysPassed?: number;
     formatNumberWithCommas: (number: number) => string;
 }
 
@@ -24,10 +26,18 @@ export const FundCard: FC<FundCardProps> = ({
     title,
     amount,
     target,
+    daysTarget,
+    daysPassed,
     description,
     formatNumberWithCommas
 }) => {
-    const progressValue = (amount / target) * 100
+    console.log('🚀 ~ file: index.tsx:34 ~ daysTarget:', daysTarget)
+    console.log('🚀 ~ file: index.tsx:34 ~ daysPassed:', daysPassed)
+    const progressValue = ((amount / target) * 100).toFixed(2)
+    let progressValueDays = null
+    if (daysTarget !== undefined && daysPassed !== undefined) {
+        progressValueDays = ((daysPassed / daysTarget) * 100).toFixed(2)
+    }
 
     return (
         <Link to={ROUTES.FUNDRAISER_DETAIL} className={s.card}>
@@ -39,7 +49,7 @@ export const FundCard: FC<FundCardProps> = ({
                 <ProgressBar
                     type="default"
                     size="large"
-                    progress={progressValue}
+                    progress={Number(progressValue)}
                     color="blue"
                     className={s.progressBar}
                 />
@@ -55,14 +65,30 @@ export const FundCard: FC<FundCardProps> = ({
                     <Text fontSize="medium" fontWeight="bold">
                         {progressValue + '%'}
                     </Text>
-                    {description && (
-                        <>
-                            <Text fontSize="medium" fontWeight="bold" customClassName={s.cardDescription}>
-                                <ExpandableText text={description} />
-                            </Text>
-                        </>
-                    )}
                 </div>
+                {daysTarget && daysPassed && (
+                    <div className={`${s.cardInfo} ${s.cardDays}`}>
+                        <div className={s.cardTarget}>
+                            <Tooltip text="Remaining until the end of the campaign." className={s.tooltip}>
+                                <Text fontSize="medium" fontWeight="bold">
+                                    {formatNumberWithCommas(daysPassed)}
+                                    {' / '}
+                                    {formatNumberWithCommas(daysTarget)} days
+                                </Text>
+                            </Tooltip>
+                        </div>
+                        <Text fontSize="medium" fontWeight="bold">
+                            {progressValueDays + '%'}
+                        </Text>
+                    </div>
+                )}
+                {description && (
+                    <>
+                        <Text fontSize="medium" fontWeight="bold" customClassName={s.cardDescription}>
+                            <ExpandableText text={description} />
+                        </Text>
+                    </>
+                )}
             </div>
         </Link>
     )

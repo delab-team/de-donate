@@ -34,7 +34,7 @@
 .cardTarget {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .customClassName {
@@ -46,4 +46,12 @@
   font-weight: 400;
   color: rgba(255, 255, 255, 0.70);
   position: relative;
+}
+
+.tooltip {
+  flex-direction: row-reverse;
+}
+
+.cardDays {
+  margin-bottom: 20px;
 }

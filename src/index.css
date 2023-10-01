@@ -1,4 +1,26 @@
-@import url(https://fonts.googleapis.com/css?family=Inter:regular,500,600,700,800,900);
+@font-face {
+    font-family: 'SF-PRO';
+    font-display: swap;
+    src: local('SF-PRO'), local('SF-PRO-Regular'), url('./assets/fonts/SF-Pro.ttf') format('truetype');
+    font-weight: 410;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'SF-PRO';
+    font-display: swap;
+    src: local('SF-PRO'), local('SF-PRO-Medium'), url('./assets/fonts/SF-Pro.ttf') format('truetype');
+    font-weight: 540;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'SF-PRO';
+    font-display: swap;
+    src: local('SF-PRO'), local('SF-PRO-Semibold'), url('./assets/fonts/SF-Pro.ttf') format('truetype');
+    font-weight: 760;
+    font-style: normal;
+  }
 
 * {
     padding: 0;
@@ -8,7 +30,7 @@
 }
 
 body {
-    font-family: 'Inter', 'sans-serif';
+    font-family: 'SF-PRO', 'sans-serif';
     color: #fff;
     font-size: 16px;
     font-weight: 800;
@@ -34,6 +56,7 @@ button {
 }
 
 a {
+    color: inherit;
     text-decoration: none;
 }
 
@@ -123,34 +146,6 @@ a {
 }
 /*--------------------/Downloaded--------------------*/
 
-/*--------------------Select--------------------*/
-
-.wbetTKwm7M6JD3KbTECQ > div {
-    height: 15px !important;
-    width: 15px !important;
-}
-
-.wbetTKwm7M6JD3KbTECQ > div > svg {
-    height: 15px;
-    width: 15px;
-}
-
-.GAWC6XemAAQA3B7m3_Hv {
-    width: 100%;
-}
-
-.Dmb0xu0JMO_f60BeLU7l {
-    width: 100%;
-}
-
-.Dmb0xu0JMO_f60BeLU7l {
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-}
-
-/*--------------------/Select--------------------*/
-
 /*--------------------Modal--------------------*/
 .l20VADxBULksDZxfge16 {
     background: #1c1c20;
@@ -158,13 +153,26 @@ a {
     max-width: 330px;
 }
 
-@media (max-width: 365px) {
-    .l20VADxBULksDZxfge16 {
-        
-    }
-}
-
 .l20VADxBULksDZxfge16 {
-    padding-top: 45px;
+    padding-top: 35px;
 }
 /*--------------------/Modal--------------------*/
+
+/*--------------------Tooltip--------------------*/
+    .Zfk4smb7Y5VTL1d21R2m {
+        margin-left: 0;
+    }
+    .XnbzD46378UUWKabgkjO {
+        flex-direction: row-reverse;
+        gap: 5px;
+    }
+    .XnbzD46378UUWKabgkjO > div {
+        height: 16px;
+        width: 16px;
+    }
+    .lhL6dQEW7cN7tzPD0HZJ {
+        white-space: pre-wrap;
+        left: 78%;
+        width: 161px;
+    }
+/*--------------------/Tooltip--------------------*/

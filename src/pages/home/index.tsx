@@ -46,7 +46,7 @@ export const HomePage: FC<HomePageProps> = () => {
                 className={s.search}
             />
             <div className={s.filterBlock}>
-                <Title variant="h1" customClassName={s.title}>
+                <Title variant="h1" customClassName={s.title} color='#fff'>
                     Top fundraiser
                 </Title>
                 <div className={s.cards}>

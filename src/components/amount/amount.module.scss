@@ -30,5 +30,26 @@
 }
 
 .tokenTitle {
+  padding-left: 10px;
   margin-bottom: 10px;
+}
+
+.btnSelect {
+  background: transparent;
+  width: 100%;
+  justify-content: space-between;
+  padding: 13px 10px;
+}
+
+.btnSelect > div > svg > path {
+  stroke: #fff;
+}
+
+.btnSelect:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.jettons {
+  max-height: 130px;
+  overflow-y: auto;
 }

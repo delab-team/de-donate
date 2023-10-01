@@ -43,6 +43,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
                 target={1000}
                 img={IMG1}
                 amount={310}
+                daysTarget={15}
+                daysPassed={7}
                 formatNumberWithCommas={formatNumberWithCommas}
                 description='🚀 xRocket x Tonstarter | 🌠 Tokenfall of cosmic dimensions
                     👏 We’re launching a campaign where participants will go on an adventure through the world of centralized multichain Telegram exchange xRocket!
