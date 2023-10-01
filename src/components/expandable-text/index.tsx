@@ -19,7 +19,7 @@ export const ExpandableText: FC<ExpandableTextProps> = ({ text, className }) => 
         const paragraphs = content.split('\n\n')
 
         return paragraphs.map((paragraph, index) => (
-            <p key={index} className={`mb-4 ${expanded || index < 2 ? 'block' : 'hidden'}`}>
+            <p key={index} className={`${s.mb4} ${expanded || index < 2 ? 'block' : 'hidden'}`}>
                 {paragraph.split('\n').map((line, i) => (
                     <Fragment key={i}>
                         {line}

@@ -52,7 +52,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
             />
 
             <div className={s.innerActions}>
-                <div className={s.amount}>
+                <div className={s.amountInner}>
                     <Amount
                         options={jettons}
                         value={String(data.amount)}

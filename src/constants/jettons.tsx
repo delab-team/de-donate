@@ -1,7 +1,7 @@
 export const jettons = [
     {
-        value: 'TOH',
-        label: 'TOH'
+        value: 'TON',
+        label: 'TON'
     },
     {
         value: 'KINGY',

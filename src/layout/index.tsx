@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
-import { PageWrapper, MobileMenu, IconSelector, HeaderPanel, Text, Button } from '@delab-team/de-ui'
+import { PageWrapper, MobileMenu, IconSelector, HeaderPanel, Text } from '@delab-team/de-ui'
 
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -22,25 +23,52 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
 
     const rawAddress = useTonAddress()
 
+    const path = window.location.pathname
+
+    const [ activeLink, setActiveLink ] = useState<string>(path)
+
     const MobileMenuItems = [
         {
-            icon: <IconSelector id="home" size="30px" className={s.actionIcon} />,
+            icon: (
+                <IconSelector
+                    id="home"
+                    size="30px"
+                    className={`${s.actionIcon} ${path === ROUTES.HOME ? s.activeIcon : ''}`}
+                />
+            ),
             text: '',
             onClick: () => {
+                setActiveLink(ROUTES.HOME)
                 navigate(ROUTES.HOME)
             }
         },
         {
-            icon: <IconSelector id="plus" size="30px" className={s.actionIcon} />,
+            icon: (
+                <IconSelector
+                    id="plus"
+                    size="30px"
+                    className={`${s.actionIcon} ${
+                        path === ROUTES.FUNDRAISER_CREATE ? s.activeIcon : ''
+                    }`}
+                />
+            ),
             text: '',
             onClick: () => {
+                setActiveLink(ROUTES.FUNDRAISER_CREATE)
                 !rawAddress ? tonConnectUI.connectWallet() : navigate(ROUTES.FUNDRAISER_CREATE)
             }
         },
         {
-            icon: <IconSelector id="user" size="30px" className={s.actionIcon} />,
+            icon: (
+                <IconSelector
+                    id="user"
+                    size="30px"
+                    className={`${s.actionIcon} ${path === ROUTES.PROFILE ? s.activeIcon : ''}`}
+                />
+            ),
             text: '',
             onClick: () => {
+                setActiveLink(ROUTES.PROFILE)
                 !rawAddress ? tonConnectUI.connectWallet() : navigate(ROUTES.PROFILE)
             }
         }
@@ -56,10 +84,10 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                             title=""
                             containerWidth={330}
                             className={s.header}
-                            variant='black'
+                            variant="black"
                             actionLeft={
                                 <Link to={ROUTES.HOME} className={s.logo}>
-                                    <Text fontSize='large' fontWeight='bold'>
+                                    <Text fontSize="large" fontWeight="bold">
                                         DeDonate
                                     </Text>
                                 </Link>
@@ -84,15 +112,13 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                 footer={
                     <MobileMenu
                         backgroundMenu="#3D3D3D"
-                        borderRadius='100px'
+                        borderRadius="100px"
                         items={MobileMenuItems}
                         className={s.actions}
                     />
                 }
                 pageTitle="DeDonate"
-                content={<div className={s.content}>
-                    {children}
-                </div>}
+                content={<div className={s.content}>{children}</div>}
             />
         </div>
     )

@@ -62,7 +62,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
 
     return (<div className={s.inner}>
         <Title variant="h1" customClassName={s.title} color='#fff'>
-        Top fundraiser
+            Create fundraiser
         </Title>
         <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
             <div className={s.innerInputs}>

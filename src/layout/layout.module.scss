@@ -64,5 +64,9 @@
 }
 
 .actionIcon > path {
-    stroke: #fff;
+    stroke: #98989E;
+}
+
+.activeIcon > path {
+    stroke: #fff !important;
 }

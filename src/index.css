@@ -63,8 +63,8 @@ a {
 .action-btn {
     padding: 24.5px 5px;
     font-size: 16px;
-    font-weight: 400;
-    background: #2e7ddb;
+    font-weight: 410;
+    background: #3E88F7;
 }
 
 .action-btn:hover {
@@ -72,7 +72,7 @@ a {
 }
 
 .input {
-    border-radius: 20px;
+    border-radius: 13px;
     padding-left: 15px;
     background: #3d3d3d;
     border: 0;
@@ -118,26 +118,26 @@ a {
 
 /*--------------------connect--------------------*/
     
-/*--------------------/connect--------------------*/
 .go157313249 {
-    background: #2e7ddb;
+    background: #3E88F7;
 }
 
 .go157313249 > .go3349661836 > path {
-  fill: #fff;
+    fill: #fff;
 }
 
 .go526437840 {
-  background: #2e7ddb;
+    background: #3E88F7;
 }
 
 .go2628359365 {
-  background: #2e7ddb;
+    background: #3E88F7;
 }
 
 .go2628359365:hover {
-  background: #1170e4;
+    background: #0c69db;
 }
+/*--------------------/connect--------------------*/
 
 /*--------------------Downloaded--------------------*/
 .pd1hhM4VsZwE2OkpOmOD {

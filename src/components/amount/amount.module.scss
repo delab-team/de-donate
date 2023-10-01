@@ -1,6 +1,5 @@
 .inner {
   position: relative;
-  margin: 23px 0;
 }
 
 .select {
@@ -14,9 +13,11 @@
   transform: translateY(-50%);
   gap: 3px;
   right: 0;
+  font-size: 18px;
 }
 
 .selectBtn > div > svg > path {
+  stroke-width: 3px;
   stroke: #fff;
 }
 
@@ -38,7 +39,9 @@
   background: transparent;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
   padding: 13px 10px;
+  font-size: 15px;
 }
 
 .btnSelect > div > svg > path {
@@ -50,6 +53,6 @@
 }
 
 .jettons {
-  max-height: 130px;
+  max-height: 135px;
   overflow-y: auto;
 }

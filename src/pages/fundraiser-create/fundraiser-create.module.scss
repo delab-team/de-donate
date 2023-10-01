@@ -11,8 +11,9 @@
 }
 
 .timeLifeTitle {
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.70);
+  font-size: 13px;
+  font-weight: 410;
+  color: rgba(255, 255, 255, 0.70) !important;
   margin-bottom: 7px;
 }
 
@@ -29,6 +30,7 @@
   padding: 9px 23px;
   border-radius: 20px;
   font-size: 16px;
+  font-weight: 400;
   color: #fff;
   background: #3D3D3D;
   cursor: pointer;
