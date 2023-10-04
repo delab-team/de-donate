@@ -1,93 +1,108 @@
 .title {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 14px;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 14px;
 }
 
 .innerInputs {
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
 }
 
 .timeLifeTitle {
-  font-size: 13px;
-  font-weight: 410;
-  color: rgba(255, 255, 255, 0.70) !important;
-  margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 410;
+    color: rgba(255, 255, 255, 0.7) !important;
+    margin-bottom: 7px;
 }
 
 .timeLifeItems {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  flex-wrap: wrap;
-  margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
 }
 
 .timeLifeItem {
-  padding: 9px 23px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 400;
-  color: #fff;
-  background: #3D3D3D;
-  cursor: pointer;
+    padding: 9px 23px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    background: #3d3d3d;
+    cursor: pointer;
 }
 
 @media (max-width: 450px) {
-  .timeLifeItem {
-    padding: 9px 19px;
-  }
+    .timeLifeItem {
+        padding: 9px 19px;
+    }
 }
 
 @media (max-width: 425px) {
-  .timeLifeItem {
-    padding: 9px 14px;
-  }
+    .timeLifeItem {
+        padding: 9px 14px;
+    }
 }
 
 @media (max-width: 345px) {
-  .timeLifeItem {
-    padding: 9px 12px;
-  }
+    .timeLifeItem {
+        padding: 9px 12px;
+    }
 }
 
 @media (max-width: 320px) {
-  .timeLifeItem {
-    padding: 9px 10px;
-  }
+    .timeLifeItem {
+        padding: 9px 10px;
+    }
 }
 
 .activeLifeItem {
-  background: #2E7DDB;
+    background: #2e7ddb;
+}
+
+.fileBtn {
+    width: 100%;
 }
 
 .fileInner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .fileInner > img {
-  height: 150px;
+    height: 150px;
 }
 
 .clearImages {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }
 
 .fileData {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .amount {
-  margin: 37px 0 25px 0;
+    margin: 37px 0 25px 0;
+}
+
+.spinner {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert {
+    right: 0;
 }

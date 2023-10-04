@@ -12,8 +12,15 @@ interface AmountProps {
     selectedValue: string;
     handleSelect: ([ ...args ]: any) => void;
     options: {
+        address?: null | string;
         value: string;
         label: string;
+        decimals?: number;
+        image?: string;
+        description?: string | null;
+        social?: string[] | null;
+        websites?: string[] | null;
+        catalogs?: string[] | null;
     }[];
 }
 
@@ -62,7 +69,7 @@ export const Amount: FC<AmountProps> = ({
                                 <img src={el.image} alt={el.label} width={20} height={20} />
                                 <Text>{el.label}</Text>
                             </div>
-                            {selectedValue === el.value && <IconSelector id="check" size="20px" />}
+                            {selectedValue === el.label && <IconSelector id="check" size="20px" />}
                         </Button>
                     ))}
                 </div>

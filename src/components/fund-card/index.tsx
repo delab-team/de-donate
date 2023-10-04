@@ -31,8 +31,6 @@ export const FundCard: FC<FundCardProps> = ({
     description,
     formatNumberWithCommas
 }) => {
-    console.log('🚀 ~ file: index.tsx:34 ~ daysTarget:', daysTarget)
-    console.log('🚀 ~ file: index.tsx:34 ~ daysPassed:', daysPassed)
     const progressValue = ((amount / target) * 100).toFixed(2)
     let progressValueDays = null
     if (daysTarget !== undefined && daysPassed !== undefined) {
