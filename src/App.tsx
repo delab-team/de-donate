@@ -16,7 +16,7 @@ import { PrivateRoute } from './utils/privateRouter'
 
 import { Layout } from './layout'
 
-import { Ton } from './logic/ton'
+import { Smart } from './logic/smart'
 
 const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
@@ -46,7 +46,7 @@ export const App: FC = () => {
 
     useEffect(() => {
         if (RawAddress) {
-            Ton.getBalanceProfile(RawAddress, isTestnet).then((bl) => {
+            Smart.getBalanceProfile(RawAddress, isTestnet).then((bl) => {
                 setBalance(fixAmount(bl.toString()))
             })
         }

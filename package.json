@@ -13,6 +13,7 @@
     "@delab-team/de-ui": "0.0.14",
     "@delab-team/ton-network-react": "^0.0.5",
     "@ton-community/blueprint": "^0.12.0",
+    "@ton/core": "^0.52.2",
     "@tonconnect/sdk": "^3.0.0-beta.1",
     "@tonconnect/ui": "^2.0.0-beta.2",
     "@tonconnect/ui-react": "^2.0.0-beta.2",
@@ -41,6 +42,7 @@
     "vm-browserify": "^1.1.2"
   },
   "devDependencies": {
+    "@ton/blueprint": "^0.12.1",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.7.2",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
