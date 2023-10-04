@@ -2167,7 +2167,7 @@
     ton-x "^2.1.0"
     ts-node "^10.9.1"
 
-"@ton/core@^0.52.2":
+"@ton/core@^0.52.0":
   version "0.52.2"
   resolved "https://registry.yarnpkg.com/@ton/core/-/core-0.52.2.tgz#bec763fda9164ac831fdaa45cf86135d8394d5ef"
   integrity sha512-h7ILb3XIrZ+tZ4sqTBORna3HVaVnSjhc6gGQY11yKeDBRrhIXO7wdlpk7IICwpUndbWB9YzgmXXLDvtpoIixTg==
@@ -11245,13 +11245,6 @@ ton-core@>=0.49.0, ton-core@^0.52.0:
   version "0.52.0"
   resolved "https://registry.yarnpkg.com/ton-core/-/ton-core-0.52.0.tgz#1af32e2fb3a9ea9aa6423d0578bce2a2985c2323"
   integrity sha512-9X6HZsO87i78tk5LBW+OKxtpSZU9L8GznMwhzrmNIySj+oFCq1/fi7yJhLVb7KMvzcInLZc2Kmm7H3pzQnCBiw==
-  dependencies:
-    symbol.inspect "1.0.1"
-
-ton-core@^0.49.1:
-  version "0.49.1"
-  resolved "https://registry.yarnpkg.com/ton-core/-/ton-core-0.49.1.tgz#f00b6db841cc212866697adc0ba55a1a0849af5b"
-  integrity sha512-qPQdGPGxCYUuF/ZzfaGU4pftbIU6fxkWCzehB2Ipf5yqo5BabZibLAXEQScgFKgjYDLXcMzptt/6DWQo5/LH+w==
   dependencies:
     symbol.inspect "1.0.1"
 
