@@ -1,6 +1,6 @@
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
 import { TonConnectUI } from '@tonconnect/ui'
-import { Address, beginCell, toNano, Cell } from '@ton/core'
+import { Address, beginCell, toNano, Cell } from 'ton-core'
 import { TonClient } from 'ton'
 import { Deployer } from './wrappers/Deployer'
 import { DeployerHex, Fundraiser, Helper, JettonWallet } from './build'
@@ -38,23 +38,25 @@ export class Smart {
         }
     }
 
-    public async deployDeployer (address: string, value: bigint): Promise<Address | undefined> {
-        const deployerConfig = {
-            admin: Address.parse(address),
-            feeReceiver: Address.parse(address),
-            feePercentage: 100,
-            fundraiserCode: Cell.fromBoc(Buffer.from(Fundraiser, 'hex'))[0],
-            helperCode: Cell.fromBoc(Buffer.from(Helper, 'hex'))[0],
-            index: 0n,
-            jettonWalletCode: Cell.fromBoc(Buffer.from(JettonWallet, 'hex'))[0],
-            collectionContent: beginCell().storeUint(0, 8).endCell()
-        }
-
-        const deployerCode = Cell.fromBoc(Buffer.from(DeployerHex, 'hex'))[0]
-        const deployer = Deployer.createFromConfig(deployerConfig, deployerCode)
+    public async deployDeployer (address: string): Promise<Address | undefined> {
+        const deployer = this._provider.open(
+            Deployer.createFromConfig(
+                {
+                    admin: Address.parse(address),
+                    feeReceiver: Address.parse(address),
+                    feePercentage: 100,
+                    fundraiserCode: Cell.fromBoc(Buffer.from(Fundraiser, 'hex'))[0],
+                    helperCode: Cell.fromBoc(Buffer.from(Helper, 'hex'))[0],
+                    index: 0n,
+                    jettonWalletCode: Cell.fromBoc(Buffer.from(JettonWallet, 'hex'))[0],
+                    collectionContent: beginCell().storeUint(0, 8).endCell()
+                },
+                Cell.fromBoc(Buffer.from(DeployerHex, 'hex'))[0]
+            )
+        )
 
         try {
-            await deployer.sendDeploy(this._provider, toNano('0.05'), value)
+            await deployer.sendDeploy(this._provider.sender(), toNano('0.05'))
 
             await this._provider.waitForDeploy(deployer.address)
 
@@ -66,11 +68,11 @@ export class Smart {
     }
 
     public async deployFundraiser (address: string): Promise<Address | undefined> {
-        const deployer = Deployer.createFromAddress(Address.parse(address))
+        const deployer = this._provider.open(Deployer.createFromAddress(Address.parse(address)))
 
         try {
             await deployer.sendDeployFundraiser(
-                this._provider,
+                this._provider.sender(),
                 toNano('0.05'),
                 123n,
                 toNano('100'),

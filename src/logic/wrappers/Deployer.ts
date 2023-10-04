@@ -1,4 +1,4 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from '@ton/core'
+import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core';
 
 export type DeployerConfig = {
     admin: Address;
@@ -9,9 +9,9 @@ export type DeployerConfig = {
     index: bigint;
     jettonWalletCode: Cell;
     collectionContent: Cell;
-}
+};
 
-export function deployerConfigToCell (config: DeployerConfig): Cell {
+export function deployerConfigToCell(config: DeployerConfig): Cell {
     return beginCell()
         .storeAddress(config.admin)
         .storeAddress(config.feeReceiver)
@@ -21,31 +21,31 @@ export function deployerConfigToCell (config: DeployerConfig): Cell {
         .storeUint(config.index, 64)
         .storeRef(config.jettonWalletCode)
         .storeRef(config.collectionContent)
-        .endCell()
+        .endCell();
 }
 
 export class Deployer implements Contract {
-    constructor (readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
+    constructor(readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
 
-    static createFromAddress (address: Address) {
-        return new Deployer(address)
+    static createFromAddress(address: Address) {
+        return new Deployer(address);
     }
 
-    static createFromConfig (config: DeployerConfig, code: Cell, workchain = 0) {
-        const data = deployerConfigToCell(config)
-        const init = { code, data }
-        return new Deployer(contractAddress(workchain, init), init)
+    static createFromConfig(config: DeployerConfig, code: Cell, workchain = 0) {
+        const data = deployerConfigToCell(config);
+        const init = { code, data };
+        return new Deployer(contractAddress(workchain, init), init);
     }
 
-    async sendDeploy (provider: ContractProvider, via: Sender, value: bigint) {
+    async sendDeploy(provider: ContractProvider, via: Sender, value: bigint) {
         await provider.internal(via, {
             value,
             sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell().endCell()
-        })
+            body: beginCell().endCell(),
+        });
     }
 
-    async sendDeployFundraiser (
+    async sendDeployFundraiser(
         provider: ContractProvider,
         via: Sender,
         value: bigint,
@@ -64,7 +64,7 @@ export class Deployer implements Contract {
                 .storeUint(blockTime, 64)
                 .storeAddress(priorityCoin)
                 .storeRef(beginCell().storeStringTail(metadataIpfsLink).endCell())
-                .endCell()
-        })
+                .endCell(),
+        });
     }
 }

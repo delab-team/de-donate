@@ -1,6 +1,6 @@
-import { CompilerConfig } from '@ton/blueprint'
+import { CompilerConfig } from '@ton-community/blueprint';
 
 export const compile: CompilerConfig = {
     lang: 'func',
-    targets: [ 'contracts/deployer.fc' ]
-}
+    targets: ['contracts/deployer.fc'],
+};

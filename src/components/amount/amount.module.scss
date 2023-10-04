@@ -27,7 +27,7 @@
 }
 
 .input {
- padding-right: 90px;
+  padding-right: 134px;
 }
 
 .tokenTitle {
@@ -42,10 +42,9 @@
   align-items: center;
   padding: 13px 10px;
   font-size: 15px;
-}
-
-.btnSelect > div > svg > path {
-  stroke: #fff;
+  div > svg > path {
+    stroke: #fff;
+  }
 }
 
 .btnSelect:not(:last-child) {
@@ -53,6 +52,14 @@
 }
 
 .jettons {
-  max-height: 135px;
+  max-height: 150px;
   overflow-y: auto;
+}
+
+.selectInfo {
+  display: flex;
+  gap: 8px;
+  > img {
+    border-radius: 50%;
+  }
 }
