@@ -1321,25 +1321,18 @@
     stream-browserify "^3.0.0"
     style-loader "^3.3.3"
 
-"@delab-team/ton-network-react@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@delab-team/ton-network-react/-/ton-network-react-0.0.5.tgz#c9aa590c67b29ecd775dedd0117b1bef4380f860"
-  integrity sha512-9PF4opY++zF81VEDqZ0NwvTZxSYVJnZUfVUw2vQSfJ8fz9D3ASXCEggxZdLcM8UI8gxOHBn0wLumBg9f1RRHnA==
+"@delab-team/ton-network-react@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@delab-team/ton-network-react/-/ton-network-react-0.0.7.tgz#d40f317f4186d1a6f9454ccc9f9104046d25f719"
+  integrity sha512-QPEUzpurabwH2PJM3XMCoPUrTVPV+jJmaBNLxlQz+fAyyCkKU8w/fkyY9HrR+1ZU7A4/8eW8bttMjj2wYn45+Q==
   dependencies:
-    "@emotion/react" "^11.11.1"
-    "@emotion/styled" "^11.11.0"
+    "@orbs-network/ton-access" "^2.3.3"
+    "@ton/core" "^0.52.2"
     "@tonconnect/ui" "^2.0.0-beta.2"
-    "@types/classnames" "^2.3.1"
     "@types/react" "^18.2.21"
-    classnames "^2.3.2"
-    copy-webpack-plugin "^11.0.0"
-    css-loader "^6.8.1"
-    mini-css-extract-plugin "^2.7.6"
     react-dom "^18.2.0"
-    react-router-dom "^6.15.0"
     react-scripts "5.0.1"
     stream-browserify "^3.0.0"
-    style-loader "^3.3.3"
     ton "^13.6.1"
     ton-core "^0.52.0"
     ton-crypto "^3.2.0"
@@ -2323,7 +2316,7 @@
     ton-x "^2.1.0"
     ts-node "^10.9.1"
 
-"@ton/core@^0.52.0":
+"@ton/core@^0.52.0", "@ton/core@^0.52.2":
   version "0.52.2"
   resolved "https://registry.yarnpkg.com/@ton/core/-/core-0.52.2.tgz#bec763fda9164ac831fdaa45cf86135d8394d5ef"
   integrity sha512-h7ILb3XIrZ+tZ4sqTBORna3HVaVnSjhc6gGQY11yKeDBRrhIXO7wdlpk7IICwpUndbWB9YzgmXXLDvtpoIixTg==

@@ -9,6 +9,8 @@ import { Amount } from '../../components/amount'
 
 import s from './fundraiser-create.module.scss'
 import { CustomIpfs } from '../../logic/ipfs'
+import { Smart } from '../../logic/smart'
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
 interface FundraiserCreateProps {}
 
@@ -30,6 +32,10 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
 
     const [ uploading, setUploading ] = useState<boolean>(false)
     const [ error, setError ] = useState<boolean>(false)
+
+    const [ tonConnectUI, setOptions ] = useTonConnectUI()
+
+    const RawAddress = useTonAddress()
 
     const [ createData, setCreateData ] = useState<FundraiserCreateDataType>({
         name: '',
@@ -73,9 +79,9 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         const ipfs = new CustomIpfs()
 
         const metadata = {
-            image: 'ipfs://',
-            description: '',
-            name: '',
+            image: img,
+            description: createData.description,
+            name: createData.name,
             marketplace: 'dedonate.com'
         }
 
@@ -95,6 +101,13 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         })
 
         console.log('🚀 ~ file: index.tsx:88 ~ createFundraiser ~ data:', data)
+
+        const addrColl = 'kQBH_ElENh-if6t_j7Mr_NTPAzPnWJXOhJrXhumQhC__xxKu'
+
+        const smart = new Smart(tonConnectUI, true)
+
+        const addr = await smart.deployFundraiser(addrColl, data.content)
+        console.log(addr?.toString())
     }
 
     //========================================================================================================================================================
