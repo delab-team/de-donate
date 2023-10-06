@@ -45,18 +45,6 @@ export const App: FC = () => {
         }
     }, [])
 
-    const tonApi = new TonApi()
-
-    useEffect(() => {
-        const fetchColl2 = () => {
-            const res = tonApi.getCollectionV2('50')
-            console.log('🚀 ~ file: App.tsx:53 ~ fetchColl2 ~ res:', res)
-
-            return res
-        }
-        fetchColl2()
-    }, [])
-
     useEffect(() => {
         if (RawAddress) {
             Smart.getBalanceProfile(RawAddress, isTestnet).then((bl) => {

@@ -1,10 +1,11 @@
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
 import { TonConnectUI } from '@tonconnect/ui'
-import { Address, beginCell, toNano, Cell } from 'ton-core'
+import { Address, beginCell, toNano, Cell, Dictionary } from 'ton-core'
 import { getHttpV4Endpoint } from '@orbs-network/ton-access'
 import { TonClient, TonClient4 } from 'ton'
 import { Deployer } from './wrappers/Deployer'
 import { Fundraiser as FundraiserClass } from './wrappers/Fundraiser'
+import { Helper as HelperClass } from './wrappers/Helper'
 import { DeployerHex, Fundraiser, Helper, JettonWallet } from './build'
 
 export class Smart {
@@ -125,6 +126,91 @@ export class Smart {
             return result
         } catch (error) {
             console.error('getActive', error)
+            return undefined
+        }
+    }
+
+    public async getType (addressFundraiser: string): Promise<number | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(addressFundraiser))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const type = await fundraiser.getType()
+
+            return type
+        } catch (error) {
+            console.error('getType', error)
+            return undefined
+        }
+    }
+
+    public async getBlockTime (addressFundraiser: string): Promise<number | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(addressFundraiser))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const blockTime = await fundraiser.getBlockTime()
+
+            return blockTime
+        } catch (error) {
+            console.error('getBlockTime', error)
+            return undefined
+        }
+    }
+
+    public async getTotal (addressFundraiser: string): Promise<Dictionary<Address, bigint> | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(addressFundraiser))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const total = await fundraiser.getTotal()
+
+            return total
+        } catch (error) {
+            console.error('getTotal', error)
+            return undefined
+        }
+    }
+
+    public async getHelperAddress (user: Address): Promise<Address | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(String(user)))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const total = await fundraiser.getHelperAddress(user)
+
+            return total
+        } catch (error) {
+            console.error('getHelperAddress', error)
+            return undefined
+        }
+    }
+
+    public async getTotalHelper (addressFundraiser: string): Promise<Dictionary<Address, bigint> | undefined> {
+        await this._provider.sunc()
+
+        const helperContract = new HelperClass(Address.parse(addressFundraiser))
+
+        const helper = this._provider.open(helperContract)
+
+        try {
+            const total = await helper.getTotal()
+
+            return total
+        } catch (error) {
+            console.error('getHelperAddress', error)
             return undefined
         }
     }
