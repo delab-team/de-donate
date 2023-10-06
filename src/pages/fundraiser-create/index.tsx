@@ -3,6 +3,7 @@
 /* eslint-disable spaced-comment */
 import { FC, useState } from 'react'
 import { Button, Title, Input, Text, FileUpload, Spinner, Alert } from '@delab-team/de-ui'
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
 import { jettons } from '../../constants/jettons'
 import { Amount } from '../../components/amount'
@@ -10,14 +11,13 @@ import { Amount } from '../../components/amount'
 import s from './fundraiser-create.module.scss'
 import { CustomIpfs } from '../../logic/ipfs'
 import { Smart } from '../../logic/smart'
-import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
 interface FundraiserCreateProps {}
 
 type FundraiserCreateDataType = {
     name: string;
     description: string;
-    amount: number | string;
+    amount: string;
     timeLife: number;
     token: string;
     file: string;
@@ -30,8 +30,11 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
 
     const [ img, setImg ] = useState<string>('')
 
-    const [ uploading, setUploading ] = useState<boolean>(false)
     const [ error, setError ] = useState<boolean>(false)
+    // Uploading the image Loading
+    const [ uploading, setUploading ] = useState<boolean>(false)
+    // Create the fundraiser Loading
+    const [ createLoading, setCreateLoading ] = useState<boolean>(false)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
@@ -76,6 +79,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
     // Create fundraiser
 
     async function createFundraiser () {
+        setCreateLoading(true)
         const ipfs = new CustomIpfs()
 
         const metadata = {
@@ -107,7 +111,22 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         const smart = new Smart(tonConnectUI, true)
 
         const addr = await smart.deployFundraiser(addrColl, data.content)
+        console.log('🚀 ~ file: index.tsx:114 ~ createFundraiser ~ addr:', addr)
         console.log(addr?.toString())
+
+        // if (String(addr)) {
+        //     setCreateData({
+        //         name: '',
+        //         description: '',
+        //         amount: '',
+        //         token: 'TOH',
+        //         timeLife: 7,
+        //         file: ''
+        //     })
+        //     setImg('')
+        // }
+
+        setCreateLoading(false)
     }
 
     //========================================================================================================================================================
@@ -183,7 +202,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             setCreateData({
                                 ...createData,
-                                amount: Number(e.target.value)
+                                amount: e.target.value
                             })
                         }}
                         selectedValue={selectedValue}
@@ -266,6 +285,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                     size="stretched"
                     className="action-btn"
                     onClick={() => createFundraiser()}
+                    loading={createLoading}
                     disabled={
                         createData.name.length < 1
                         || createData.description.length < 1

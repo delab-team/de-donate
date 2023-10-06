@@ -16,7 +16,7 @@ import IMG1 from '../../assets/img/01.png'
 interface FundraiserDetailProps {}
 
 type DataType = {
-    amount: string | number
+    amount: string
     token: string
 }
 
@@ -60,7 +60,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
                             (e: React.ChangeEvent<HTMLInputElement>) => {
                                 setData({
                                     ...data,
-                                    amount: Number(e.target.value)
+                                    amount: e.target.value
                                 })
                             }
                         }
@@ -68,7 +68,11 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
                         handleSelect={handleSelect}
                     />
                 </div>
-                <Button rounded="l" size="stretched" className="action-btn">
+                <Button
+                    rounded="l"
+                    size="stretched"
+                    className="action-btn"
+                >
                   Donate Now
                 </Button>
             </div>

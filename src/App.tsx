@@ -17,6 +17,7 @@ import { PrivateRoute } from './utils/privateRouter'
 import { Layout } from './layout'
 
 import { Smart } from './logic/smart'
+import { TonApi } from './logic/tonapi'
 
 const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
@@ -42,6 +43,18 @@ export const App: FC = () => {
                 console.log(networkProvider)
             }
         }
+    }, [])
+
+    const tonApi = new TonApi()
+
+    useEffect(() => {
+        const fetchColl2 = () => {
+            const res = tonApi.getCollectionV2('50')
+            console.log('🚀 ~ file: App.tsx:53 ~ fetchColl2 ~ res:', res)
+
+            return res
+        }
+        fetchColl2()
     }, [])
 
     useEffect(() => {

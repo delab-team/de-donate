@@ -43,7 +43,6 @@ export const Amount: FC<AmountProps> = ({
     return (
         <div className={s.inner}>
             <Input
-                type="number"
                 value={value}
                 onChange={onChange}
                 variant="black"

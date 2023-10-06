@@ -112,4 +112,20 @@ export class Smart {
             return undefined
         }
     }
+
+    public async getActive (addressFundraiser: string): Promise<boolean | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(addressFundraiser))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+        try {
+            const result = await fundraiser.getActive()
+
+            return result
+        } catch (error) {
+            console.error('getActive', error)
+            return undefined
+        }
+    }
 }
