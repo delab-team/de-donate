@@ -68,6 +68,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
                             onFileUpload={handleFileUpload}
                             accept=".jpg, .jpeg, .png"
                             className={s.fileUpload}
+                            variant='white'
                             uploadText="Upload Image"  />
                     ) : (
                         <div className={s.fileInner}>

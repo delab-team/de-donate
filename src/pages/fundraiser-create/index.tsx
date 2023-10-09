@@ -165,7 +165,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                     </div>
                 </Alert>
             )}
-            <Title variant="h1" customClassName={s.title} color="#fff">
+            <Title variant="h1" className={s.title} color="#fff">
                 Create fundraiser
             </Title>
             <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
@@ -210,7 +210,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                     />
                 </div>
                 <div>
-                    <Text customClassName={s.timeLifeTitle} fontSize="small">
+                    <Text className={s.timeLifeTitle} fontSize="small">
                         Time life fundraiser
                     </Text>
                     <div className={s.timeLifeItems}>
@@ -253,6 +253,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                                         onFileUpload={() => {}}
                                         accept=".jpg, .jpeg, .png"
                                         className={s.fileUpload}
+                                        variant='white'
                                         uploadText="Upload Image"  />
                                 </button>
                             )}

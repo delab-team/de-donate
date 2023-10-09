@@ -75,51 +75,48 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     ]
 
     return (
-        <div className={s.wrapper}>
-            <PageWrapper
-                className={s.wrapper}
-                header={
-                    <div className={s.innerHeader}>
-                        <HeaderPanel
-                            title=""
-                            containerWidth={330}
-                            className={s.header}
-                            variant="black"
-                            actionLeft={
-                                <Link to={ROUTES.HOME} className={s.logo}>
-                                    <Text fontSize="large" fontWeight="bold">
-                                        DeDonate
-                                    </Text>
-                                </Link>
-                            }
-                            actionRight={
-                                <>
-                                    {rawAddress ? (
-                                        <TonConnectButton />
-                                    ) : (
-                                        <button
-                                            className={s.connectButton}
-                                            onClick={() => tonConnectUI.connectWallet()}
-                                        >
-                                            Connect Wallet
-                                        </button>
-                                    )}
-                                </>
-                            }
-                        />
-                    </div>
-                }
-                footer={
-                    <MobileMenu
-                        backgroundMenu="#3D3D3D"
-                        borderRadius="100px"
-                        items={MobileMenuItems}
-                        className={s.actions}
-                    />
-                }
-                pageTitle="DeDonate"
-                content={<div className={s.content}>{children}</div>}
-            />
-        </div>
+        <PageWrapper
+            className={s.wrapper}
+            headerClassName={s.headerClass}
+            header={
+                <HeaderPanel
+                    title=""
+                    containerWidth="330px"
+                    className={s.header}
+                    variant="black"
+                    actionLeft={
+                        <Link to={ROUTES.HOME} className={s.logo}>
+                            <Text fontSize="large" fontWeight="bold">
+                                DeDonate
+                            </Text>
+                        </Link>
+                    }
+                    style={{ background: '#222' }}
+                    actionRight={
+                        <>
+                            {rawAddress ? (
+                                <TonConnectButton />
+                            ) : (
+                                <button
+                                    className={s.connectButton}
+                                    onClick={() => tonConnectUI.connectWallet()}
+                                >
+                                    Connect Wallet
+                                </button>
+                            )}
+                        </>
+                    }
+                />
+            }
+            footer={
+                <MobileMenu
+                    borderRadius="100px"
+                    items={MobileMenuItems}
+                    className={s.actions}
+                />
+            }
+            pageTitle="DeDonate"
+            content={<div className={s.content}>{children}</div>}
+        />
     )
 }

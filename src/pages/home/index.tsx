@@ -76,7 +76,7 @@ export const HomePage: FC<HomePageProps> = () => {
     return (
         <div className={s.home}>
             <div className={s.searchInner}>
-                <IconSelector id="search" className={s.searchIcon} size="20" />
+                <IconSelector id="search" color="#98989E" className={s.searchIcon} size="20" />
                 <Input
                     placeholder="Search"
                     value={value}
@@ -86,7 +86,7 @@ export const HomePage: FC<HomePageProps> = () => {
                 />
             </div>
             <div className={s.filterBlock}>
-                <Title variant="h1" customClassName={s.title} color='#fff'>
+                <Title variant="h1" className={s.title} color='#fff'>
                     Top fundraiser
                 </Title>
                 <div className={s.cards}>

@@ -67,7 +67,7 @@ export const FundCard: FC<FundCardProps> = ({
                 {daysTarget && daysPassed && (
                     <div className={`${s.cardInfo} ${s.cardDays}`}>
                         <div className={s.cardTarget}>
-                            <Tooltip text="Remaining until the end of the campaign." className={s.tooltip}>
+                            <Tooltip text="Remaining until the end of the campaign." iconColor="#fff" className={s.tooltip}>
                                 <Text fontSize="medium" fontWeight="bold">
                                     {formatNumberWithCommas(daysPassed)}
                                     {' / '}
@@ -82,7 +82,7 @@ export const FundCard: FC<FundCardProps> = ({
                 )}
                 {description && (
                     <>
-                        <Text fontSize="medium" fontWeight="bold" customClassName={s.cardDescription}>
+                        <Text fontSize="medium" fontWeight="bold" className={s.cardDescription}>
                             <ExpandableText text={description} />
                         </Text>
                     </>

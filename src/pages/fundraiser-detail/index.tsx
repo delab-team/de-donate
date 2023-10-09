@@ -36,6 +36,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
         })
     }
 
+    const isOwnFund = true
+
     return (
         <div className={s.inner}>
             <FundCard
@@ -76,6 +78,10 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
                   Donate Now
                 </Button>
             </div>
+
+            {isOwnFund && (
+                <Button className={s.editButton}>Edit</Button>
+            )}
         </div>
     )
 }

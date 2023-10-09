@@ -3,12 +3,14 @@
 }
 
 .cardTop > img {
+  width: 100%;
   max-width: 100%;
 }
 
 .progressBar {
   border-radius: 20px;
   height: 3px;
+  background: #fff;
 }
 
 .cardDetail {
@@ -46,10 +48,6 @@
   font-weight: 400;
   color: rgba(255, 255, 255, 0.70);
   position: relative;
-}
-
-.tooltip {
-  flex-direction: row-reverse;
 }
 
 .cardDays {

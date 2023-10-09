@@ -1,41 +1,35 @@
 .wrapper {
     margin: 0 auto;
     padding: 0 30px;
-    max-width: 450px;
-}
-
-.innerHeader {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    position: absolute;
-    width: 100%;
-    padding: 0 30px;
-}
-
-.header {
-    padding: 10px 0;
-    background: #333;
+    max-width: 390px;
 }
 
 .actions {
     position: fixed;
     bottom: 15px;
-    background: #222 !important;
+    background-color: rgba(48, 47, 47, 0.8) !important;
     left: 50%;
     transform: translateX(-50%);
     max-width: 280px;
     width: 100%;
     padding: 12px 25px;
+    border-radius: 100px;
     justify-content: space-between;
 }
 
+.headerClass {
+    background: #222;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    padding: 0 30px;
+}
+
 .content {
-    margin-top: 85px;
-    height: calc(100vh - 170px);
-    overflow-y: auto;
-    padding-bottom: 10px;
+    padding: 90px 0;
 }
 
 .connectButton {
@@ -55,6 +49,9 @@
     .wrapper {
         padding: 0 15px;
     }
+    .headerClass {
+        padding: 0 15px;
+    }
 }
 
 @media (max-width: 345px) {
@@ -64,7 +61,7 @@
 }
 
 .actionIcon > path {
-    stroke: #98989E;
+    stroke: #98989E !important;
 }
 
 .activeIcon > path {
