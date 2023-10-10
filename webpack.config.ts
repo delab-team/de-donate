@@ -30,8 +30,19 @@ const config: Configuration = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: '/node_modules/'
+                loader: 'ts-loader',
+                exclude: /node_modules/,
+                options: {
+                    allowTsInNodeModules: true,
+                },
+            },
+            {
+                test: /\.tsx?$/,
+                include: /node_modules/,
+                loader: 'ts-loader',
+                options: {
+                    allowTsInNodeModules: true,
+                },
             },
             {
                 test: /\.(css|scss)$/,

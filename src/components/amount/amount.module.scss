@@ -1,65 +1,63 @@
 .inner {
-  position: relative;
+    position: relative;
 }
 
 .select {
-  border: none;
+    border: none;
 }
 
 .selectBtn {
-  background: transparent;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  gap: 3px;
-  right: 0;
-  font-size: 18px;
-}
-
-.selectBtn > div > svg > path {
-  stroke-width: 3px;
-  stroke: #fff;
+    background: transparent;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 3px;
+    right: 0;
+    font-size: 18px;
 }
 
 .selectBtn:hover {
-  background: transparent;
-  color: #666;
+    background: transparent;
+    color: #666;
 }
 
 .input {
-  padding-right: 134px;
+    padding-right: 134px;
 }
 
 .tokenTitle {
-  padding-left: 10px;
-  margin-bottom: 10px;
+    padding-left: 10px;
+    margin-bottom: 13px;
+    font-size: 19px;
 }
 
 .btnSelect {
-  background: transparent;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  padding: 13px 10px;
-  font-size: 15px;
-  div > svg > path {
-    stroke: #fff;
-  }
+    background: transparent;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 10px;
+    font-size: 15px;
 }
 
 .btnSelect:not(:last-child) {
-  margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .jettons {
-  max-height: 150px;
-  overflow-y: auto;
+    max-height: 800px;
+    overflow-y: auto;
 }
 
 .selectInfo {
-  display: flex;
-  gap: 8px;
-  > img {
-    border-radius: 50%;
-  }
+    display: flex;
+    gap: 8px;
+    > img {
+        border-radius: 50%;
+        height: 25px;
+        width: 25px;
+    }
+    &Label {
+        font-size: 17px;
+    }
 }

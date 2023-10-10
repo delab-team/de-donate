@@ -27,7 +27,7 @@
           "https": ["./node_modules/https-browserify"],
           "os": ["./node_modules/os-browserify/browser"],
           "url": ["./node_modules/url"]
-      }
+      },
   },
   "ts-node": {
       "compilerOptions": {
@@ -36,5 +36,9 @@
   },
   "include": [
       "src"
-, "custom.d.ts"  ]
+, "custom.d.ts"  ],
+"exclude": [
+    "node_modules"
+]
+
 }

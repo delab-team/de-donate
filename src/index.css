@@ -2,7 +2,7 @@
     font-family: 'SF-PRO';
     font-display: swap;
     src: local('SF-PRO'), local('SF-PRO-Regular'), url('./assets/fonts/SF-Pro-Text-Regular.woff2') format('truetype');
-    font-weight: 410;
+    font-weight: 400;
     font-style: normal;
   }
   
@@ -10,7 +10,7 @@
     font-family: 'SF-PRO';
     font-display: swap;
     src: local('SF-PRO'), local('SF-PRO-Medium'), url('./assets/fonts/SF-Pro-Text-Medium.woff2') format('truetype');
-    font-weight: 540;
+    font-weight: 500;
     font-style: normal;
   }
   
@@ -18,7 +18,7 @@
     font-family: 'SF-PRO';
     font-display: swap;
     src: local('SF-PRO'), local('SF-PRO-Semibold'), url('./assets/fonts/SF-Pro-Text-Semibold.woff2') format('truetype');
-    font-weight: 760;
+    font-weight: 700;
     font-style: normal;
   }
 
@@ -30,10 +30,10 @@
 }
 
 body {
-    font-family: 'SF-PRO', 'sans-serif';
+    font-family: 'SF-PRO';
+    font-weight: 800;
     color: #fff;
     font-size: 16px;
-    font-weight: 800;
     background: #1c1c20;
 }
 
@@ -82,10 +82,6 @@ a {
 .input::placeholder {
     font-weight: 500;
     font-size: 15px;
-}
-
-.pd1hhM4VsZwE2OkpOmOD {
-    width: 100%;
 }
 
 /*--------------------scrollbar--------------------*/
@@ -140,17 +136,18 @@ a {
 /*--------------------/connect--------------------*/
 
 /*--------------------Downloaded--------------------*/
-.pd1hhM4VsZwE2OkpOmOD {
-    padding: 23px;
-    border-radius: 10px;
+
+.ec2WQLHFnvjxVru5qoFF {
+    width: 30px;
+    height: 30px;
 }
+    
 /*--------------------/Downloaded--------------------*/
 
 /*--------------------Modal--------------------*/
 .l20VADxBULksDZxfge16 {
     background: #1c1c20;
     margin: 0 30px;
-    max-width: 330px;
 }
 
 .l20VADxBULksDZxfge16 {
@@ -167,13 +164,19 @@ a {
         gap: 5px;
     }
     .XnbzD46378UUWKabgkjO > div {
-        height: 16px;
-        width: 16px;
+        height: 16px !important;
+        width: 16px !important;
     }
     .lhL6dQEW7cN7tzPD0HZJ {
         white-space: pre-wrap;
         left: 78%;
         width: 170px;
+    }
+    .lhL6dQEW7cN7tzPD0HZJ  {
+        display: none;
+    }
+    .JbOV97XTwezNnXjYAh8l:hover .lhL6dQEW7cN7tzPD0HZJ {
+        display: block;
     }
 /*--------------------/Tooltip--------------------*/
 
@@ -188,6 +191,18 @@ a {
 }
 
 /*--------------------/Alert--------------------*/
+
+/*--------------------progressbar--------------------*/
+
+.eI0a5Fk4fNJLT0e8yNeQ {
+    background-color: #e5e7eb;
+}
+
+.csbRrsIcWbPYrjfdrXpq {
+    background-color: #007bff !important;
+}
+    
+/*--------------------/progressbar--------------------*/
 
 .Bs5vpXUyOXGRr3ek8i77 {
     z-index: 50;

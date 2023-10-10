@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Address, TonClient } from 'ton'
 import { TonConnectUI, TonConnectUIContext, useTonAddress, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react'
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
+import { AppInner } from '@delab-team/de-ui'
 
 import { FundraiserCreate } from './pages/fundraiser-create'
 import { FundraiserDetail } from './pages/fundraiser-detail'
@@ -17,7 +19,12 @@ import { PrivateRoute } from './utils/privateRouter'
 import { Layout } from './layout'
 
 import { Smart } from './logic/smart'
-import { TonApi } from './logic/tonapi'
+
+declare global {
+    interface Window {
+        Telegram?: any
+    }
+}
 
 const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
@@ -25,6 +32,7 @@ const isTestnet = window.location.host.indexOf('localhost') >= 0
 
 export const App: FC = () => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
+    const [ isTg, setIsTg ] = useState<boolean>(false)
 
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
@@ -54,18 +62,20 @@ export const App: FC = () => {
     }, [ RawAddress ])
 
     return (
-        <Layout>
-            <Routes>
-                <Route element={<PrivateRoute />}>
-                    <Route element={<FundraiserCreate />} path={ROUTES.FUNDRAISER_CREATE} />
-                    <Route element={<FundraiserUpdate />} path={ROUTES.FUNDRAISER_UPDATE} />
-                    <Route element={<Profile balance={balance} />} path={ROUTES.PROFILE} />
-                </Route>
+        <AppInner isTg={isTg}>
+            <Layout>
+                <Routes>
+                    <Route element={<PrivateRoute />}>
+                        <Route element={<FundraiserCreate />} path={ROUTES.FUNDRAISER_CREATE} />
+                        <Route element={<FundraiserUpdate />} path={ROUTES.FUNDRAISER_UPDATE} />
+                        <Route element={<Profile balance={balance} />} path={ROUTES.PROFILE} />
+                    </Route>
 
-                <Route element={<HomePage />} path={ROUTES.HOME} />
-                <Route element={<FundraiserDetail />} path={ROUTES.FUNDRAISER_DETAIL} />
-                <Route path="*" element={<Navigate to='/' replace />} />
-            </Routes>
-        </Layout>
+                    <Route element={<HomePage />} path={ROUTES.HOME} />
+                    <Route element={<FundraiserDetail />} path={ROUTES.FUNDRAISER_DETAIL} />
+                    <Route path="*" element={<Navigate to='/' replace />} />
+                </Routes>
+            </Layout>
+        </AppInner>
     )
 }

@@ -1,24 +1,42 @@
 .innerActions {
-  padding: 19px 15px;
-  background: var(--gray3);
-  border-radius: 20px;
-  margin-top: 10px;
+    padding: 19px 15px;
+    background: var(--gray3);
+    border-radius: 20px;
+    margin-top: 10px;
 }
 
 .selectInner {
-  background: #3D3D3D;
-  padding: 0 5px;
-  border-radius: 10px;
-  margin-bottom: 25px;
+    background: #3d3d3d;
+    padding: 0 5px;
+    border-radius: 10px;
+    margin-bottom: 25px;
 }
 
 .select {
-  background: #3D3D3D;
-  border: 0;
-  flex-direction: row-reverse;
-  min-width: 85px;
+    background: #3d3d3d;
+    border: 0;
+    flex-direction: row-reverse;
+    min-width: 85px;
 }
 
 .amountInner {
-  margin-bottom: 25px;
+    margin-bottom: 25px;
+}
+
+.editButton {
+    font-size: 16px;
+    padding: 18px;
+    width: 300px;
+    height: 55px;
+    border-radius: 100px;
+    border: 2px solid #3d3d3d;
+    margin: 25px auto 0 auto;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.editButton:hover {
+  background: transparent;
+  border: 1px solid #fff;
 }

@@ -51,10 +51,10 @@ export const Amount: FC<AmountProps> = ({
             />
             <Button className={s.selectBtn} onClick={handleOpenModal}>
                 {selectedValue}
-                <IconSelector id="chevron-down" size="17px" />
+                <IconSelector id="chevron-down" color='#fff' size="17px" />
             </Button>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal} className={s.modal}>
-                <Title variant="h6" customClassName={s.tokenTitle}>
+                <Title variant="h6" className={s.tokenTitle}>
                     Select Token
                 </Title>
                 <div className={s.jettons}>
@@ -66,9 +66,9 @@ export const Amount: FC<AmountProps> = ({
                         >
                             <div className={s.selectInfo}>
                                 <img src={el.image} alt={el.label} width={20} height={20} />
-                                <Text>{el.label}</Text>
+                                <Text className={s.selectInfoLabel}>{el.label}</Text>
                             </div>
-                            {selectedValue === el.label && <IconSelector id="check" size="20px" />}
+                            {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" />}
                         </Button>
                     ))}
                 </div>
