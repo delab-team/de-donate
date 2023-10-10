@@ -78,10 +78,11 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
         <PageWrapper
             className={s.wrapper}
             headerClassName={s.headerClass}
+            containerWidth="500px"
             header={
                 <HeaderPanel
                     title=""
-                    containerWidth="330px"
+                    containerWidth="440px"
                     className={s.header}
                     variant="black"
                     actionLeft={

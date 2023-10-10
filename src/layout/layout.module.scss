@@ -1,7 +1,7 @@
 .wrapper {
     margin: 0 auto;
     padding: 0 30px;
-    max-width: 390px;
+    // max-width: 390px;
 }
 
 .actions {
@@ -10,11 +10,17 @@
     background-color: rgba(48, 47, 47, 0.8) !important;
     left: 50%;
     transform: translateX(-50%);
-    max-width: 280px;
+    max-width: 350px;
     width: 100%;
     padding: 12px 25px;
     border-radius: 100px;
     justify-content: space-between;
+}
+
+@media (max-width: 375px) {
+    .actions {
+        max-width: 280px;
+    }
 }
 
 .headerClass {

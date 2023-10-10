@@ -20,10 +20,15 @@
 .timeLifeItems {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 15px;
     flex-wrap: wrap;
     margin-bottom: 35px;
+}
+
+@media(max-width: 375px) {
+    .timeLifeItems {
+        justify-content: space-between;
+    }
 }
 
 .timeLifeItem {
@@ -37,26 +42,26 @@
 }
 
 @media (max-width: 450px) {
-    .timeLifeItem {
-        padding: 9px 19px;
+    .timeLifeItems {
+        justify-content: space-between;
     }
 }
 
-@media (max-width: 425px) {
-    .timeLifeItem {
-        padding: 9px 14px;
-    }
-}
+// @media (max-width: 425px) {
+//     .timeLifeItem {
+//         padding: 9px 14px;
+//     }
+// }
 
 @media (max-width: 345px) {
     .timeLifeItem {
-        padding: 9px 12px;
+        padding: 9px 17px;
     }
 }
 
 @media (max-width: 320px) {
     .timeLifeItem {
-        padding: 9px 10px;
+        padding: 9px 15px;
     }
 }
 
