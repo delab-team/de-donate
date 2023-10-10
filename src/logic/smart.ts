@@ -45,7 +45,7 @@ export class Smart {
         }
     }
 
-    public async deployDeployer (address: string): Promise<Address | undefined> {
+    public async deployDeployer (address: string, ipfs: string): Promise<Address | undefined> {
         await this._provider.sunc()
         const deployer = this._provider.open(
             Deployer.createFromConfig(
@@ -57,7 +57,7 @@ export class Smart {
                     helperCode: Cell.fromBoc(Buffer.from(Helper, 'hex'))[0],
                     index: 0n,
                     jettonWalletCode: Cell.fromBoc(Buffer.from(JettonWallet, 'hex'))[0],
-                    collectionContent: beginCell().storeUint(1, 8).endCell()
+                    collectionContent: beginCell().storeUint(1, 8).storeStringTail(ipfs).endCell()
                 },
                 Cell.fromBoc(Buffer.from(DeployerHex, 'hex'))[0]
             )
