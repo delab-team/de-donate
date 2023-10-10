@@ -57,7 +57,7 @@ export class Smart {
                     helperCode: Cell.fromBoc(Buffer.from(Helper, 'hex'))[0],
                     index: 0n,
                     jettonWalletCode: Cell.fromBoc(Buffer.from(JettonWallet, 'hex'))[0],
-                    collectionContent: beginCell().storeUint(0, 8).endCell()
+                    collectionContent: beginCell().storeUint(1, 8).endCell()
                 },
                 Cell.fromBoc(Buffer.from(DeployerHex, 'hex'))[0]
             )
