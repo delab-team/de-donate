@@ -84,7 +84,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         const ipfs = new CustomIpfs()
 
         const metadata = {
-            image: img,
+            image: `ipfs://${img}`,
             description: createData.description,
             name: createData.name,
             marketplace: 'dedonate.com'
@@ -107,9 +107,11 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
 
         console.log('🚀 ~ file: index.tsx:88 ~ createFundraiser ~ data:', data)
 
-        const addrColl = 'kQBH_ElENh-if6t_j7Mr_NTPAzPnWJXOhJrXhumQhC__xxKu'
+        const addrColl = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
 
         const smart = new Smart(tonConnectUI, true)
+
+        // const createColl = await smart.deployDeployer('EQDYl5uFtd5O0EI19GLnMZPKPMtopdLlyvTexPmeJgkAAfq3', data.content)
 
         const addr = await smart.deployFundraiser(addrColl, data.content)
         console.log('🚀 ~ file: index.tsx:114 ~ createFundraiser ~ addr:', addr)

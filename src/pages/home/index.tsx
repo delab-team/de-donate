@@ -56,7 +56,7 @@ export const HomePage: FC<HomePageProps> = () => {
         if (!first) {
             setFirst(true)
 
-            const coll = 'kQBH_ElENh-if6t_j7Mr_NTPAzPnWJXOhJrXhumQhC__xxKu'
+            const coll = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
 
             const api = new TonApi()
 
