@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-unresolved */
 import { FC, useEffect, useState } from 'react'
@@ -18,6 +19,8 @@ import IMG1 from '../../assets/img/01.png'
 import IMG2 from '../../assets/img/02.png'
 
 import s from './home.module.scss'
+import { Smart } from '../../logic/smart'
+import { useTonConnectUI } from '@tonconnect/ui-react'
 
 interface HomePageProps {}
 
@@ -52,21 +55,32 @@ export const HomePage: FC<HomePageProps> = () => {
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
 
+    const [ tonConnectUI, setOptions ] = useTonConnectUI()
+
     useEffect(() => {
         if (!first) {
             setFirst(true)
 
             const coll = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
 
-            const api = new TonApi()
+            const api = new TonApi('testnet')
 
-            api.getItems(coll).then((items: Items | undefined) => {
+            const smart = new Smart(tonConnectUI, true)
+
+            api.getItemsV2(coll).then(async (items: Items | undefined) => {
                 console.log('api.getItems', items)
                 if (items) {
                     for (let i = 0; i < items.nft_items.length; i++) {
+                        const addressFund = items.nft_items[i].address
+                        const total = await smart.getTotal(addressFund)
+                        const type = await smart.getType(addressFund)
+
+                        console.log('total', total)
+                        console.log('type', type)
+
                         fundArray.push({
-                            title: '1',
-                            img: '1',
+                            title: items.nft_items[i].metadata.name ?? 'Not name',
+                            img: items.nft_items[i].metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
                             amount: 1,
                             target: 1,
                             asset: 'TON'

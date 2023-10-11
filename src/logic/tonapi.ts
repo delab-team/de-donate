@@ -172,13 +172,36 @@ export class TonApi {
 
     private _url2: string = 'https://tonapi.io/v2/'
 
+    private _urlTest: string = 'https://testnet.tonapi.io/v1/'
+
+    private _url2Test: string = 'https://testnet.tonapi.io/v2/'
+
+    private _network: 'testnet' | 'mainnet'
+
+    constructor (network: 'testnet' | 'mainnet') {
+        this._network = network
+    }
+
     // private _token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjI0Iiwic2NvcGUiOiJjbGllbnQifQ.vvtwTq9kO89CNP2635wImtrzshdrAM9AYaIbQNqfJHQ'
 
     private _token: string = 'AFXRKLZM2YCJ67AAAAAE4XDRSACSYEOYKQKOSUVUKMXNMP2AKUTWJ2UVBPTTQZWRGZMLALY'
 
     public async send (url: string, data: any, type = false): Promise<any | undefined> {
-        const urlLocal = type ? this._url2 : this._url
-        const res = await axios.get(`${urlLocal}${url}?${new URLSearchParams(data)}`, { headers: { Authorization: `Bearer ${this._token}` } })
+        let urlFull
+        if (this._network === 'mainnet' && type === false) {
+            urlFull = this._url
+        }
+        if (this._network === 'testnet' && type === false) {
+            urlFull = this._urlTest
+        }
+        if (this._network === 'testnet' && type === true) {
+            urlFull = this._url2Test
+        }
+        if (this._network === 'mainnet' && type === true) {
+            urlFull = this._url2
+        }
+        console.log('url', urlFull)
+        const res = await axios.get(`${urlFull}${url}?${new URLSearchParams(data)}`, { headers: { Authorization: `Bearer ${this._token}` } })
 
         if (res.data.error) {
             console.error(res.data.result)
@@ -259,6 +282,13 @@ export class TonApi {
 
     public async getTransactionsV2 (address: string): Promise<Transactions | undefined> {
         const data = await this.send(`blockchain/accounts/${address}/transactions`, { before_lt: 0, limit: 100 }, true)
+
+        console.log(data)
+        return data
+    }
+
+    public async getItemsV2 (address: string): Promise<Items | undefined> {
+        const data = await this.send(`nfts/collections/${address}/items`, { limit: 100, offset: 0 }, true)
 
         console.log(data)
         return data
