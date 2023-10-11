@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 /* eslint-disable spaced-comment */
 import { FC, useState } from 'react'
-import { Button, Title, Input, Text, FileUpload, Spinner, Alert } from '@delab-team/de-ui'
+import { Button, Title, Input, Text, FileUpload, Spinner, Alert, TextArea } from '@delab-team/de-ui'
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
 import { jettons } from '../../constants/jettons'
@@ -48,6 +48,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         timeLife: 7,
         file: ''
     })
+    console.log('🚀 ~ file: index.tsx:51 ~ createData:', createData)
 
     async function uploadImg (e: any): Promise<any> {
         const file = e.target.files?.[0]
@@ -149,6 +150,16 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
 
     //========================================================================================================================================================
 
+    const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const textarea = e.target
+        textarea.style.height = 'auto'
+        textarea.style.height = (textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px')
+        setCreateData({
+            ...createData,
+            description: e.target.value
+        })
+    }
+
     return (
         <div className={s.inner}>
             {error && (
@@ -182,16 +193,12 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                         className="input"
                         placeholder="Name"
                     />
-                    <Input
+                    <TextArea
                         value={createData.description}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setCreateData({
-                                ...createData,
-                                description: e.target.value
-                            })
-                        }}
+                        onChange={handleTextareaChange
+                        }
                         variant="black"
-                        className="input"
+                        className="input textArea"
                         placeholder="Description"
                     />
                 </div>

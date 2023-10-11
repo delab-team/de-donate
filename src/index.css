@@ -72,6 +72,7 @@ a {
 }
 
 .input {
+    font-family: 'SF-PRO';
     border-radius: 13px;
     padding-left: 15px;
     background: #3d3d3d;
@@ -79,7 +80,15 @@ a {
     width: auto;
 }
 
+.textArea {
+    height: auto;
+    max-height: 150px;
+    min-height: 50px;
+    /* overflow: hidden; */
+}
+
 .input::placeholder {
+    color: #979797;
     font-weight: 500;
     font-size: 15px;
 }

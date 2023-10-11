@@ -21,8 +21,43 @@
 }
 
 .fileData {
-  margin-bottom: 16px;
+  margin-bottom: 30px;
 }
+
+.spinner {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fileBtn {
+  width: 100%;
+}
+
+
+.fileInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+.fileInner > img {
+  height: 150px;
+}
+
+.clearImages {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+
 
 .amount {
   margin-bottom: 25px;

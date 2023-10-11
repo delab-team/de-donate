@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { FC, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@delab-team/de-ui'
 
@@ -8,6 +9,8 @@ import { Amount } from '../../components/amount'
 import { jettons } from '../../constants/jettons'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
+
+import { ROUTES } from '../../utils/router'
 
 import s from './fundraiser-detail.module.scss'
 
@@ -21,6 +24,8 @@ type DataType = {
 }
 
 export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
+    const navigate = useNavigate()
+
     const [ data, setData ] = useState<DataType>({
         amount: '',
         token: 'TOH'
@@ -80,7 +85,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
             </div>
 
             {isOwnFund && (
-                <Button className={s.editButton}>Edit</Button>
+                <Button className={s.editButton} onClick={() => navigate(ROUTES.FUNDRAISER_UPDATE)}>Edit</Button>
             )}
         </div>
     )
