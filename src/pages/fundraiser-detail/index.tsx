@@ -55,7 +55,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () =>  {
                 formatNumberWithCommas={formatNumberWithCommas}
                 description='🚀 xRocket x Tonstarter | 🌠 Tokenfall of cosmic dimensions
                     👏 We’re launching a campaign where participants will go on an adventure through the world of centralized multichain Telegram exchange xRocket!
-                '
+                    '
             />
 
             <div className={s.innerActions}>

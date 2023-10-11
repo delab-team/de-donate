@@ -1,14 +1,11 @@
 import { FC } from 'react'
 import { ProgressBar, Text, Tooltip } from '@delab-team/de-ui'
 
-import { Link } from 'react-router-dom'
-
-import { ROUTES } from '../../utils/router'
+import { ExpandableText } from '../expandable-text'
 
 import s from './fund-card.module.scss'
 
 import TON from '../../assets/icons/ton.svg'
-import { ExpandableText } from '../expandable-text'
 
 interface FundCardProps {
     img: string;
@@ -38,7 +35,7 @@ export const FundCard: FC<FundCardProps> = ({
     }
 
     return (
-        <Link to={ROUTES.FUNDRAISER_DETAIL} className={s.card}>
+        <div className={s.card}>
             <div className={s.cardTop}>
                 <img src={img} alt="img" />
             </div>
@@ -82,12 +79,10 @@ export const FundCard: FC<FundCardProps> = ({
                 )}
                 {description && (
                     <>
-                        <Text fontSize="medium" fontWeight="bold" className={s.cardDescription}>
-                            <ExpandableText text={description} />
-                        </Text>
+                        <ExpandableText text={description} />
                     </>
                 )}
             </div>
-        </Link>
+        </div>
     )
 }

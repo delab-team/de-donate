@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { FC, useState, Fragment } from 'react'
+import { Text } from '@delab-team/de-ui'
 
 import s from './expandable-text.module.scss'
 
@@ -19,21 +20,21 @@ export const ExpandableText: FC<ExpandableTextProps> = ({ text, className }) => 
         const paragraphs = content.split('\n\n')
 
         return paragraphs.map((paragraph, index) => (
-            <p key={index} className={`${s.mb4} ${expanded || index < 2 ? 'block' : 'hidden'}`}>
+            <Text key={index} className={`${s.mb4} ${expanded || index < 2 ? 'block' : 'hidden'}`}>
                 {paragraph.split('\n').map((line, i) => (
                     <Fragment key={i}>
                         {line}
                         <br />
                     </Fragment>
                 ))}
-            </p>
+            </Text>
         ))
     }
 
     const truncatedText = text.length > 260 ? text.substring(0, 260) + '...' : text
 
     return (
-        <p className={`relative ${className}`}>
+        <div className={`${s.inner} ${className}`}>
             {renderParagraphs(expanded ? text : truncatedText)}
             {text.length > 260 && (
                 <button
@@ -43,6 +44,6 @@ export const ExpandableText: FC<ExpandableTextProps> = ({ text, className }) => 
                     {expanded ? 'Hide' : 'Show'}
                 </button>
             )}
-        </p>
+        </div>
     )
 }

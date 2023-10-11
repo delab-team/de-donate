@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-unresolved */
 import { FC, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { v1 } from 'uuid'
 
 import { IconSelector, Input, Title } from '@delab-team/de-ui'
@@ -9,11 +10,14 @@ import { FundCard } from '../../components/fund-card'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 
+import { Items, TonApi } from '../../logic/tonapi'
+
+import { ROUTES } from '../../utils/router'
+
 import IMG1 from '../../assets/img/01.png'
 import IMG2 from '../../assets/img/02.png'
 
 import s from './home.module.scss'
-import { Items, TonApi } from '../../logic/tonapi'
 
 interface HomePageProps {}
 
@@ -91,11 +95,13 @@ export const HomePage: FC<HomePageProps> = () => {
                 </Title>
                 <div className={s.cards}>
                     {fundArray.map(el => (
-                        <FundCard
-                            key={v1()}
-                            formatNumberWithCommas={formatNumberWithCommas}
-                            {...el}
-                        />
+                        <Link to={ROUTES.FUNDRAISER_DETAIL}>
+                            <FundCard
+                                key={v1()}
+                                formatNumberWithCommas={formatNumberWithCommas}
+                                {...el}
+                            />
+                        </Link>
                     ))}
                 </div>
             </div>
