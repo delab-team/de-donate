@@ -95,9 +95,8 @@ export const HomePage: FC<HomePageProps> = () => {
                 </Title>
                 <div className={s.cards}>
                     {fundArray.map(el => (
-                        <Link to={ROUTES.FUNDRAISER_DETAIL}>
+                        <Link to={ROUTES.FUNDRAISER_DETAIL} key={v1()}>
                             <FundCard
-                                key={v1()}
                                 formatNumberWithCommas={formatNumberWithCommas}
                                 {...el}
                             />
