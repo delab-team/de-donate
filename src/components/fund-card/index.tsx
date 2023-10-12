@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { FC } from 'react'
 import { ProgressBar, Text, Tooltip } from '@delab-team/de-ui'
 
@@ -36,9 +37,7 @@ export const FundCard: FC<FundCardProps> = ({
 
     return (
         <div className={s.card}>
-            <div className={s.cardTop}>
-                <img src={img} alt="img" />
-            </div>
+            <div className={s.cardTop} style={{ backgroundImage: `url(${img})` }} />
             <div className={s.cardDetail}>
                 <div className={s.title}>{title}</div>
                 <ProgressBar

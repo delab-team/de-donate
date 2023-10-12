@@ -8,9 +8,10 @@ import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { jettons } from '../../constants/jettons'
 import { Amount } from '../../components/amount'
 
-import s from './fundraiser-create.module.scss'
 import { CustomIpfs } from '../../logic/ipfs'
 import { Smart } from '../../logic/smart'
+
+import s from './fundraiser-create.module.scss'
 
 interface FundraiserCreateProps {}
 
@@ -48,7 +49,6 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         timeLife: 7,
         file: ''
     })
-    console.log('🚀 ~ file: index.tsx:51 ~ createData:', createData)
 
     async function uploadImg (e: any): Promise<any> {
         const file = e.target.files?.[0]
@@ -114,7 +114,6 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         // const createColl = await smart.deployDeployer('EQDYl5uFtd5O0EI19GLnMZPKPMtopdLlyvTexPmeJgkAAfq3', data.content)
 
         const addr = await smart.deployFundraiser(addrColl, data.content)
-        console.log('🚀 ~ file: index.tsx:114 ~ createFundraiser ~ addr:', addr)
         console.log(addr?.toString())
 
         // if (String(addr)) {

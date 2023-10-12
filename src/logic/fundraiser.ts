@@ -7,7 +7,7 @@ export class FundraiserNFT {
     private _ipfs = 'https://cloudflare-ipfs.com/ipfs/'
 
     constructor () {
-        this._tonApi = new TonApi()
+        this._tonApi = new TonApi('testnet')
     }
 
     public async getOneNft (address: string): Promise<{ nft: Item, collection: Collection | undefined } | undefined> {

@@ -214,4 +214,21 @@ export class Smart {
             return undefined
         }
     }
+
+    public async getPriorityCoin (address: string): Promise<Address | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(address))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const priorityCoin = await fundraiser.getPriorityCoin()
+
+            return priorityCoin
+        } catch (error) {
+            console.error('getPriorityCoin', error)
+            return undefined
+        }
+    }
 }

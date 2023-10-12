@@ -16,6 +16,7 @@ const config: Configuration = {
         static: { directory: path.join(__dirname, 'public') },
         compress: true,
         https: true,
+        hot: true,
         port: 8081,
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -69,7 +70,8 @@ const config: Configuration = {
     ignoreWarnings: [/Failed to parse source map/],
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'build')
+        path: path.resolve(__dirname, 'build'),
+        publicPath: '/'
     },
     plugins: [
         new HtmlWebpackPlugin({ template: path.join(__dirname, 'public', 'index.html') }),

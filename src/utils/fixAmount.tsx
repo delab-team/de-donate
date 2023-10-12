@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Coins } from 'ton3'
 
-export function fixAmount (nanoAmount: string | number) {
+export function fixAmount (nanoAmount: string | number): string {
     const coin = Coins.fromNano(nanoAmount).toString()
     let stringAmount = Number(coin).toFixed(2)
 

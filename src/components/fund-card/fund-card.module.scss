@@ -2,9 +2,12 @@
   border-radius: 20px 20px 0 0;
 }
 
-.cardTop > img {
-  width: 100%;
-  max-width: 100%;
+.cardTop {
+  // background-size: 100% 150px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 150px;
+  border-radius: 20px 20px 0px 0px;
 }
 
 .progressBar {

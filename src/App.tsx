@@ -19,6 +19,7 @@ import { PrivateRoute } from './utils/privateRouter'
 import { Layout } from './layout'
 
 import { Smart } from './logic/smart'
+import { TonApi } from './logic/tonapi'
 
 declare global {
     interface Window {
@@ -40,6 +41,21 @@ export const App: FC = () => {
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const RawAddress = useTonAddress()
+    console.log('🚀 ~ file: App.tsx:44 ~ RawAddress:', RawAddress)
+
+    const api = new TonApi('testnet')
+
+    async function loadUser (address: string): Promise<boolean | undefined> {
+        const data = await api.getInfoUserV2(address)
+
+        if (!data || !data?.balance) {
+            return undefined
+        }
+
+        setBalance(data?.balance.toString())
+
+        return true
+    }
 
     useEffect(() => {
         if (!firstRender) {
@@ -57,6 +73,7 @@ export const App: FC = () => {
         if (RawAddress) {
             Smart.getBalanceProfile(RawAddress, isTestnet).then((bl) => {
                 setBalance(fixAmount(bl.toString()))
+                loadUser(RawAddress)
             })
         }
     }, [ RawAddress ])
@@ -72,7 +89,7 @@ export const App: FC = () => {
                     </Route>
 
                     <Route element={<HomePage />} path={ROUTES.HOME} />
-                    <Route element={<FundraiserDetail />} path={ROUTES.FUNDRAISER_DETAIL} />
+                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail />}  />
                     <Route path="*" element={<Navigate to='/' replace />} />
                 </Routes>
             </Layout>

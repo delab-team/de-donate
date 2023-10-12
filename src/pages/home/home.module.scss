@@ -39,3 +39,11 @@
 .searchIcon > path {
   stroke: #98989E;
 }
+
+.notFound {
+  height: 50vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

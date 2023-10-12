@@ -293,6 +293,13 @@ export class TonApi {
         console.log(data)
         return data
     }
+
+    // public async getProfileItems (accountId: string, collectionAddress: string): Promise<Items | undefined> {
+    //     const data = await this.send(`accounts/${accountId}/nfts?collection=${collectionAddress}`, true)
+
+    //     console.log(data)
+    //     return data
+    // }
 }
 
 export type { Items, Item, Collection, Collections, Account, AccountV2, Transactions, Transaction }
