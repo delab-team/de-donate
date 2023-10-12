@@ -33,7 +33,6 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
         description: '',
         file: ''
     })
-    console.log('🚀 ~ file: index.tsx:23 ~ updateData:', updateData)
 
     //=======================================================================================================================================================
 

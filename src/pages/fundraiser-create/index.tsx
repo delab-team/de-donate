@@ -105,8 +105,6 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
             file: data.content
         })
 
-        console.log('🚀 ~ file: index.tsx:88 ~ createFundraiser ~ data:', data)
-
         const addrColl = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
 
         const smart = new Smart(tonConnectUI, true)

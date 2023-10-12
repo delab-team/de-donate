@@ -41,7 +41,6 @@ export const App: FC = () => {
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const RawAddress = useTonAddress()
-    console.log('🚀 ~ file: App.tsx:44 ~ RawAddress:', RawAddress)
 
     const api = new TonApi('testnet')
 

@@ -38,7 +38,6 @@ export const Profile: FC<ProfileProps> = ({ balance }) => {
 
     // Funds
     const [ funds, setFunds ] = useState<FundType[]>([])
-    console.log('🚀 ~ file: index.tsx:39 ~ funds:', funds)
 
     const rawAddress = useTonAddress()
 

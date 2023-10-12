@@ -41,8 +41,6 @@ export const HomePage: FC<HomePageProps> = () => {
     const [ funds, setFunds ] = useState<FundType[]>([])
     const [ originalFunds, setOriginalFunds ] = useState<FundType[]>([])
 
-    console.log('🚀 ~ file: index.tsx:33 ~ funds:', funds)
-
     const [ loading, setLoading ] = useState<boolean>(true)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
