@@ -161,7 +161,7 @@ export const HomePage: FC<HomePageProps> = () => {
                             ))}
                         {debouncedSearchQuery && funds.length === 0 && showNotFound && (
                             <div className={s.notFound}>
-                                <Title variant="h4">Nothing not found</Title>
+                                <Title variant="h4">Nothing found</Title>
                             </div>
                         )}
                     </>

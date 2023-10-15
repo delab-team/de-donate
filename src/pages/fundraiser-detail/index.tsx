@@ -26,7 +26,9 @@ import s from './fundraiser-detail.module.scss'
 
 import IMG1 from '../../assets/img/01.png'
 
-interface FundraiserDetailProps {}
+interface FundraiserDetailProps {
+    addressProfile: string | undefined
+}
 
 type DataType = {
     amount: string;
@@ -39,7 +41,7 @@ type FundDetailType = {
     daysPassed: number;
 }
 
-export const FundraiserDetail: FC<FundraiserDetailProps> = () => {
+export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressProfile }) => {
     const { id } = useParams()
     const [ first, setFirst ] = useState<boolean>(false)
 
@@ -79,7 +81,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = () => {
         })
     }
 
-    const isOwnFund = rawAddress === fundData.ownerAddress
+    const isOwnFund = addressProfile === fundData.ownerAddress
 
     useEffect(() => {
         if (!first) {

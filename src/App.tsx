@@ -37,6 +37,7 @@ export const App: FC = () => {
 
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
+    const [ addressProfile, setAddressProfile ] = useState<string | undefined>(undefined)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
@@ -52,6 +53,7 @@ export const App: FC = () => {
         }
 
         setBalance(data?.balance.toString())
+        setAddressProfile(data?.address)
 
         return true
     }
@@ -88,7 +90,7 @@ export const App: FC = () => {
                     </Route>
 
                     <Route element={<HomePage />} path={ROUTES.HOME} />
-                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail />}  />
+                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail addressProfile={addressProfile} />}  />
                     <Route path="*" element={<Navigate to='/' replace />} />
                 </Routes>
             </Layout>
