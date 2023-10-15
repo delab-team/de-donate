@@ -5,10 +5,10 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useEffect, useState } from 'react'
-import { Button, FileUpload, FileUploadProps, Input, Spinner, TextArea } from '@delab-team/de-ui'
+import { Button, FileUpload, Input, Spinner, Text, TextArea } from '@delab-team/de-ui'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
+import { useTonAddress } from '@tonconnect/ui-react'
 import { CustomIpfs } from '../../logic/ipfs'
 
 import { Items, TonApi } from '../../logic/tonapi'
@@ -262,6 +262,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
                             />
                         </div>
                     )}
+                    {img.length < 1 && <Text className={s.fileText}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
                 </div>
                 <Button
                     rounded="l"

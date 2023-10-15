@@ -162,7 +162,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
     const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const textarea = e.target
         textarea.style.height = 'auto'
-        textarea.style.height =            textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px'
+        textarea.style.height = textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px'
         setCreateData({
             ...createData,
             description: e.target.value
@@ -296,6 +296,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                             />
                         </div>
                     )}
+                    {img.length < 1 && <Text className={s.fileText}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
                 </div>
                 <Button
                     rounded="l"
