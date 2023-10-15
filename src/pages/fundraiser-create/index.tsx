@@ -2,7 +2,16 @@
 /* eslint-disable max-len */
 /* eslint-disable spaced-comment */
 import { FC, useState } from 'react'
-import { Button, Title, Input, Text, FileUpload, Spinner, Alert, TextArea } from '@delab-team/de-ui'
+import {
+    Button,
+    Title,
+    Input,
+    Text,
+    FileUpload,
+    Spinner,
+    Alert,
+    TextArea
+} from '@delab-team/de-ui'
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
 import { Amount } from '../../components/amount'
@@ -153,7 +162,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
     const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const textarea = e.target
         textarea.style.height = 'auto'
-        textarea.style.height = (textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px')
+        textarea.style.height =            textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px'
         setCreateData({
             ...createData,
             description: e.target.value
@@ -195,8 +204,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                     />
                     <TextArea
                         value={createData.description}
-                        onChange={handleTextareaChange
-                        }
+                        onChange={handleTextareaChange}
                         variant="black"
                         className="input textArea"
                         placeholder="Description"
@@ -260,8 +268,9 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
                                         onFileUpload={() => {}}
                                         accept=".jpg, .jpeg, .png"
                                         className={s.fileUpload}
-                                        variant='white'
-                                        uploadText="Upload Image"  />
+                                        variant="white"
+                                        uploadText="Upload Image"
+                                    />
                                 </button>
                             )}
                         </>

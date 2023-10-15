@@ -1,24 +1,52 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable consistent-return */
 /* eslint-disable no-useless-return */
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Button, FileUpload, FileUploadProps, Input, Spinner, TextArea } from '@delab-team/de-ui'
+import { useNavigate, useParams } from 'react-router-dom'
 
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { CustomIpfs } from '../../logic/ipfs'
+
+import { Items, TonApi } from '../../logic/tonapi'
 
 import s from './fundraiser-update.module.scss'
 
 interface FundraiserUpdateProps {}
 
 type FundraiserUpdateDataType = {
-    name: string;
+    title: string;
     description: string;
-    file: string;
+    img: string;
+}
+
+type FundType = {
+    title: string;
+    description: string;
+    img: string,
+    ownerAddress: string | undefined;
+    addressFund: string;
 }
 
 export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
-    const [ uploadedFile, setUploadedFile ] = useState<File | null>(null)
+    const { id } = useParams()
+
+    const [ first, setFirst ] = useState<boolean>(false)
+
+    // Cтарая дата фунда
+
+    const [ fundData, setFundData ] = useState<FundType>({
+        title: '',
+        description: '',
+        img: '',
+        addressFund: '',
+        ownerAddress: ''
+    })
+
+    const navigate = useNavigate()
 
     const [ img, setImg ] = useState<string>('')
 
@@ -28,11 +56,80 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
 
     const [ updateLoading, setUpdateLoading ] = useState<boolean>(false)
 
+    // Новые данные фунда
+
     const [ updateData, setUpdateData ] = useState<FundraiserUpdateDataType>({
-        name: '',
+        title: '',
         description: '',
-        file: ''
+        img: ''
     })
+
+    const rawAddress = useTonAddress(false)
+
+    //========================================================================================================================================================
+
+    useEffect(() => {
+        if (!first || rawAddress) {
+            if (!id || !rawAddress) {
+                return
+            }
+            setFirst(true)
+
+            const coll = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
+
+            const api = new TonApi('testnet')
+
+            api.getItemsV2(coll).then(async (items: Items | undefined) => {
+                if (items) {
+                    for (let i = 0; i < items.nft_items.length; i++) {
+                        const addressFund = id
+
+                        if (addressFund === items.nft_items[i].address) {
+                            const isOwnFund = rawAddress === items.nft_items[i].owner?.address
+
+                            if (addressFund === undefined) {
+                                return
+                            }
+
+                            if (!isOwnFund) {
+                                return navigate('/')
+                            }
+
+                            const fund = {
+                                title: items.nft_items[i].metadata.name ?? 'Not name',
+                                img: items.nft_items[i].metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
+                                description: items.nft_items[i].metadata.description || '',
+                                ownerAddress: items.nft_items[i].owner?.address,
+                                addressFund
+                            }
+
+                            setFundData(fund)
+
+                            setUpdateData({
+                                title: fund.title,
+                                description: fund.description || '',
+                                img: fund.img
+                            })
+
+                            const imgLink = fund.img.replace('https://cloudflare-ipfs.com/ipfs', '')
+
+                            setImg(imgLink)
+                        }
+                    }
+                }
+            })
+        }
+
+        return () => {
+            setFundData({
+                title: '',
+                description: '',
+                img: '',
+                ownerAddress: '',
+                addressFund: ''
+            })
+        }
+    }, [ id, rawAddress ])
 
     //=======================================================================================================================================================
 
@@ -63,7 +160,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
 
     //========================================================================================================================================================
 
-    // Update fundraiser
+    // Обновить фунд
 
     async function updateFundraiser () {
         setUpdateLoading(true)
@@ -72,7 +169,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
         const metadata = {
             image: img,
             description: updateData.description,
-            name: updateData.name,
+            name: updateData.title,
             marketplace: 'dedonate.com'
         }
 
@@ -85,7 +182,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
 
         setUpdateData({
             ...updateData,
-            file: data.content
+            img: data.content
         })
 
         setUpdateLoading(false)
@@ -107,11 +204,11 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
         <div>
             <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()} className={s.form}>
                 <Input
-                    value={updateData.name}
+                    value={updateData.title}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         setUpdateData({
                             ...updateData,
-                            name: e.target.value
+                            title: e.target.value
                         })
                     }}
                     variant="black"
@@ -151,7 +248,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
                                 onClick={() => {
                                     setUpdateData({
                                         ...updateData,
-                                        file: ''
+                                        img: ''
                                     })
                                     setImg('')
                                 }}
@@ -173,7 +270,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
                     onClick={() => updateFundraiser()}
                     loading={updateLoading}
                     disabled={
-                        updateData.name.length < 1
+                        updateData.title.length < 1
                         || updateData.description.length < 1
                         || img.length < 2
                     }

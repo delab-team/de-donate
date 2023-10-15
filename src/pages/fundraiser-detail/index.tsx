@@ -15,8 +15,6 @@ import { jettons } from '../../constants/jettons'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 
-import { ROUTES } from '../../utils/router'
-
 import { Items, TonApi } from '../../logic/tonapi'
 import { Smart } from '../../logic/smart'
 
@@ -26,9 +24,7 @@ import s from './fundraiser-detail.module.scss'
 
 import IMG1 from '../../assets/img/01.png'
 
-interface FundraiserDetailProps {
-    addressProfile: string | undefined
-}
+interface FundraiserDetailProps {}
 
 type DataType = {
     amount: string;
@@ -41,13 +37,13 @@ type FundDetailType = {
     daysPassed: number;
 }
 
-export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressProfile }) => {
+export const FundraiserDetail: FC<FundraiserDetailProps> = () => {
     const { id } = useParams()
     const [ first, setFirst ] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
-    const rawAddress = useTonAddress()
+    const rawAddress = useTonAddress(false)
 
     const [ fundData, setFundData ] = useState<FundType & FundDetailType>({
         addressFund: '',
@@ -81,7 +77,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressProfile }) 
         })
     }
 
-    const isOwnFund = addressProfile === fundData.ownerAddress
+    const isOwnFund = rawAddress === fundData.ownerAddress
 
     useEffect(() => {
         if (!first) {
@@ -192,7 +188,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressProfile }) 
             </div>
 
             {isOwnFund && (
-                <Button className={s.editButton} onClick={() => navigate(ROUTES.FUNDRAISER_UPDATE)}>
+                <Button className={s.editButton} onClick={() => navigate(`/fundraiser-update/${id}`)}>
                     Edit
                 </Button>
             )}

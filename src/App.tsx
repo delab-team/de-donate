@@ -22,11 +22,11 @@ import { TonApi } from './logic/tonapi'
 
 declare global {
     interface Window {
-        Telegram?: any
+        Telegram?: any;
     }
 }
 
-const isTestnet = window.location.host.indexOf('localhost') >= 0
+const isTestnet =    window.location.host.indexOf('localhost') >= 0
     ? true
     : window.location.href.indexOf('testnet') >= 0
 
@@ -36,7 +36,6 @@ export const App: FC = () => {
 
     const [ isConnected, setIsConnected ] = useState<boolean>(false)
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
-    const [ addressProfile, setAddressProfile ] = useState<string | undefined>(undefined)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
@@ -52,7 +51,6 @@ export const App: FC = () => {
         }
 
         setBalance(data?.balance.toString())
-        setAddressProfile(data?.address)
 
         return true
     }
@@ -89,8 +87,8 @@ export const App: FC = () => {
                     </Route>
 
                     <Route element={<HomePage />} path={ROUTES.HOME} />
-                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail addressProfile={addressProfile} />}  />
-                    <Route path="*" element={<Navigate to='/' replace />} />
+                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Layout>
         </AppInner>
