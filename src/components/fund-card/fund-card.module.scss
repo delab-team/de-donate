@@ -3,7 +3,6 @@
 }
 
 .cardTop {
-  // background-size: 100% 150px;
   background-size: cover;
   background-repeat: no-repeat;
   height: 150px;
@@ -55,4 +54,9 @@
 
 .cardDays {
   margin-bottom: 20px;
+}
+
+.cardTime {
+  border-radius: 50%;
+  border: 1px solid #fff;
 }

@@ -1,12 +1,13 @@
 /* eslint-disable max-len */
 import { FC } from 'react'
-import { ProgressBar, Text, Tooltip } from '@delab-team/de-ui'
+import { ProgressBar, Text } from '@delab-team/de-ui'
 
 import { ExpandableText } from '../expandable-text'
 
 import s from './fund-card.module.scss'
 
 import TON from '../../assets/icons/ton.svg'
+import TIME from '../../assets/icons/time.svg'
 
 interface FundCardProps {
     img: string;
@@ -49,7 +50,7 @@ export const FundCard: FC<FundCardProps> = ({
                 />
                 <div className={s.cardInfo}>
                     <div className={s.cardTarget}>
-                        <img src={TON} alt="ton icon" />
+                        <img src={TON} width="18" height="18" alt="ton icon" />
                         <Text fontSize="medium" fontWeight="bold">
                             {formatNumberWithCommas(amount)}
                             {' / '}
@@ -63,13 +64,12 @@ export const FundCard: FC<FundCardProps> = ({
                 {daysTarget && daysPassed && (
                     <div className={`${s.cardInfo} ${s.cardDays}`}>
                         <div className={s.cardTarget}>
-                            <Tooltip text="Remaining until the end of the campaign." iconColor="#fff" className={s.tooltip}>
-                                <Text fontSize="medium" fontWeight="bold">
-                                    {formatNumberWithCommas(daysPassed)}
-                                    {' / '}
-                                    {formatNumberWithCommas(daysTarget)} days
-                                </Text>
-                            </Tooltip>
+                            <img src={TIME} className={s.cardTime} width="18" height="18" alt="time icon" />
+                            <Text fontSize="medium" fontWeight="bold">
+                                {formatNumberWithCommas(daysPassed)}
+                                {' / '}
+                                {formatNumberWithCommas(daysTarget)} days
+                            </Text>
                         </div>
                         <Text fontSize="medium" fontWeight="bold">
                             {progressValueDays + '%'}

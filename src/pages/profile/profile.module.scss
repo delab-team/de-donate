@@ -4,44 +4,42 @@
   margin-bottom: 30px;
 }
 
-.profileInfo {
-  border-radius: 15px;
-  background: linear-gradient(180deg, #16ADFF 51.56%, #1B76FF 100%);
-  margin-bottom: 25px;
-  padding: 32px 30px 15px 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.profileInfoTitle {
-  font-size: 16px;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-
-.profileInfoAddress {
-  font-size: 32px;
-  font-weight: 800;
+.profile {
+  &Info {
+    border-radius: 15px;
+    background: linear-gradient(180deg, #16ADFF 51.56%, #1B76FF 100%);
+    margin-bottom: 25px;
+    padding: 32px 30px 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    &Title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    &Address {
+      font-size: 32px;
+      font-weight: 800;
+    }
+    &Balance {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      font-size: 22px;
+      font-weight: 800;
+      > img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 }
 
 .cards {
   display: flex;
   flex-direction: column;
   row-gap: 27px;
-}
-
-.profileInfoBalance {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.profileInfoBalance > img {
-  width: 20px;
-  height: 20px;
 }

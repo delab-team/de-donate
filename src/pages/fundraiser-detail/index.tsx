@@ -186,7 +186,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressProfile }) 
                         handleSelect={handleSelect}
                     />
                 </div>
-                <Button rounded="l" size="stretched" className="action-btn">
+                <Button rounded="l" size="stretched" className="action-btn" disabled={data.amount.length < 1}>
                     Donate Now
                 </Button>
             </div>

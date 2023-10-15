@@ -5,8 +5,9 @@ import { FC, useState } from 'react'
 import { Button, Title, Input, Text, FileUpload, Spinner, Alert, TextArea } from '@delab-team/de-ui'
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
-import { jettons } from '../../constants/jettons'
 import { Amount } from '../../components/amount'
+
+import { jettons } from '../../constants/jettons'
 
 import { CustomIpfs } from '../../logic/ipfs'
 import { Smart } from '../../logic/smart'

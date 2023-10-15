@@ -164,31 +164,6 @@ a {
 }
 /*--------------------/Modal--------------------*/
 
-/*--------------------Tooltip--------------------*/
-    .Zfk4smb7Y5VTL1d21R2m {
-        margin-left: 0;
-    }
-    .XnbzD46378UUWKabgkjO {
-        flex-direction: row-reverse;
-        gap: 5px;
-    }
-    .XnbzD46378UUWKabgkjO > div {
-        height: 16px !important;
-        width: 16px !important;
-    }
-    .lhL6dQEW7cN7tzPD0HZJ {
-        white-space: pre-wrap;
-        left: 78%;
-        width: 170px;
-    }
-    .lhL6dQEW7cN7tzPD0HZJ  {
-        display: none;
-    }
-    .JbOV97XTwezNnXjYAh8l:hover .lhL6dQEW7cN7tzPD0HZJ {
-        display: block;
-    }
-/*--------------------/Tooltip--------------------*/
-
 /*--------------------Alert--------------------*/
     
 .alert-text {

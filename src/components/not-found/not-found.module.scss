@@ -1,0 +1,19 @@
+.notFound {
+  height: 45vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-height: 550px) {
+  .notFound {
+    height: 35vh;
+  }
+}
+
+@media (max-height: 460px) {
+  .notFound {
+    height: 25vh;
+  }
+}

@@ -2,25 +2,24 @@
 /* eslint-disable no-await-in-loop */
 import { FC, useEffect, useState } from 'react'
 import { v1 } from 'uuid'
+import { Link } from 'react-router-dom'
 
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { Title, Text } from '@delab-team/de-ui'
 
-import { Link } from 'react-router-dom'
 import { FundCard } from '../../components/fund-card'
+import { FundCardSkeleton } from '../../components/fund-card-skeleton'
+import { NotFound } from '../../components/not-found'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 
 import { smlAddr } from '../../utils/smlAddr'
-
 import { fixAmount } from '../../utils/fixAmount'
 
 import { Items, TonApi } from '../../logic/tonapi'
 import { Smart } from '../../logic/smart'
 
 import { FundType } from '../../@types/fund'
-
-import { FundCardSkeleton } from '../../components/fund-card-skeleton'
 
 import IMG1 from '../../assets/img/01.png'
 import TON from '../../assets/icons/ton.svg'
@@ -43,19 +42,18 @@ export const Profile: FC<ProfileProps> = ({ balance }) => {
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
+    const api = new TonApi('testnet')
+
     useEffect(() => {
-        if (!first) {
+        if (!first || rawAddress) {
             setFirst(true)
             setLoading(true)
-
-            const api = new TonApi('testnet')
 
             const smart = new Smart(tonConnectUI, true)
 
             api.searchItemsFromUser(
                 rawAddress
             ).then(async (items: Items | undefined) => {
-                console.log('api.getItems', items)
                 if (items) {
                     for (let i = 0; i < items.nft_items.length; i++) {
                         const addressFund = items.nft_items[i].address
@@ -87,8 +85,8 @@ export const Profile: FC<ProfileProps> = ({ balance }) => {
 
         setTimeout(() => {
             setLoading(false)
-        }, 1000)
-    }, [])
+        }, 1500)
+    }, [ rawAddress ])
 
     return (
         <div className={s.profile}>
@@ -117,6 +115,7 @@ export const Profile: FC<ProfileProps> = ({ balance }) => {
                             <FundCard formatNumberWithCommas={formatNumberWithCommas} {...el} />
                         </Link>
                     ))}
+                {funds.length === 0 && <NotFound text="Nothing found" />}
             </div>
         </div>
     )

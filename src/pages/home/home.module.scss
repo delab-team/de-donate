@@ -1,12 +1,5 @@
-.filterBlock {
+.homeBlock {
   margin-top: 35px;
-}
-
-.search {
-  border-radius: 20px;
-  border: 0px;
-  padding-left: 15px;
-  background: var(--gray);
 }
 
 .title {
@@ -21,12 +14,16 @@
   row-gap: 27px;
 }
 
-.searchInner {
-  position: relative;
+/*--------------------search--------------------*/
+.search {
+  border-radius: 20px;
+  border: 0px;
+  padding-left: 45px;
+  background: var(--gray);
 }
 
-.searchHome {
-  padding-left: 45px;
+.searchInner {
+  position: relative;
 }
 
 .searchIcon {
@@ -34,16 +31,23 @@
   left: 17px;
   top: 50%;
   transform: translateY(-50%);
+  > path {
+    stroke: #98989E;
+  }
 }
 
-.searchIcon > path {
-  stroke: #98989E;
+.searchClear {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  &:hover {
+    transform: translateY(-50%) scale(1.09);
+  }
 }
 
-.notFound {
-  height: 50vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/*--------------------/search--------------------*/

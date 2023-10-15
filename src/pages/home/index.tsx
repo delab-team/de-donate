@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-unresolved */
@@ -10,6 +11,7 @@ import { useTonConnectUI } from '@tonconnect/ui-react'
 
 import { FundCard } from '../../components/fund-card'
 import { FundCardSkeleton } from '../../components/fund-card-skeleton'
+import { NotFound } from '../../components/not-found'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 
@@ -140,8 +142,14 @@ export const HomePage: FC<HomePageProps> = () => {
                     variant="black"
                     className={`${s.search} ${s.searchHome}`}
                 />
+                {value.length >= 1 && (
+                    <button className={s.searchClear} onClick={() => setValue('')}>
+                        <IconSelector id="x" size='20' color="#fff" />
+                    </button>
+                )
+                }
             </div>
-            <div className={s.filterBlock}>
+            <div className={s.homeBlock}>
                 <Title variant="h1" className={s.title} color="#fff">
                     Top fundraiser
                 </Title>
@@ -160,9 +168,7 @@ export const HomePage: FC<HomePageProps> = () => {
                                 </Link>
                             ))}
                         {debouncedSearchQuery && funds.length === 0 && showNotFound && (
-                            <div className={s.notFound}>
-                                <Title variant="h4">Nothing found</Title>
-                            </div>
+                            <NotFound text="Nothing found" />
                         )}
                     </>
                 </div>

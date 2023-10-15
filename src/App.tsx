@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { Address, TonClient } from 'ton'
-import { TonConnectUI, TonConnectUIContext, useTonAddress, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react'
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
 import { AppInner } from '@delab-team/de-ui'
 
