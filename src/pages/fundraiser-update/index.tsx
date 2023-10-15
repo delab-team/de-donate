@@ -262,7 +262,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
                             />
                         </div>
                     )}
-                    {img.length < 1 && <Text className={s.fileText}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
+                    {img.length < 1 && !uploading && <Text className={s.fileText}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
                 </div>
                 <Button
                     rounded="l"

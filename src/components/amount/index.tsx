@@ -62,7 +62,10 @@ export const Amount: FC<AmountProps> = ({
                         <Button
                             className={s.btnSelect}
                             key={el.label}
-                            onClick={() => handleSelect(el.label)}
+                            onClick={() => {
+                                handleSelect(el.label)
+                                setIsModalOpen(false)
+                            }}
                         >
                             <div className={s.selectInfo}>
                                 <img src={el.image} alt={el.label} width={20} height={20} />
