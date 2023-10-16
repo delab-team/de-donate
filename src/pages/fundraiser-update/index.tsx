@@ -8,14 +8,17 @@ import { FC, useEffect, useState } from 'react'
 import { Button, FileUpload, Input, Spinner, Text, TextArea } from '@delab-team/de-ui'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { useTonAddress } from '@tonconnect/ui-react'
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { CustomIpfs } from '../../logic/ipfs'
 
-import { Items, TonApi } from '../../logic/tonapi'
+import { Item, Items, TonApi } from '../../logic/tonapi'
 
 import s from './fundraiser-update.module.scss'
+import { Smart } from '../../logic/smart'
 
-interface FundraiserUpdateProps {}
+interface FundraiserUpdateProps {
+    isTestnet: boolean
+}
 
 type FundraiserUpdateDataType = {
     title: string;
@@ -31,7 +34,7 @@ type FundType = {
     addressFund: string;
 }
 
-export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
+export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
     const { id } = useParams()
 
     const [ first, setFirst ] = useState<boolean>(false)
@@ -66,6 +69,8 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
 
     const rawAddress = useTonAddress(false)
 
+    const [ tonConnectUI, setOptions ] = useTonConnectUI()
+
     //========================================================================================================================================================
 
     useEffect(() => {
@@ -75,47 +80,49 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
             }
             setFirst(true)
 
-            const coll = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
+            const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
-            const api = new TonApi('testnet')
+            const smart = new Smart(tonConnectUI, true)
 
-            api.getItemsV2(coll).then(async (items: Items | undefined) => {
-                if (items) {
-                    for (let i = 0; i < items.nft_items.length; i++) {
-                        const addressFund = id
+            api.getItemV2(id).then(async (item: Item | undefined) => {
+                if (item) {
+                    const addressFund = id
 
-                        if (addressFund === items.nft_items[i].address) {
-                            const isOwnFund = rawAddress === items.nft_items[i].owner?.address
+                    const isOwnFund = rawAddress === item.owner?.address
 
-                            if (addressFund === undefined) {
-                                return
-                            }
-
-                            if (!isOwnFund) {
-                                return navigate('/')
-                            }
-
-                            const fund = {
-                                title: items.nft_items[i].metadata.name ?? 'Not name',
-                                img: items.nft_items[i].metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
-                                description: items.nft_items[i].metadata.description || '',
-                                ownerAddress: items.nft_items[i].owner?.address,
-                                addressFund
-                            }
-
-                            setFundData(fund)
-
-                            setUpdateData({
-                                title: fund.title,
-                                description: fund.description || '',
-                                img: fund.img
-                            })
-
-                            const imgLink = fund.img.replace('https://cloudflare-ipfs.com/ipfs', '')
-
-                            setImg(imgLink)
-                        }
+                    if (addressFund === undefined) {
+                        return
                     }
+
+                    if (!isOwnFund) {
+                        return navigate('/')
+                    }
+
+                    const promise = Promise.all([
+                        smart.getJsonNft(addressFund)
+                    ])
+
+                    const [ metadata ] = await promise
+
+                    const fund = {
+                        title: item.metadata.name ?? (metadata?.name ?? 'Not name'),
+                        img: item.metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
+                        description: item.metadata.description ?? metadata?.description ?? '',
+                        ownerAddress: item.owner?.address,
+                        addressFund
+                    }
+
+                    setFundData(fund)
+
+                    setUpdateData({
+                        title: fund.title,
+                        description: fund.description || '',
+                        img: fund.img
+                    })
+
+                    const imgLink = fund.img.replace('https://cloudflare-ipfs.com/ipfs', '')
+
+                    setImg(imgLink)
                 }
             })
         }
@@ -191,9 +198,6 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
     //========================================================================================================================================================
 
     const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const textarea = e.target
-        textarea.style.height = 'auto'
-        textarea.style.height = textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px'
         setUpdateData({
             ...updateData,
             description: e.target.value
@@ -219,7 +223,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = () => {
                     value={updateData.description}
                     onChange={handleTextareaChange}
                     variant="black"
-                    className="input"
+                    className={`input ${s.textarea}`}
                     placeholder="Description"
                 />
                 <div className={s.fileData}>

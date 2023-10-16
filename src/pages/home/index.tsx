@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable no-useless-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -6,7 +8,7 @@ import { FC, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { v1 } from 'uuid'
 
-import { IconSelector, Input, Title } from '@delab-team/de-ui'
+import { Button, IconSelector, Input, Title } from '@delab-team/de-ui'
 import { useTonConnectUI } from '@tonconnect/ui-react'
 
 import { FundCard } from '../../components/fund-card'
@@ -26,9 +28,6 @@ import useDebounce from '../../hooks/useDebounce'
 import IMG1 from '../../assets/img/01.png'
 
 import s from './home.module.scss'
-import { Cell, Slice } from 'ton-core'
-import { BOC, Slice as Slice3 } from 'ton3'
-import axios from 'axios'
 
 interface HomePageProps {
     addressCollection: string[],
@@ -46,8 +45,10 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
     const debouncedSearchQuery = useDebounce(value, 500)
 
     // Funds
-    const [ funds, setFunds ] = useState<FundType[]>([])
-    const [ originalFunds, setOriginalFunds ] = useState<FundType[]>([])
+    // const [ originalFunds, setOriginalFunds ] = useState<FundType[]>([])
+    const [ loadedFunds, setLoadedFunds ] = useState<FundType[]>([])
+    const [ allItemsLoaded, setAllItemsLoaded ] = useState<boolean>(false)
+    const [ offset, setOffset ] = useState<number>(0)
 
     const [ loading, setLoading ] = useState<boolean>(true)
 
@@ -57,85 +58,90 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
 
     const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
-    useEffect(() => {
-        if (!first) {
-            setFirst(true)
-            setLoading(true)
+    const loadMoreItems = async () => {
+        if (allItemsLoaded) {
+            return
+        }
+        setLoading(true)
 
-            const coll = addressCollection[isTestnet ? 1 : 0]
+        const coll = addressCollection[isTestnet ? 1 : 0]
 
-            const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, true)
 
-            api.getItemsV2(coll).then(async (items: Items | undefined) => {
-                console.log('api.getItems', items)
-                if (items) {
-                    const newFunds: FundType[] = []
+        api.getItemsV2(coll, 10, offset).then(async (items: Items | undefined) => {
+            console.log('api.getItems', items)
+            if (items) {
+                const newFunds: FundType[] = []
 
-                    for (let i = 0; i < items.nft_items.length; i++) {
-                        const addressFund = items.nft_items[i].address
+                for (let i = 0; i < items.nft_items.length; i++) {
+                    const addressFund = items.nft_items[i].address
 
-                        const promise = Promise.all([
-                            smart.getTotal(addressFund),
-                            smart.getType(addressFund),
-                            smart.getPriorityCoin(addressFund),
-                            smart.getJsonNft(addressFund)
-                        ])
+                    const promise = Promise.all([
+                        smart.getTotal(addressFund),
+                        smart.getType(addressFund),
+                        smart.getPriorityCoin(addressFund),
+                        smart.getJsonNft(addressFund)
+                    ])
 
-                        const [ total, type, token, metadata ] = await promise
+                    const [ total, type, token, metadata ] = await promise
 
-                        console.log('total', total)
+                    console.log('total', total)
 
-                        let infoToken
-                        if (token) {
-                            console.log('token', token)
-                            infoToken = await api.getJettonInfo(token.toString())
-                        }
-
-                        console.log('total', total)
-                        console.log('type', type)
-
-                        const fund: FundType = {
-                            title: items.nft_items[i].metadata.name ?? (metadata?.name ?? 'Not name'),
-                            img:
-                                items.nft_items[i].metadata.image?.replace(
-                                    'ipfs://',
-                                    'https://cloudflare-ipfs.com/ipfs/'
-                                ) ?? (metadata?.image.replace(
-                                    'ipfs://',
-                                    'https://cloudflare-ipfs.com/ipfs/'
-                                ) ??  IMG1),
-                            amount: 1,
-                            target: 1,
-                            asset: token ? infoToken?.metadata.symbol ?? 'TON' : 'TON',
-                            addressFund,
-                            ownerAddress: items.nft_items[i].owner?.address
-                        }
-
-                        newFunds.push(fund)
-
-                        setOriginalFunds(prevFunds => [ ...prevFunds, fund ])
+                    let infoToken
+                    if (token) {
+                        console.log('token', token)
+                        infoToken = await api.getJettonInfo(token.toString())
                     }
 
-                    setFunds(newFunds)
+                    console.log('total', total)
+                    console.log('type', type)
+
+                    const fund: FundType = {
+                        title: items.nft_items[i].metadata.name ?? (metadata?.name ?? 'Not name'),
+                        img:
+                            items.nft_items[i].metadata.image?.replace(
+                                'ipfs://',
+                                'https://cloudflare-ipfs.com/ipfs/'
+                            ) ?? (metadata?.image.replace(
+                                'ipfs://',
+                                'https://cloudflare-ipfs.com/ipfs/'
+                            ) ??  IMG1),
+                        amount: 1,
+                        target: 1,
+                        asset: token ? infoToken?.metadata.symbol ?? 'TON' : 'TON',
+                        addressFund,
+                        ownerAddress: items.nft_items[i].owner?.address
+                    }
+
+                    newFunds.push(fund)
                 }
+                setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
+                setOffset(offset + newFunds.length)
 
-                setLoading(false)
-            })
+                if (items.nft_items.length < 10) {
+                    setAllItemsLoaded(true)
+                }
+            }
+        }).finally(() => {
+            setLoading(false)
+        })
+    }
+
+    useEffect(() => {
+        loadMoreItems()
+        if (!first) {
+            setFirst(true)
         }
-
-        // setTimeout(() => {
-        //     setLoading(false)
-        // }, 1500)
     }, [])
 
     // Search
 
-    const filterFunds = (searchQuery: string) => {
-        if (searchQuery === '') {
-            return originalFunds
-        }
-        return originalFunds.filter(fund => fund.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    }
+    // const filterFunds = (searchQuery: string) => {
+    //     if (searchQuery === '') {
+    //         return originalFunds
+    //     }
+    //     return originalFunds.filter(fund => fund.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    // }
 
     useEffect(() => {
         setLoading(true)
@@ -186,7 +192,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
                             ? Array(3)
                                 .fill(null)
                                 .map(_ => <FundCardSkeleton key={v1()} />)
-                            : funds.map(el => (
+                            : loadedFunds.map(el => (
                                 <Link to={`/fundraiser-detail/${el.addressFund}`} key={v1()}>
                                     <FundCard
                                         formatNumberWithCommas={formatNumberWithCommas}
@@ -194,7 +200,16 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
                                     />
                                 </Link>
                             ))}
-                        {debouncedSearchQuery && funds.length === 0 && showNotFound && (
+                        <Button
+                            rounded="l"
+                            size="stretched"
+                            className="action-btn"
+                            disabled={loading || allItemsLoaded}
+                            onClick={loadMoreItems}
+                        >
+                        Load more
+                        </Button>
+                        {debouncedSearchQuery && loadedFunds.length === 0 && showNotFound && (
                             <NotFound text="Nothing found" />
                         )}
                     </>

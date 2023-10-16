@@ -17,6 +17,7 @@ interface FundCardProps {
     description?: string;
     daysTarget?: number;
     daysPassed?: number;
+    fundType?: number;
     formatNumberWithCommas: (number: number) => string;
 }
 
@@ -28,6 +29,7 @@ export const FundCard: FC<FundCardProps> = ({
     daysTarget,
     daysPassed,
     description,
+    fundType,
     formatNumberWithCommas
 }) => {
     const progressValue = ((amount / target) * 100).toFixed(2)
@@ -61,7 +63,7 @@ export const FundCard: FC<FundCardProps> = ({
                         {progressValue + '%'}
                     </Text>
                 </div>
-                {daysTarget && daysPassed && (
+                {daysTarget && daysPassed && fundType !== 1 && daysTarget > 0 ? (
                     <div className={`${s.cardInfo} ${s.cardDays}`}>
                         <div className={s.cardTarget}>
                             <img src={TIME} className={s.cardTime} width="18" height="18" alt="time icon" />
@@ -75,7 +77,7 @@ export const FundCard: FC<FundCardProps> = ({
                             {progressValueDays + '%'}
                         </Text>
                     </div>
-                )}
+                ) : (<></>)}
                 {description && (
                     <>
                         <ExpandableText text={description} />

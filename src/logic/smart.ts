@@ -3,12 +3,12 @@ import { TonConnectUI } from '@tonconnect/ui'
 import { Address, beginCell, toNano, Cell, Dictionary, TupleReader } from 'ton-core'
 import { getHttpV4Endpoint } from '@orbs-network/ton-access'
 import { TonClient, TonClient4 } from 'ton'
+import { BOC, Slice } from 'ton3'
+import axios from 'axios'
 import { Deployer } from './wrappers/Deployer'
 import { Fundraiser as FundraiserClass } from './wrappers/Fundraiser'
 import { Helper as HelperClass } from './wrappers/Helper'
 import { DeployerHex, Fundraiser, Helper, JettonWallet } from './build'
-import { BOC, Slice } from 'ton3'
-import axios from 'axios'
 
 export class Smart {
     private _wallet: TonConnectUI
@@ -258,7 +258,7 @@ export class Smart {
         }
     }
 
-    public async getJsonNft (address: string): Promise<{ name: string, image: string, desciption: string } | undefined> {
+    public async getJsonNft (address: string): Promise<{ name: string, image: string, description: string } | undefined> {
         const data = await this.getNftData(address)
 
         let metadata
@@ -284,7 +284,7 @@ export class Smart {
                 metadata = await axios.get(urlIpfs)
                 // console.log(metadata)
 
-                return metadata.data as { name: string, image: string, desciption: string }
+                return metadata.data as { name: string, image: string, description: string }
             }
         }
     }

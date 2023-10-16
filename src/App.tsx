@@ -26,7 +26,7 @@ declare global {
     }
 }
 
-const isTestnet =    window.location.host.indexOf('localhost') >= 0
+const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
     : window.location.href.indexOf('testnet') >= 0
 
@@ -34,7 +34,6 @@ export const App: FC = () => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
     const [ isTg, setIsTg ] = useState<boolean>(false)
 
-    const [ isConnected, setIsConnected ] = useState<boolean>(false)
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
@@ -61,11 +60,18 @@ export const App: FC = () => {
         if (!firstRender) {
             setFirstRender(true)
 
-            // const wallet = TonConnectUIContext
             if (tonConnectUI) {
                 const networkProvider = new ProviderTonConnect(tonConnectUI, isTestnet)
                 console.log(networkProvider)
             }
+
+            const isTgCheck = window.Telegram.WebApp.initData !== ''
+            const TgObj = window.Telegram.WebApp
+
+            setIsTg(isTgCheck)
+            TgObj.ready()
+            TgObj.enableClosingConfirmation()
+            TgObj.expand()
         }
     }, [])
 
@@ -83,19 +89,36 @@ export const App: FC = () => {
             <Layout>
                 <Routes>
                     <Route element={<PrivateRoute />}>
-                        <Route element={<FundraiserCreate
-                            addressCollection={addressCollection}
-                            isTestnet={isTestnet} />} path={ROUTES.FUNDRAISER_CREATE} />
-                        <Route element={<FundraiserUpdate />} path={ROUTES.FUNDRAISER_UPDATE} />
-                        <Route element={<Profile balance={balance} />} path={ROUTES.PROFILE} />
+                        <Route element={
+                            <FundraiserCreate
+                                addressCollection={addressCollection}
+                                isTestnet={isTestnet}
+                            />}
+                        path={ROUTES.FUNDRAISER_CREATE}
+                        />
+                        <Route element={<FundraiserUpdate isTestnet={isTestnet} />} path={ROUTES.FUNDRAISER_UPDATE} />
+                        <Route element={
+                            <Profile
+                                balance={balance}
+                                addressCollection={addressCollection}
+                                isTestnet={isTestnet}
+                            />}
+                        path={ROUTES.PROFILE}
+                        />
                     </Route>
 
-                    <Route element={<HomePage
-                        addressCollection={addressCollection}
-                        isTestnet={isTestnet} />} path={ROUTES.HOME} />
-                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail
-                        addressCollection={addressCollection}
-                        isTestnet={isTestnet} />} />
+                    <Route element={
+                        <HomePage
+                            addressCollection={addressCollection}
+                            isTestnet={isTestnet}
+                        />}
+                    path={ROUTES.HOME}
+                    />
+                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={
+                        <FundraiserDetail
+                            addressCollection={addressCollection}
+                            isTestnet={isTestnet} />}
+                    />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Layout>

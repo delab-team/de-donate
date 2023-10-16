@@ -5,7 +5,7 @@ import { v1 } from 'uuid'
 import { Link } from 'react-router-dom'
 
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
-import { Title, Text } from '@delab-team/de-ui'
+import { Title, Text, Button } from '@delab-team/de-ui'
 
 import { FundCard } from '../../components/fund-card'
 import { FundCardSkeleton } from '../../components/fund-card-skeleton'
@@ -16,7 +16,7 @@ import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 import { smlAddr } from '../../utils/smlAddr'
 import { fixAmount } from '../../utils/fixAmount'
 
-import { Items, TonApi } from '../../logic/tonapi'
+import { TonApi } from '../../logic/tonapi'
 import { Smart } from '../../logic/smart'
 
 import { FundType } from '../../@types/fund'
@@ -27,66 +27,83 @@ import TON from '../../assets/icons/ton.svg'
 import s from './profile.module.scss'
 
 interface ProfileProps {
+    addressCollection: string[];
     balance: string | undefined;
+    isTestnet: boolean;
 }
 
-export const Profile: FC<ProfileProps> = ({ balance }) => {
+export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestnet }) => {
     const [ first, setFirst ] = useState<boolean>(false)
 
     const [ loading, setLoading ] = useState<boolean>(false)
 
+    const [ offset, setOffset ] = useState<number>(0)
+
     // Funds
-    const [ funds, setFunds ] = useState<FundType[]>([])
+    const [ loadedFunds, setLoadedFunds ] = useState<FundType[]>([])
+
+    const [ allItemsLoaded, setAllItemsLoaded ] = useState<boolean>(false)
 
     const rawAddress = useTonAddress()
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
-    const api = new TonApi('testnet')
+    const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
-    useEffect(() => {
-        if (!first || rawAddress) {
-            setFirst(true)
-            setLoading(true)
-
-            const smart = new Smart(tonConnectUI, true)
-
-            api.searchItemsFromUser(
-                rawAddress
-            ).then(async (items: Items | undefined) => {
-                if (items) {
-                    for (let i = 0; i < items.nft_items.length; i++) {
-                        const addressFund = items.nft_items[i].address
-                        const total = await smart.getTotal(addressFund)
-                        const type = await smart.getType(addressFund)
-
-                        console.log('total', total)
-                        console.log('type', type)
-
-                        const fund = {
-                            title: items.nft_items[i].metadata.name ?? 'Not name',
-                            img:
-                                items.nft_items[i].metadata.image?.replace(
-                                    'ipfs://',
-                                    'https://cloudflare-ipfs.com/ipfs/'
-                                ) ?? IMG1,
-                            amount: 1,
-                            target: 1,
-                            asset: 'TON',
-                            addressFund,
-                            ownerAddress: items.nft_items[i].owner?.address
-                        }
-
-                        setFunds(prevFunds => [ ...prevFunds, fund ])
-                    }
-                }
-            })
+    const loadMoreItems = async () => {
+        if (allItemsLoaded) {
+            return
         }
+        setLoading(true)
 
-        setTimeout(() => {
+        const coll = addressCollection[isTestnet ? 1 : 0]
+        const smart = new Smart(tonConnectUI, true)
+
+        api.searchItemsFromUser(rawAddress, 10, offset).then(async (items) => {
+            if (items) {
+                const newFunds: FundType[] = []
+                for (let i = 0; i < items.nft_items.length; i++) {
+                    const addressFund = items.nft_items[i].address
+                    const total = await smart.getTotal(addressFund)
+                    const type = await smart.getType(addressFund)
+
+                    console.log('total', total)
+                    console.log('type', type)
+
+                    const fund = {
+                        title: items.nft_items[i].metadata.name ?? 'Not name',
+                        img: items.nft_items[i].metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? IMG1,
+                        amount: 1,
+                        target: 1,
+                        asset: 'TON',
+                        addressFund,
+                        ownerAddress: items.nft_items[i].owner?.address
+                    }
+
+                    newFunds.push(fund)
+                }
+
+                setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
+                setOffset(offset + newFunds.length)
+
+                if (items.nft_items.length < 10) {
+                    setAllItemsLoaded(true)
+                }
+            }
+        }).finally(() => {
             setLoading(false)
-        }, 1500)
-    }, [ rawAddress ])
+        })
+    }
+
+    useEffect(
+        () => {
+            if (!first || rawAddress) {
+                setFirst(true)
+                loadMoreItems()
+            }
+        },
+        [ rawAddress ]
+    )
 
     return (
         <div className={s.profile}>
@@ -106,16 +123,27 @@ export const Profile: FC<ProfileProps> = ({ balance }) => {
                 My fundraiser
             </Title>
             <div className={s.cards}>
-                {loading
-                    ? Array(3)
-                        .fill(null)
-                        .map(_ => <FundCardSkeleton key={v1()} />)
-                    : funds.map(el => (
-                        <Link to={`/fundraiser-detail/${el.addressFund}`} key={v1()}>
-                            <FundCard formatNumberWithCommas={formatNumberWithCommas} {...el} />
-                        </Link>
-                    ))}
-                {funds.length === 0 && <NotFound text="Nothing found" />}
+                <>
+                    {loading
+                        ? Array(3)
+                            .fill(null)
+                            .map(_ => <FundCardSkeleton key={v1()} />)
+                        : loadedFunds.map(el => (
+                            <Link to={`/fundraiser-detail/${el.addressFund}`} key={v1()}>
+                                <FundCard formatNumberWithCommas={formatNumberWithCommas} {...el} />
+                            </Link>
+                        ))}
+                    <Button
+                        rounded="l"
+                        size="stretched"
+                        className="action-btn"
+                        disabled={loading || allItemsLoaded}
+                        onClick={loadMoreItems}
+                    >
+                        Load more
+                    </Button>
+                </>
+                {loadedFunds.length === 0 && <NotFound text="Nothing found" />}
             </div>
         </div>
     )

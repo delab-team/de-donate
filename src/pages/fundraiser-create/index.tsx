@@ -13,6 +13,9 @@ import {
     TextArea
 } from '@delab-team/de-ui'
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
+import { toNano } from 'ton-core'
+import { useNavigate } from 'react-router-dom'
+import { Address } from 'ton'
 
 import { Amount } from '../../components/amount'
 
@@ -22,7 +25,6 @@ import { CustomIpfs } from '../../logic/ipfs'
 import { Smart } from '../../logic/smart'
 
 import s from './fundraiser-create.module.scss'
-import { toNano } from 'ton-core'
 
 interface FundraiserCreateProps {
     addressCollection: string[],
@@ -39,6 +41,8 @@ type FundraiserCreateDataType = {
 }
 
 export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection, isTestnet }) => {
+    const navigate = useNavigate()
+
     const [ activeTimeLife, setActiveTimeLife ] = useState<number>(7)
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
@@ -126,26 +130,18 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
         // const createColl = await smart.deployDeployer('EQDYl5uFtd5O0EI19GLnMZPKPMtopdLlyvTexPmeJgkAAfq3', data.content)
 
         const nowTime = Math.floor(Date.now() / 1000)
-        const addr = await smart.deployFundraiser(
+        const res = await smart.deployFundraiser(
             addrColl,
             data.content,
             jettons.filter(jetton => jetton.label === createData.token)[0].address,
             toNano(createData.amount),
             BigInt(nowTime + (createData.timeLife * 86400))
         )
-        console.log(addr?.toString())
 
-        // if (String(addr)) {
-        //     setCreateData({
-        //         name: '',
-        //         description: '',
-        //         amount: '',
-        //         token: 'TOH',
-        //         timeLife: 7,
-        //         file: ''
-        //     })
-        //     setImg('')
-        // }
+        if (res?.toRawString()) {
+            // navigate(`/fundraiser-detail/${res}`)
+
+        }
 
         setCreateLoading(false)
     }
@@ -246,7 +242,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                             }`}
                             onClick={() => handleTimeClick(7)}
                         >
-                            7 day
+                            7 days
                         </div>
                         <div
                             className={`${s.timeLifeItem} ${
@@ -254,7 +250,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                             }`}
                             onClick={() => handleTimeClick(14)}
                         >
-                            14 day
+                            14 days
                         </div>
                         <div
                             className={`${s.timeLifeItem} ${
@@ -262,7 +258,15 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                             }`}
                             onClick={() => handleTimeClick(30)}
                         >
-                            30 day
+                            30 days
+                        </div>
+                        <div
+                            className={`${s.timeLifeItem} ${
+                                activeTimeLife === 0 ? s.activeLifeItem : ''
+                            }`}
+                            onClick={() => handleTimeClick(0)}
+                        >
+                            ∞ days
                         </div>
                     </div>
                 </div>
@@ -320,6 +324,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                         || createData.description.length < 1
                         || Number(createData.amount) < 0.00001
                         || img.length < 2
+                        || createLoading
                     }
                 >
                     Create

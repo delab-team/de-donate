@@ -4,19 +4,20 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Button } from '@delab-team/de-ui'
+import { Button, Input, Modal, Title } from '@delab-team/de-ui'
 import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
 import { toNano } from 'ton-core'
 import { FundCard } from '../../components/fund-card'
 import { Amount } from '../../components/amount'
 import { FundDetailSkeleton } from '../../components/fund-detail-skeleton'
+import { AlertModal } from '../../components/alert-modal'
 
 import { jettons } from '../../constants/jettons'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 
-import { Item, Items, TonApi } from '../../logic/tonapi'
+import { Item, TonApi } from '../../logic/tonapi'
 import { Smart } from '../../logic/smart'
 
 import { FundType } from '../../@types/fund'
@@ -39,6 +40,7 @@ type FundDetailType = {
     description: string | undefined;
     daysTarget: number;
     daysPassed: number;
+    type: number;
 }
 
 export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection, isTestnet }) => {
@@ -59,8 +61,33 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
         description: '',
         daysTarget: 0,
         daysPassed: 0,
-        ownerAddress: ''
+        ownerAddress: '',
+        type: 0
     })
+
+    // Success donate modal
+    const [ isDonated, setIsDonated ] = useState<boolean>(false)
+
+    // Withdrawal modal
+    const [ isWithdrawal, setIsWithdrawal ] = useState<boolean>(false)
+
+    const [ withdrawalData, setWithdrawalData ] = useState<Record <string, string>>({
+        address: rawAddress,
+        amount: '',
+        asset: 'TOH'
+    })
+
+    const [ jettonWithdrawal, setJettonWithdrawal ] = useState<string>(jettons[0].value)
+
+    const jettonSelectWithdrawal = (value: string) => {
+        setJettonWithdrawal(value)
+        setWithdrawalData({
+            ...withdrawalData,
+            asset: value
+        })
+    }
+
+    // Withdrawal modal end
 
     const [ loading, setLoading ] = useState<boolean>(false)
 
@@ -96,8 +123,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     }
                 ]
             }
-            tonConnectUI.sendTransaction(tx)
-        } else {
+            tonConnectUI.sendTransaction(tx).then(() => setIsDonated(true))
         }
     }
 
@@ -145,10 +171,11 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                         target: 1,
                         asset: 'TON',
                         addressFund,
-                        description: item.metadata.description ?? metadata?.desciption,
+                        description: item.metadata.description ?? metadata?.description,
                         daysTarget: daysTarget ? (Math.floor((daysTarget - nowTime) / 86400)) : 0,
                         daysPassed: 1,
-                        ownerAddress: item.owner?.address
+                        ownerAddress: item.owner?.address,
+                        type: type || 0
                     }
 
                     setFundData(fund)
@@ -157,6 +184,9 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                         setLoading(false)
                     }, 200)
                 }
+            }).catch((error) => {
+                console.log(error)
+                navigate('/')
             })
         }
 
@@ -171,13 +201,45 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                 description: '',
                 daysTarget: 0,
                 daysPassed: 0,
-                ownerAddress: ''
+                ownerAddress: '',
+                type: 0
             })
         }
     }, [ id ])
 
     return (
         <div className={s.inner}>
+            {isDonated && (
+                <AlertModal isOpen={isDonated} onClose={() => setIsDonated(false)} content={<>The <span>{fundData.title}</span> fund has been successfully donated!</>}  />
+            )}
+            {isWithdrawal && (
+                <Modal isOpen={isWithdrawal} onClose={() => setIsWithdrawal(false)}>
+                    <div className={s.withdrawalModal}>
+                        <Title variant="h5" className={s.withdrawalModalTitle}>Withdrawal</Title>
+                        <Input className={`input ${s.withdrawalModalInput}`} value={rawAddress} variant='black' onChange={() => {}} />
+                        <Amount
+                            options={jettons}
+                            value={String(withdrawalData.amount)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setWithdrawalData({
+                                    ...withdrawalData,
+                                    amount: e.target.value
+                                })
+                            }}
+                            selectedValue={jettonWithdrawal}
+                            handleSelect={jettonSelectWithdrawal}
+                        />
+                        <Button
+                            rounded="l"
+                            size="stretched"
+                            className="action-btn"
+                            disabled={withdrawalData.amount.length < 1}
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </Modal>
+            )}
             {loading ? (
                 <FundDetailSkeleton />
             ) : (
@@ -190,6 +252,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     daysPassed={fundData.daysPassed}
                     formatNumberWithCommas={formatNumberWithCommas}
                     description={fundData.description}
+                    fundType={fundData.type}
                 />
             )}
 
@@ -213,23 +276,22 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     size="stretched"
                     className="action-btn"
                     disabled={data.amount.length < 1}
-                    onClick={() => donate()}
+                    onClick={() => (rawAddress ? donate() : tonConnectUI.connectWallet())}
                 >
                     Donate Now
                 </Button>
             </div>
 
             {isOwnFund && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div className={s.actionsButtons}>
                     <Button
                         className={s.editButton}
                         onClick={() => navigate(`/fundraiser-update/${id}`)}
-                        style={{ marginRight: '16px' }}
                     >
-                    Edit
+                        Edit
                     </Button>
-                    <Button className={s.editButton} onClick={() => navigate(`/fundraiser-update/${id}`)}>
-                    Withdrawal
+                    <Button className={s.editButton} onClick={() => setIsWithdrawal(true)}>
+                        Withdrawal
                     </Button>
                 </div>
             )}

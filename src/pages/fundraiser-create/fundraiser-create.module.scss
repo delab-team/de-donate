@@ -32,7 +32,7 @@
 }
 
 .timeLifeItem {
-    padding: 9px 23px;
+    padding: 9px 16px;
     border-radius: 20px;
     font-size: 16px;
     font-weight: 400;
@@ -41,27 +41,21 @@
     cursor: pointer;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 455px) {
     .timeLifeItems {
         justify-content: space-between;
     }
-}
-
-// @media (max-width: 425px) {
-//     .timeLifeItem {
-//         padding: 9px 14px;
-//     }
-// }
-
-@media (max-width: 345px) {
     .timeLifeItem {
-        padding: 9px 17px;
+        padding: 9px 12px;
     }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 425px) {
     .timeLifeItem {
-        padding: 9px 15px;
+        padding: 9px 10px;
+    }
+    .timeLifeItems {
+        gap: 8px;
     }
 }
 

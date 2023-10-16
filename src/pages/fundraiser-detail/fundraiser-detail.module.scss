@@ -23,6 +23,12 @@
     margin-bottom: 25px;
 }
 
+.actionsButtons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .editButton {
     font-size: 16px;
     padding: 18px;
@@ -34,6 +40,9 @@
     background: transparent;
     cursor: pointer;
     transition: all 0.3s ease 0s;
+    &:first-child {
+        margin-right: 16px;
+    }
 }
 
 @media (max-width: 375px) {
@@ -49,6 +58,28 @@
 }
 
 .editButton:hover {
-  background: transparent;
-  border: 1px solid #fff;
+    background: transparent;
+    border: 1px solid #fff;
 }
+
+
+/*--------------------Withdrawal Modal--------------------*/
+    .withdrawalModal {
+        margin-top: 10px;
+        &Input {
+            border-radius: 20px!important;
+            pointer-events: none;
+            opacity: 0.7;
+            &::selection {
+                background-color: initial;
+                color: initial;
+            }
+        }
+        &Title {
+            margin-bottom: 10px;
+        }
+        > div {
+            margin-bottom: 15px;
+        }
+    }
+/*--------------------/Withdrawal Modal--------------------*/

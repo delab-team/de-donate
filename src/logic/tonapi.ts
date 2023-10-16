@@ -300,8 +300,8 @@ export class TonApi {
         return data
     }
 
-    public async getItemsV2 (address: string): Promise<Items | undefined> {
-        const data = await this.send(`nfts/collections/${address}/items`, { limit: 100, offset: 0 }, true)
+    public async getItemsV2 (address: string, limit: number, offset: number): Promise<Items | undefined> {
+        const data = await this.send(`nfts/collections/${address}/items`, { limit, offset }, true)
 
         console.log(data)
         return data
