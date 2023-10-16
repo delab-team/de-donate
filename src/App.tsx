@@ -41,7 +41,9 @@ export const App: FC = () => {
 
     const RawAddress = useTonAddress()
 
-    const api = new TonApi('testnet')
+    const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
+
+    const addressCollection = [ '', 'kQDFVBg_TK9Aapg3XIgbM0HCvKpjG9grDsK-8asO5q2CRg8d' ]
 
     async function loadUser (address: string): Promise<boolean | undefined> {
         const data = await api.getInfoUserV2(address)
@@ -81,13 +83,19 @@ export const App: FC = () => {
             <Layout>
                 <Routes>
                     <Route element={<PrivateRoute />}>
-                        <Route element={<FundraiserCreate />} path={ROUTES.FUNDRAISER_CREATE} />
+                        <Route element={<FundraiserCreate
+                            addressCollection={addressCollection}
+                            isTestnet={isTestnet} />} path={ROUTES.FUNDRAISER_CREATE} />
                         <Route element={<FundraiserUpdate />} path={ROUTES.FUNDRAISER_UPDATE} />
                         <Route element={<Profile balance={balance} />} path={ROUTES.PROFILE} />
                     </Route>
 
-                    <Route element={<HomePage />} path={ROUTES.HOME} />
-                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail />} />
+                    <Route element={<HomePage
+                        addressCollection={addressCollection}
+                        isTestnet={isTestnet} />} path={ROUTES.HOME} />
+                    <Route path={ROUTES.FUNDRAISER_DETAIL} element={<FundraiserDetail
+                        addressCollection={addressCollection}
+                        isTestnet={isTestnet} />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Layout>

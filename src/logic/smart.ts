@@ -1,12 +1,14 @@
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
 import { TonConnectUI } from '@tonconnect/ui'
-import { Address, beginCell, toNano, Cell, Dictionary } from 'ton-core'
+import { Address, beginCell, toNano, Cell, Dictionary, TupleReader } from 'ton-core'
 import { getHttpV4Endpoint } from '@orbs-network/ton-access'
 import { TonClient, TonClient4 } from 'ton'
 import { Deployer } from './wrappers/Deployer'
 import { Fundraiser as FundraiserClass } from './wrappers/Fundraiser'
 import { Helper as HelperClass } from './wrappers/Helper'
 import { DeployerHex, Fundraiser, Helper, JettonWallet } from './build'
+import { BOC, Slice } from 'ton3'
+import axios from 'axios'
 
 export class Smart {
     private _wallet: TonConnectUI
@@ -75,7 +77,13 @@ export class Smart {
         }
     }
 
-    public async deployFundraiser (addressDeployer: string, ipfs: string): Promise<Address | undefined> {
+    public async deployFundraiser (
+        addressDeployer: string,
+        ipfs: string,
+        priorityCoin: string | undefined,
+        goal: bigint,
+        blockTime: bigint
+    ): Promise<Address | undefined> {
         await this._provider.sunc()
         const deployer = this._provider.open(Deployer.createFromAddress(Address.parse(addressDeployer)))
 
@@ -84,10 +92,10 @@ export class Smart {
                 this._provider.sender(),
                 toNano('0.05'),
                 123n,
-                toNano('100'),
-                1600000000n,
+                goal,
+                blockTime,
                 ipfs,
-                undefined
+                priorityCoin ? Address.parse(priorityCoin) : undefined
             )
 
             return deployer.address
@@ -215,7 +223,7 @@ export class Smart {
         }
     }
 
-    public async getPriorityCoin (address: string): Promise<Address | undefined> {
+    public async getPriorityCoin (address: string): Promise<Address | number | undefined> {
         await this._provider.sunc()
 
         const fundraiserContract = new FundraiserClass(Address.parse(address))
@@ -230,5 +238,61 @@ export class Smart {
             console.error('getPriorityCoin', error)
             return undefined
         }
+    }
+
+    public async getNftData (address: string): Promise<Cell | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(address))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const nftData = await fundraiser.getContent()
+            // console.log('nftData', nftData)
+
+            return nftData
+        } catch (error) {
+            console.error('getNftData', error)
+            return undefined
+        }
+    }
+
+    public async getJsonNft (address: string): Promise<{ name: string, image: string, desciption: string } | undefined> {
+        const data = await this.getNftData(address)
+
+        let metadata
+
+        if (data) {
+            // const content = data.readBuffer()
+            const boc = BOC.fromStandard(data.toBoc())
+            const sliceCell = Slice.parse(boc)
+
+            // console.log('content', BOC.fromStandard(data.toBoc()))
+            const prefix = sliceCell.loadUint(8)
+            if (prefix === 0x01) {
+                const size = sliceCell.bits.length
+                // console.log('sliceCell', sliceCell)
+
+                const stringCell = sliceCell.loadBytes(size)
+
+                const urlIpfs = (new TextDecoder('utf-8').decode(stringCell)).replace(
+                    'ipfs://',
+                    'https://cloudflare-ipfs.com/ipfs/'
+                )
+
+                metadata = await axios.get(urlIpfs)
+                // console.log(metadata)
+
+                return metadata.data as { name: string, image: string, desciption: string }
+            }
+        }
+    }
+
+    public async getTotalTon (address: string) {
+        // this._provider.provider.call()
+
+        const Trans = await this._provider.api().getAccountTransactions(Address.parse(address), 0n, Buffer.from(''))
+        console.log(Trans)
     }
 }

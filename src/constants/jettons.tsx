@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 export const jettons = [
     {
-        address: null,
+        address: undefined,
         value: 'TON',
         label: 'TON',
         decimals: 9,

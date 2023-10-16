@@ -26,10 +26,16 @@ import useDebounce from '../../hooks/useDebounce'
 import IMG1 from '../../assets/img/01.png'
 
 import s from './home.module.scss'
+import { Cell, Slice } from 'ton-core'
+import { BOC, Slice as Slice3 } from 'ton3'
+import axios from 'axios'
 
-interface HomePageProps {}
+interface HomePageProps {
+    addressCollection: string[],
+    isTestnet: boolean
+}
 
-export const HomePage: FC<HomePageProps> = () => {
+export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) => {
     const [ first, setFirst ] = useState<boolean>(false)
 
     // Not found
@@ -49,40 +55,58 @@ export const HomePage: FC<HomePageProps> = () => {
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
-    const api = new TonApi('testnet')
+    const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
     useEffect(() => {
         if (!first) {
             setFirst(true)
             setLoading(true)
 
-            const coll = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
+            const coll = addressCollection[isTestnet ? 1 : 0]
 
             const smart = new Smart(tonConnectUI, true)
 
             api.getItemsV2(coll).then(async (items: Items | undefined) => {
                 console.log('api.getItems', items)
                 if (items) {
-                    const newFunds = []
+                    const newFunds: FundType[] = []
 
                     for (let i = 0; i < items.nft_items.length; i++) {
                         const addressFund = items.nft_items[i].address
-                        const total = await smart.getTotal(addressFund)
-                        const type = await smart.getType(addressFund)
+
+                        const promise = Promise.all([
+                            smart.getTotal(addressFund),
+                            smart.getType(addressFund),
+                            smart.getPriorityCoin(addressFund),
+                            smart.getJsonNft(addressFund)
+                        ])
+
+                        const [ total, type, token, metadata ] = await promise
+
+                        console.log('total', total)
+
+                        let infoToken
+                        if (token) {
+                            console.log('token', token)
+                            infoToken = await api.getJettonInfo(token.toString())
+                        }
 
                         console.log('total', total)
                         console.log('type', type)
 
-                        const fund = {
-                            title: items.nft_items[i].metadata.name ?? 'Not name',
+                        const fund: FundType = {
+                            title: items.nft_items[i].metadata.name ?? (metadata?.name ?? 'Not name'),
                             img:
                                 items.nft_items[i].metadata.image?.replace(
                                     'ipfs://',
                                     'https://cloudflare-ipfs.com/ipfs/'
-                                ) ?? IMG1,
+                                ) ?? (metadata?.image.replace(
+                                    'ipfs://',
+                                    'https://cloudflare-ipfs.com/ipfs/'
+                                ) ??  IMG1),
                             amount: 1,
                             target: 1,
-                            asset: 'TON',
+                            asset: token ? infoToken?.metadata.symbol ?? 'TON' : 'TON',
                             addressFund,
                             ownerAddress: items.nft_items[i].owner?.address
                         }
@@ -90,15 +114,18 @@ export const HomePage: FC<HomePageProps> = () => {
                         newFunds.push(fund)
 
                         setOriginalFunds(prevFunds => [ ...prevFunds, fund ])
-                        setFunds(newFunds)
                     }
+
+                    setFunds(newFunds)
                 }
+
+                setLoading(false)
             })
         }
 
-        setTimeout(() => {
-            setLoading(false)
-        }, 1500)
+        // setTimeout(() => {
+        //     setLoading(false)
+        // }, 1500)
     }, [])
 
     // Search
@@ -113,11 +140,11 @@ export const HomePage: FC<HomePageProps> = () => {
     useEffect(() => {
         setLoading(true)
         setTimeout(() => {
-            const filteredFunds = filterFunds(value)
-            setFunds(filteredFunds)
-            setShowNotFound(filteredFunds.length === 0)
-            setLoading(false)
-        }, 1000)
+            // const filteredFunds = filterFunds(value)
+            // setFunds(filteredFunds)
+            // setShowNotFound(filteredFunds.length === 0)
+            // setLoading(false)
+        }, 5000)
     }, [ debouncedSearchQuery ])
 
     // Not found

@@ -167,6 +167,19 @@ interface Transactions {
     transactions: Transaction[]
 }
 
+interface Jetton {
+    mintable: boolean,
+    total_supply: string,
+    metadata: {
+        address: string,
+        name: string,
+        symbol: string,
+        decimals: string,
+        image?: string,
+        description?: string
+    }
+}
+
 export class TonApi {
     private _url: string = 'https://tonapi.io/v1/'
 
@@ -289,6 +302,20 @@ export class TonApi {
 
     public async getItemsV2 (address: string): Promise<Items | undefined> {
         const data = await this.send(`nfts/collections/${address}/items`, { limit: 100, offset: 0 }, true)
+
+        console.log(data)
+        return data
+    }
+
+    public async getItemV2 (address: string): Promise<Item | undefined> {
+        const data = await this.send(`nfts/${address}`, { }, true)
+
+        console.log(data)
+        return data
+    }
+
+    public async getJettonInfo (address: string): Promise<Jetton | undefined> {
+        const data = await this.send(`jettons/${address}`, { }, true)
 
         console.log(data)
         return data

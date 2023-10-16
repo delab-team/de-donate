@@ -22,8 +22,12 @@ import { CustomIpfs } from '../../logic/ipfs'
 import { Smart } from '../../logic/smart'
 
 import s from './fundraiser-create.module.scss'
+import { toNano } from 'ton-core'
 
-interface FundraiserCreateProps {}
+interface FundraiserCreateProps {
+    addressCollection: string[],
+    isTestnet: boolean
+}
 
 type FundraiserCreateDataType = {
     name: string;
@@ -34,7 +38,7 @@ type FundraiserCreateDataType = {
     file: string;
 }
 
-export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
+export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection, isTestnet }) => {
     const [ activeTimeLife, setActiveTimeLife ] = useState<number>(7)
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
@@ -55,7 +59,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
         name: '',
         description: '',
         amount: '',
-        token: 'TOH',
+        token: 'TON',
         timeLife: 7,
         file: ''
     })
@@ -115,13 +119,20 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = () => {
             file: data.content
         })
 
-        const addrColl = 'kQCCcr1oWJ5XcMTgPn2HsAFIpvb_3C1YATFI6wrB57nEWgkb'
+        const addrColl = addressCollection[isTestnet ? 1 : 0]
 
         const smart = new Smart(tonConnectUI, true)
 
         // const createColl = await smart.deployDeployer('EQDYl5uFtd5O0EI19GLnMZPKPMtopdLlyvTexPmeJgkAAfq3', data.content)
 
-        const addr = await smart.deployFundraiser(addrColl, data.content)
+        const nowTime = Math.floor(Date.now() / 1000)
+        const addr = await smart.deployFundraiser(
+            addrColl,
+            data.content,
+            jettons.filter(jetton => jetton.label === createData.token)[0].address,
+            toNano(createData.amount),
+            BigInt(nowTime + (createData.timeLife * 86400))
+        )
         console.log(addr?.toString())
 
         // if (String(addr)) {

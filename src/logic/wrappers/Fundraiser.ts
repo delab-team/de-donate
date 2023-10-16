@@ -1,4 +1,4 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Dictionary, Sender } from 'ton-core';
+import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Dictionary, Sender, TupleReader } from 'ton-core';
 
 export type FundraiserConfig = {
     collection: Address;
@@ -57,7 +57,22 @@ export class Fundraiser implements Contract {
         ).stack.readAddress();
     }
 
-    async getPriorityCoin(provider: ContractProvider): Promise<Address> {
+    async getPriorityCoin(provider: ContractProvider): Promise<Address | number> {
         return (await provider.get('get_priority_coin', [])).stack.readAddress();
     }
+
+    async getNftData(provider: ContractProvider): Promise<TupleReader | number> {
+        return (await provider.get('get_nft_data', [])).stack;
+    }
+
+    async getContent(provider: ContractProvider): Promise<Cell>   {
+        const result = await provider.get('get_nft_data', []);
+        result.stack.readBigNumber()
+        result.stack.readBigNumber()
+        result.stack.readAddress()
+        result.stack.readAddress()
+        const content = result.stack.readCell()
+        console.log(content.beginParse().loadUint(8))
+        return content
+      }
 }
