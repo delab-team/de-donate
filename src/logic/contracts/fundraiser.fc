@@ -16,6 +16,7 @@ global int data::fee_percentage;
 global cell data::helper_code;
 global cell data::jetton_wallet_code;
 global slice data::priority_coin_wallet_address;
+global int data::total_ton;
 
 global int context::op;
 global int context::query_id;
@@ -37,6 +38,9 @@ global slice context::sender;
     data::fee_percentage = ds~load_uint(16);
     data::helper_code = ds~load_ref();
     data::jetton_wallet_code = ds~load_ref();
+    data::total_ton = ds~load_uint(64);
+    
+    
 
     data::priority_coin_wallet_address = calculate_user_jetton_wallet_address(my_address(), data::priority_coin, data::jetton_wallet_code);
 }
@@ -57,6 +61,7 @@ global slice context::sender;
             .store_uint(data::fee_percentage, 16)
             .store_ref(data::helper_code)
             .store_ref(data::jetton_wallet_code)
+            .store_uint(data::total_ton, 64)
         .end_cell())
     .end_cell());
 }
@@ -277,4 +282,14 @@ slice get_helper_address(slice user) method_id {
 (slice) get_priority_coin() method_id {
     load_data();
     return data::priority_coin;
+}
+
+int get_goal() method_id {
+    load_data();
+    return data::goal;
+}
+
+(int, int, int, slice, int, int) get_info() method_id {
+    load_data();
+    return ((data::block_time == 0) | (now() <= data::block_time), (data::block_time == 0), data::block_time, data::priority_coin, data::goal, data::total_ton);
 }

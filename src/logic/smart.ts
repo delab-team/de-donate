@@ -258,6 +258,42 @@ export class Smart {
         }
     }
 
+    public async getGoal (address: string): Promise<bigint | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(address))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const nftData = await fundraiser.getGoal()
+            // console.log('nftData', nftData)
+
+            return nftData
+        } catch (error) {
+            console.error('getGoal', error)
+            return undefined
+        }
+    }
+
+    public async getInfo (address: string): Promise<[bigint, bigint, bigint, Cell, bigint, bigint] | undefined> {
+        await this._provider.sunc()
+
+        const fundraiserContract = new FundraiserClass(Address.parse(address))
+
+        const fundraiser = this._provider.open(fundraiserContract)
+
+        try {
+            const nftData = await fundraiser.getInfo()
+            console.log('getInfo', nftData)
+
+            return nftData
+        } catch (error) {
+            console.error('getInfo', error)
+            return undefined
+        }
+    }
+
     public async getJsonNft (address: string): Promise<{ name: string, image: string, description: string } | undefined> {
         const data = await this.getNftData(address)
 

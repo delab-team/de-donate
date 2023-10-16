@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button, Input, Modal, Title } from '@delab-team/de-ui'
 import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 
-import { toNano } from 'ton-core'
+import { Address, toNano } from 'ton-core'
 import { FundCard } from '../../components/fund-card'
 import { Amount } from '../../components/amount'
 import { FundDetailSkeleton } from '../../components/fund-detail-skeleton'
@@ -127,6 +127,47 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
         }
     }
 
+    async function loadFund (address: string, smart: Smart, ownerAddress: string): Promise<FundType & FundDetailType | undefined> {
+        const promise = Promise.all([
+            smart.getJsonNft(address),
+            smart.getInfo(address)
+        ])
+
+        const [ metadata, info ] = await promise
+        // const d = await smart.getTotalTon(addressFund)
+
+        console.log('info', info)
+
+        const nowTime = Math.floor(Date.now() / 1000)
+
+        if (info) {
+            let asset: string = 'TON'
+            try {
+                const addr = info[3].beginParse().loadAddress()
+                asset = jettons.filter(j => j.address === addr.toString())[0].label
+            } catch (e) {
+                console.log(e)
+            }
+
+            const fund: FundType & FundDetailType = {
+                title: metadata?.name ?? 'Not name',
+                img: metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
+                amount: Number(info[5] / 10n ** 9n),
+                target: Number(info[4] / 10n ** 9n),
+                asset,
+                addressFund: address,
+                description: metadata?.description,
+                daysTarget: (Math.floor((Number(info[2]) - nowTime) / 86400)),
+                daysPassed: 1,
+                ownerAddress,
+                type: Number(info[1])
+            }
+
+            return fund
+        }
+        return undefined
+    }
+
     useEffect(() => {
         if (!first) {
             if (!id) {
@@ -147,46 +188,32 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                         return
                     }
 
-                    const promise = Promise.all([
-                        smart.getTotal(addressFund),
-                        smart.getType(addressFund),
-                        smart.getPriorityCoin(addressFund),
-                        smart.getJsonNft(addressFund),
-                        smart.getBlockTime(addressFund)
-                    ])
+                    const fund = await loadFund(id, smart, item.owner?.address ?? '')
 
-                    const [ total, type, token, metadata, daysTarget ] = await promise
-
-                    // const d = await smart.getTotalTon(addressFund)
-
-                    console.log('total', total)
-                    console.log('type', type)
-
-                    const nowTime = Math.floor(Date.now() / 1000)
-
-                    const fund: FundType & FundDetailType = {
-                        title: item.metadata.name ?? (metadata?.name ?? 'Not name'),
-                        img: item.metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
-                        amount: 1,
-                        target: 1,
-                        asset: 'TON',
-                        addressFund,
-                        description: item.metadata.description ?? metadata?.description,
-                        daysTarget: daysTarget ? (Math.floor((daysTarget - nowTime) / 86400)) : 0,
-                        daysPassed: 1,
-                        ownerAddress: item.owner?.address,
-                        type: type || 0
+                    if (!fund) {
+                        navigate('/')
+                        return
                     }
-
                     setFundData(fund)
 
                     setTimeout(() => {
                         setLoading(false)
                     }, 200)
                 }
-            }).catch((error) => {
+            }).catch(async (error) => {
+                const fund = await loadFund(id, smart, '')
+
+                if (!fund) {
+                    navigate('/')
+                    return
+                }
+                setFundData(fund)
+
+                setTimeout(() => {
+                    setLoading(false)
+                }, 200)
                 console.log(error)
-                navigate('/')
+                // navigate('/')
             })
         }
 

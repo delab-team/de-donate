@@ -2,7 +2,7 @@ _ admin:MsgAddressInt fee_receiver:MsgAddressInt fee_percentage:uint16 fundraise
 
 uninit#_ collection:MsgAddressInt index:uint64 = FundraiserStorage;
 init#_ admin:MsgAddressInt goal:Coins total:(HashmapE 267 Coins) current:(HashmapE 267 Coins) block_time:uint64 priority_coin:MsgAddress
-  collection:MsgAddressInt index:uint64 ^[ metadata_ipfs_link:^Cell fee_receiver:MsgAddressInt fee_percentage:uint16 helper_code:^Cell jetton_wallet_code:^Cell ] = FundraiserStorage;
+  collection:MsgAddressInt index:uint64 ton_value:Coins ^[ metadata_ipfs_link:^Cell fee_receiver:MsgAddressInt fee_percentage:uint16 helper_code:^Cell jetton_wallet_code:^Cell ] = FundraiserStorage;
 
 _ fundraiser:MsgAddressInt user:MsgAddressInt current:(HashmapE 267 Coins) = HelperStorage;
 

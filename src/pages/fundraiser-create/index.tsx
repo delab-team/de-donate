@@ -129,6 +129,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
 
         // const createColl = await smart.deployDeployer('EQDYl5uFtd5O0EI19GLnMZPKPMtopdLlyvTexPmeJgkAAfq3', data.content)
 
+        // console.log('createColl', createColl?.toString())
+
         const nowTime = Math.floor(Date.now() / 1000)
         const res = await smart.deployFundraiser(
             addrColl,
@@ -138,9 +140,9 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
             BigInt(nowTime + (createData.timeLife * 86400))
         )
 
-        if (res?.toRawString()) {
-            // navigate(`/fundraiser-detail/${res}`)
-
+        if (res) {
+            console.log(res)
+            navigate(`/fundraiser-detail/${res.toString()}`)
         }
 
         setCreateLoading(false)
