@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable max-len */
 import { FC } from 'react'
 import { ProgressBar, Text } from '@delab-team/de-ui'
@@ -20,6 +21,8 @@ interface FundCardProps {
     fundType?: number;
     formatNumberWithCommas: (number: number) => string;
 }
+
+
 
 export const FundCard: FC<FundCardProps> = ({
     img,
@@ -60,7 +63,7 @@ export const FundCard: FC<FundCardProps> = ({
                         </Text>
                     </div>
                     <Text fontSize="medium" fontWeight="bold">
-                        {progressValue + '%'}
+                        {!isNaN(parseInt(progressValue, 10)) ? `${progressValue}%` : '0.00%'}
                     </Text>
                 </div>
                 {daysTarget && daysPassed && fundType !== 1 && daysTarget > 0 ? (

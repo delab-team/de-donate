@@ -10,9 +10,9 @@ import { Title, Text, Button } from '@delab-team/de-ui'
 import { FundCard } from '../../components/fund-card'
 import { FundCardSkeleton } from '../../components/fund-card-skeleton'
 import { NotFound } from '../../components/not-found'
+import { AlertModal } from '../../components/alert-modal'
 
 import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
-
 import { smlAddr } from '../../utils/smlAddr'
 import { fixAmount } from '../../utils/fixAmount'
 
@@ -25,14 +25,17 @@ import IMG1 from '../../assets/img/01.png'
 import TON from '../../assets/icons/ton.svg'
 
 import s from './profile.module.scss'
+import { loadFund } from '../../logic/loadFund'
 
 interface ProfileProps {
     addressCollection: string[];
     balance: string | undefined;
     isTestnet: boolean;
+    createdFund: boolean;
+    setCreatedFund: (el: boolean) => void
 }
 
-export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestnet }) => {
+export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestnet, createdFund, setCreatedFund }) => {
     const [ first, setFirst ] = useState<boolean>(false)
 
     const [ loading, setLoading ] = useState<boolean>(false)
@@ -44,7 +47,8 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
 
     const [ allItemsLoaded, setAllItemsLoaded ] = useState<boolean>(false)
 
-    const rawAddress = useTonAddress()
+    const rawAddress = useTonAddress(false)
+    const rawAddressProfile = useTonAddress(true)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
@@ -62,8 +66,9 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
         api.searchItemsFromUser(rawAddress, 10, offset).then(async (items) => {
             if (items) {
                 const newFunds: FundType[] = []
-                for (let i = 0; i < items.nft_items.length; i++) {
+                for (let i = 0; i < items?.nft_items.length; i++) {
                     const addressFund = items.nft_items[i].address
+                    // const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address)
                     const total = await smart.getTotal(addressFund)
                     const type = await smart.getType(addressFund)
 
@@ -80,8 +85,9 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                         ownerAddress: items.nft_items[i].owner?.address
                     }
 
-                    newFunds.push(fund)
+                    newFunds.push(fund as FundType)
                 }
+                // const profileFunds = newFunds.filter(fund => fund.ownerAddress === rawAddress)
 
                 setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
                 setOffset(offset + newFunds.length)
@@ -107,19 +113,22 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
 
     return (
         <div className={s.profile}>
+            {createdFund && (
+                <AlertModal isOpen={createdFund} onClose={() => setCreatedFund(false)} content={<>The fund has been successfully created!</>} />
+            )}
             <div className={s.profileInfo}>
                 <Title variant="h1" className={s.profileInfoTitle} color="#fff">
                     Your wallet adress:
                 </Title>
                 <Text className={s.profileInfoAddress} fontWeight="bold">
-                    {smlAddr(rawAddress)}
+                    {smlAddr(rawAddressProfile)}
                 </Text>
                 <Text className={s.profileInfoBalance}>
                     {fixAmount(balance || 0)}
                     <img src={TON} alt="icon" />
                 </Text>
             </div>
-            <Title variant="h2" className={s.title} color="#fff">
+            <Title variant="h2" className={s.title} color="#fff" tgStyles={{ color: '#000' }}>
                 My fundraiser
             </Title>
             <div className={s.cards}>
@@ -133,17 +142,19 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                                 <FundCard formatNumberWithCommas={formatNumberWithCommas} {...el} />
                             </Link>
                         ))}
-                    <Button
-                        rounded="l"
-                        size="stretched"
-                        className="action-btn"
-                        disabled={loading || allItemsLoaded}
-                        onClick={loadMoreItems}
-                    >
-                        Load more
-                    </Button>
+                    {loadedFunds.length >= 10 && (
+                        <Button
+                            rounded="l"
+                            size="stretched"
+                            className="action-btn"
+                            disabled={loading || allItemsLoaded}
+                            onClick={loadMoreItems}
+                        >
+                            Load more
+                        </Button>
+                    )}
                 </>
-                {loadedFunds.length === 0 && <NotFound text="Nothing found" />}
+                {loadedFunds.length === 0 && !loading && <NotFound text="Nothing found" />}
             </div>
         </div>
     )

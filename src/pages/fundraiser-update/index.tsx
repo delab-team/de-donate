@@ -5,7 +5,7 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useEffect, useState } from 'react'
-import { Button, FileUpload, Input, Spinner, Text, TextArea } from '@delab-team/de-ui'
+import { Button, FileUpload, Input, Spinner, Text, TextArea, Title } from '@delab-team/de-ui'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
@@ -33,6 +33,11 @@ type FundType = {
     ownerAddress: string | undefined;
     addressFund: string;
 }
+
+const titleTgStyles = { color: '#000' }
+const inputTgStyles = { background: '#fff', color: '#000' }
+const fileTextTg = { color: '#000' }
+const fileUploadTg = { icon: { fill: '#B7B7BB' }, uploadText: { color: '#B7B7BB' }, uploadContainer: { border: '3px dashed #B7B7BB' } }
 
 export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
     const { id } = useParams()
@@ -206,6 +211,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
 
     return (
         <div>
+            <Title variant='h2' className={s.title} tgStyles={titleTgStyles}>Update fundraiser </Title>
             <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()} className={s.form}>
                 <Input
                     value={updateData.title}
@@ -218,6 +224,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
                     variant="black"
                     className="input"
                     placeholder="Name"
+                    tgStyles={{ input: inputTgStyles }}
                 />
                 <TextArea
                     value={updateData.description}
@@ -225,6 +232,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
                     variant="black"
                     className={`input ${s.textarea}`}
                     placeholder="Description"
+                    tgStyles={inputTgStyles}
                 />
                 <div className={s.fileData}>
                     {img.length < 1 ? (
@@ -240,7 +248,9 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
                                         accept=".jpg, .jpeg, .png"
                                         className={s.fileUpload}
                                         variant='white'
-                                        uploadText="Upload Image"  />
+                                        uploadText="Upload Image"
+                                        tgStyles={fileUploadTg}
+                                    />
                                 </button>
                             )}
                         </>
@@ -266,7 +276,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
                             />
                         </div>
                     )}
-                    {img.length < 1 && !uploading && <Text className={s.fileText}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
+                    {img.length < 1 && !uploading && <Text className={s.fileText} tgStyles={fileTextTg}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
                 </div>
                 <Button
                     rounded="l"

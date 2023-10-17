@@ -76,6 +76,7 @@
             }
         }
         &Title {
+            color: #fff;
             margin-bottom: 10px;
         }
         > div {
@@ -83,3 +84,9 @@
         }
     }
 /*--------------------/Withdrawal Modal--------------------*/
+
+.textModal {
+    > span {
+        color: #3E88F7;
+    }
+}

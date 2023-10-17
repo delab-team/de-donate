@@ -7,8 +7,10 @@ interface NotFoundProps {
     text: React.ReactNode;
 }
 
+const textTgStyles = { color: '#000' }
+
 export const NotFound: FC<NotFoundProps> = ({ text }) => (
     <div className={s.notFound}>
-        <Title variant="h4">{text}</Title>
+        <Title variant="h4" tgStyles={textTgStyles}>{text}</Title>
     </div>
 )

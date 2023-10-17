@@ -4,10 +4,10 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Button, Input, Modal, Title } from '@delab-team/de-ui'
+import { Button, Input, Modal, Text, Title } from '@delab-team/de-ui'
 import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
+import { toNano } from 'ton-core'
 
-import { Address, toNano } from 'ton-core'
 import { FundCard } from '../../components/fund-card'
 import { Amount } from '../../components/amount'
 import { FundDetailSkeleton } from '../../components/fund-detail-skeleton'
@@ -19,8 +19,9 @@ import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 
 import { Item, TonApi } from '../../logic/tonapi'
 import { Smart } from '../../logic/smart'
+import { loadFund } from '../../logic/loadFund'
 
-import { FundType } from '../../@types/fund'
+import { FundDetailType, FundType } from '../../@types/fund'
 
 import s from './fundraiser-detail.module.scss'
 
@@ -36,12 +37,10 @@ type DataType = {
     token: string;
 }
 
-type FundDetailType = {
-    description: string | undefined;
-    daysTarget: number;
-    daysPassed: number;
-    type: number;
-}
+const editButtonTg = { border: '2px solid #989898', color: '#989898' }
+
+const withdrawalModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
+const withdrawalModalInputTg = { input: { background: '#fff', color: '#000', border: '1px solid #B7B7BB' } }
 
 export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection, isTestnet }) => {
     const { id } = useParams()
@@ -127,47 +126,6 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
         }
     }
 
-    async function loadFund (address: string, smart: Smart, ownerAddress: string): Promise<FundType & FundDetailType | undefined> {
-        const promise = Promise.all([
-            smart.getJsonNft(address),
-            smart.getInfo(address)
-        ])
-
-        const [ metadata, info ] = await promise
-        // const d = await smart.getTotalTon(addressFund)
-
-        console.log('info', info)
-
-        const nowTime = Math.floor(Date.now() / 1000)
-
-        if (info) {
-            let asset: string = 'TON'
-            try {
-                const addr = info[3].beginParse().loadAddress()
-                asset = jettons.filter(j => j.address === addr.toString())[0].label
-            } catch (e) {
-                console.log(e)
-            }
-
-            const fund: FundType & FundDetailType = {
-                title: metadata?.name ?? 'Not name',
-                img: metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
-                amount: Number(info[5] / 10n ** 9n),
-                target: Number(info[4] / 10n ** 9n),
-                asset,
-                addressFund: address,
-                description: metadata?.description,
-                daysTarget: (Math.floor((Number(info[2]) - nowTime) / 86400)),
-                daysPassed: 1,
-                ownerAddress,
-                type: Number(info[1])
-            }
-
-            return fund
-        }
-        return undefined
-    }
-
     useEffect(() => {
         if (!first) {
             if (!id) {
@@ -188,13 +146,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                         return
                     }
 
-                    const fund = await loadFund(id, smart, item.owner?.address ?? '')
+                    const fund = await loadFund(id, smart, item.owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
 
                     if (!fund) {
                         navigate('/')
                         return
                     }
-                    setFundData(fund)
+                    setFundData(fund as FundType & FundDetailType)
 
                     setTimeout(() => {
                         setLoading(false)
@@ -207,7 +165,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     navigate('/')
                     return
                 }
-                setFundData(fund)
+                setFundData(fund as FundType & FundDetailType)
 
                 setTimeout(() => {
                     setLoading(false)
@@ -237,13 +195,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     return (
         <div className={s.inner}>
             {isDonated && (
-                <AlertModal isOpen={isDonated} onClose={() => setIsDonated(false)} content={<>The <span>{fundData.title}</span> fund has been successfully donated!</>}  />
+                <AlertModal isOpen={isDonated} onClose={() => setIsDonated(false)} content={<Text tgStyles={{ color: '#000' }} className={s.textModal}>The <span>{fundData.title}</span> fund has been successfully donated!</Text>}  />
             )}
             {isWithdrawal && (
-                <Modal isOpen={isWithdrawal} onClose={() => setIsWithdrawal(false)}>
+                <Modal isOpen={isWithdrawal} onClose={() => setIsWithdrawal(false)} tgStyles={withdrawalModalTg}>
                     <div className={s.withdrawalModal}>
-                        <Title variant="h5" className={s.withdrawalModalTitle}>Withdrawal</Title>
-                        <Input className={`input ${s.withdrawalModalInput}`} value={rawAddress} variant='black' onChange={() => {}} />
+                        <Title variant="h5" className={s.withdrawalModalTitle} tgStyles={ { color: '#000' } }>Withdrawal</Title>
+                        <Input className={`input ${s.withdrawalModalInput}`} value={rawAddress} variant='black' onChange={() => {}} tgStyles={withdrawalModalInputTg} />
                         <Amount
                             options={jettons}
                             value={String(withdrawalData.amount)}
@@ -255,6 +213,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             }}
                             selectedValue={jettonWithdrawal}
                             handleSelect={jettonSelectWithdrawal}
+                            border
                         />
                         <Button
                             rounded="l"
@@ -314,10 +273,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     <Button
                         className={s.editButton}
                         onClick={() => navigate(`/fundraiser-update/${id}`)}
+                        tgStyles={editButtonTg}
                     >
                         Edit
                     </Button>
-                    <Button className={s.editButton} onClick={() => setIsWithdrawal(true)}>
+                    <Button className={s.editButton} onClick={() => setIsWithdrawal(true)}
+                        tgStyles={editButtonTg}
+                    >
                         Withdrawal
                     </Button>
                 </div>

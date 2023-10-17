@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-useless-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -5,8 +6,9 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-unresolved */
 import { FC, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
+import { Address } from 'ton-core'
 
 import { Button, IconSelector, Input, Title } from '@delab-team/de-ui'
 import { useTonConnectUI } from '@tonconnect/ui-react'
@@ -25,34 +27,38 @@ import { FundType } from '../../@types/fund'
 
 import useDebounce from '../../hooks/useDebounce'
 
-import IMG1 from '../../assets/img/01.png'
-
 import s from './home.module.scss'
+import { loadFund } from '../../logic/loadFund'
+import { ROUTES } from '../../utils/router'
 
 interface HomePageProps {
     addressCollection: string[],
     isTestnet: boolean
 }
 
+const inputTgStyles = { input: { background: '#FFF', color: '#000' } }
+
 export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) => {
+    const navigate = useNavigate()
+
     const [ first, setFirst ] = useState<boolean>(false)
 
     // Not found
     const [ showNotFound, setShowNotFound ] = useState<boolean>(false)
 
     // Search
-    const [ value, setValue ] = useState<string>('')
-    const debouncedSearchQuery = useDebounce(value, 500)
+    const [ address, setAddress ] = useState<string>('')
 
     // Funds
-    // const [ originalFunds, setOriginalFunds ] = useState<FundType[]>([])
     const [ loadedFunds, setLoadedFunds ] = useState<FundType[]>([])
     const [ allItemsLoaded, setAllItemsLoaded ] = useState<boolean>(false)
     const [ offset, setOffset ] = useState<number>(0)
 
+    const debouncedSearchQuery = useDebounce(loadedFunds, 500)
+
     const [ loading, setLoading ] = useState<boolean>(true)
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setAddress(e.target.value)
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
@@ -69,52 +75,16 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
         const smart = new Smart(tonConnectUI, true)
 
         api.getItemsV2(coll, 10, offset).then(async (items: Items | undefined) => {
-            console.log('api.getItems', items)
             if (items) {
                 const newFunds: FundType[] = []
 
                 for (let i = 0; i < items.nft_items.length; i++) {
                     const addressFund = items.nft_items[i].address
 
-                    const promise = Promise.all([
-                        smart.getTotal(addressFund),
-                        smart.getType(addressFund),
-                        smart.getPriorityCoin(addressFund),
-                        smart.getJsonNft(addressFund)
-                    ])
-
-                    const [ total, type, token, metadata ] = await promise
-
-                    console.log('total', total)
-
-                    let infoToken
-                    if (token) {
-                        console.log('token', token)
-                        infoToken = await api.getJettonInfo(token.toString())
-                    }
-
-                    console.log('total', total)
-                    console.log('type', type)
-
-                    const fund: FundType = {
-                        title: items.nft_items[i].metadata.name ?? (metadata?.name ?? 'Not name'),
-                        img:
-                            items.nft_items[i].metadata.image?.replace(
-                                'ipfs://',
-                                'https://cloudflare-ipfs.com/ipfs/'
-                            ) ?? (metadata?.image.replace(
-                                'ipfs://',
-                                'https://cloudflare-ipfs.com/ipfs/'
-                            ) ??  IMG1),
-                        amount: 1,
-                        target: 1,
-                        asset: token ? infoToken?.metadata.symbol ?? 'TON' : 'TON',
-                        addressFund,
-                        ownerAddress: items.nft_items[i].owner?.address
-                    }
-
-                    newFunds.push(fund)
+                    const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address)
+                    newFunds.push(fund as FundType)
                 }
+
                 setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
                 setOffset(offset + newFunds.length)
 
@@ -134,25 +104,6 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
         }
     }, [])
 
-    // Search
-
-    // const filterFunds = (searchQuery: string) => {
-    //     if (searchQuery === '') {
-    //         return originalFunds
-    //     }
-    //     return originalFunds.filter(fund => fund.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    // }
-
-    useEffect(() => {
-        setLoading(true)
-        setTimeout(() => {
-            // const filteredFunds = filterFunds(value)
-            // setFunds(filteredFunds)
-            // setShowNotFound(filteredFunds.length === 0)
-            // setLoading(false)
-        }, 5000)
-    }, [ debouncedSearchQuery ])
-
     // Not found
 
     useEffect(() => {
@@ -164,26 +115,41 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
         }
     }, [])
 
+    // Search
+
+    useEffect(() => {
+        if (address) {
+            try {
+                const addr = Address.parse(address)
+
+                navigate(`/fundraiser-detail/${addr}`)
+            } catch (err) {
+                console.error(err)
+            }
+        }
+    }, [ address ])
+
     return (
         <div className={s.home}>
             <div className={s.searchInner}>
                 <IconSelector id="search" color="#98989E" className={s.searchIcon} size="20" />
                 <Input
-                    placeholder="Search"
-                    value={value}
+                    placeholder="Search by address fund"
+                    value={address}
                     onChange={onChange}
                     variant="black"
                     className={`${s.search} ${s.searchHome}`}
+                    tgStyles={inputTgStyles}
                 />
-                {value.length >= 1 && (
-                    <button className={s.searchClear} onClick={() => setValue('')}>
-                        <IconSelector id="x" size='20' color="#fff" />
+                {address.length >= 1 && (
+                    <button className={s.searchClear} onClick={() => setAddress('')}>
+                        <IconSelector id="x" size='20' color="#fff" tgStyles={{ stroke: '#000' }} />
                     </button>
                 )
                 }
             </div>
             <div className={s.homeBlock}>
-                <Title variant="h1" className={s.title} color="#fff">
+                <Title variant="h1" className={s.title} color="#fff" tgStyles={{ color: '#000' }}>
                     Top fundraiser
                 </Title>
                 <div className={s.cards}>
@@ -200,15 +166,19 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
                                     />
                                 </Link>
                             ))}
-                        <Button
-                            rounded="l"
-                            size="stretched"
-                            className="action-btn"
-                            disabled={loading || allItemsLoaded}
-                            onClick={loadMoreItems}
-                        >
-                        Load more
-                        </Button>
+                        {
+                            loadMoreItems.length >= 10 && (
+                                <Button
+                                    rounded="l"
+                                    size="stretched"
+                                    className="action-btn"
+                                    disabled={loading || allItemsLoaded}
+                                    onClick={loadMoreItems}
+                                >
+                                    Load more
+                                </Button>
+                            )
+                        }
                         {debouncedSearchQuery && loadedFunds.length === 0 && showNotFound && (
                             <NotFound text="Nothing found" />
                         )}

@@ -13,7 +13,7 @@
 .timeLifeTitle {
     font-size: 13px;
     font-weight: 410;
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: rgba(255, 255, 255, 0.7);
     margin-bottom: 7px;
 }
 
@@ -32,6 +32,7 @@
 }
 
 .timeLifeItem {
+    height: auto;
     padding: 9px 16px;
     border-radius: 20px;
     font-size: 16px;
@@ -39,6 +40,9 @@
     color: #fff;
     background: #3d3d3d;
     cursor: pointer;
+    &:hover {
+        background: #3d3d3d;
+    }
 }
 
 @media (max-width: 455px) {
@@ -60,11 +64,23 @@
 }
 
 .activeLifeItem {
-    background: #2e7ddb;
+    background: #2e7ddb !important;
+    &:hover {
+        background: #2e7ddb !important;
+    }
 }
 
+/*--------------------File--------------------*/
 .fileBtn {
     width: 100%;
+    height: 100%;
+    display: block;
+    padding: 0;
+    font-size: 15px;
+    background: transparent;
+    &:hover {
+        background: transparent;
+    }
 }
 
 .fileInner {
@@ -97,6 +113,9 @@
     margin-top: 5px;
     font-weight: 400;
 }
+
+/*--------------------/File--------------------*/
+
 
 .amount {
     margin: 37px 0 25px 0;

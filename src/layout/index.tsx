@@ -16,6 +16,10 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
+const wrapperTgStyles = { headerStyles: { background: '#FFF' } }
+const headerStyles = { header: { background: '#FFF' } }
+const menuTgStyles = { menuContainer: { background: 'rgba(255, 255, 255, 0.8)' } }
+
 export const Layout: FC<LayoutProps> = ({ children }) => {
     const navigate = useNavigate()
 
@@ -33,7 +37,9 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                 <IconSelector
                     id="home"
                     size="30px"
-                    className={`${s.actionIcon} ${path === ROUTES.HOME ? s.activeIcon : ''}`}
+                    className={`${s.actionIcon}`}
+                    color={path === ROUTES.HOME ? '#fff' : '#98989E' }
+                    tgStyles={{ stroke: path === ROUTES.HOME ? '#000000' : '#98989E'  }}
                 />
             ),
             text: '',
@@ -47,9 +53,9 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                 <IconSelector
                     id="plus"
                     size="30px"
-                    className={`${s.actionIcon} ${
-                        path === ROUTES.FUNDRAISER_CREATE ? s.activeIcon : ''
-                    }`}
+                    className={`${s.actionIcon}`}
+                    color={path === ROUTES.FUNDRAISER_CREATE ? '#fff' : '#98989E' }
+                    tgStyles={{ stroke: path === ROUTES.FUNDRAISER_CREATE ? '#000000' : '#98989E' }}
                 />
             ),
             text: '',
@@ -63,7 +69,9 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                 <IconSelector
                     id="user"
                     size="30px"
-                    className={`${s.actionIcon} ${path === ROUTES.PROFILE ? s.activeIcon : ''}`}
+                    className={`${s.actionIcon}`}
+                    color={path === ROUTES.PROFILE ? '#fff' : '#98989fff' }
+                    tgStyles={{ stroke: path === ROUTES.PROFILE ? '#000000' : '#98989E' }}
                 />
             ),
             text: '',
@@ -79,6 +87,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
             className={s.wrapper}
             headerClassName={s.headerClass}
             containerWidth="500px"
+            tgStyles={wrapperTgStyles}
             header={
                 <HeaderPanel
                     title=""
@@ -87,11 +96,12 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     variant="black"
                     actionLeft={
                         <Link to={ROUTES.HOME} className={s.logo}>
-                            <Text fontSize="large" fontWeight="bold">
+                            <Text fontSize="large" fontWeight="bold" tgStyles={{ color: '#000' }}>
                                 DeDonate
                             </Text>
                         </Link>
                     }
+                    tgStyles={headerStyles}
                     style={{ background: '#222' }}
                     actionRight={
                         <>
@@ -114,6 +124,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     borderRadius="100px"
                     items={MobileMenuItems}
                     className={s.actions}
+                    tgStyles={menuTgStyles}
                 />
             }
             pageTitle="DeDonate"

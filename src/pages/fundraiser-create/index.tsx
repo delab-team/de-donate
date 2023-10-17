@@ -15,7 +15,6 @@ import {
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { toNano } from 'ton-core'
 import { useNavigate } from 'react-router-dom'
-import { Address } from 'ton'
 
 import { Amount } from '../../components/amount'
 
@@ -24,11 +23,14 @@ import { jettons } from '../../constants/jettons'
 import { CustomIpfs } from '../../logic/ipfs'
 import { Smart } from '../../logic/smart'
 
+import { ROUTES } from '../../utils/router'
+
 import s from './fundraiser-create.module.scss'
 
 interface FundraiserCreateProps {
     addressCollection: string[],
-    isTestnet: boolean
+    isTestnet: boolean,
+    setCreatedFund: (el: boolean) => void
 }
 
 type FundraiserCreateDataType = {
@@ -40,7 +42,13 @@ type FundraiserCreateDataType = {
     file: string;
 }
 
-export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection, isTestnet }) => {
+const titleTgStyles = { color: '#000' }
+const inputTgStyles = { background: '#fff', color: '#000' }
+const fileTextTg = { color: '#000' }
+const timeLifeTg = { color: 'rgba(0, 0, 0, 0.70)' }
+const fileUploadTg = { icon: { fill: '#B7B7BB' }, uploadText: { color: '#B7B7BB' }, uploadContainer: { border: '3px dashed #B7B7BB' } }
+
+export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection, isTestnet, setCreatedFund }) => {
     const navigate = useNavigate()
 
     const [ activeTimeLife, setActiveTimeLife ] = useState<number>(7)
@@ -141,8 +149,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
         )
 
         if (res) {
-            console.log(res)
-            navigate(`/fundraiser-detail/${res.toString()}`)
+            setCreatedFund(true)
+            navigate(ROUTES.PROFILE)
         }
 
         setCreateLoading(false)
@@ -194,7 +202,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                     </div>
                 </Alert>
             )}
-            <Title variant="h1" className={s.title} color="#fff">
+            <Title variant="h1" className={s.title} color="#fff" tgStyles={titleTgStyles}>
                 Create fundraiser
             </Title>
             <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
@@ -210,6 +218,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                         variant="black"
                         className="input"
                         placeholder="Name"
+                        tgStyles={{ input: inputTgStyles }}
                     />
                     <TextArea
                         value={createData.description}
@@ -217,6 +226,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                         variant="black"
                         className="input textArea"
                         placeholder="Description"
+                        tgStyles={inputTgStyles}
                     />
                 </div>
                 <div className={s.amount}>
@@ -234,42 +244,46 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                     />
                 </div>
                 <div>
-                    <Text className={s.timeLifeTitle} fontSize="small">
+                    <Text className={s.timeLifeTitle} fontSize="small" tgStyles={timeLifeTg}>
                         Time life fundraiser
                     </Text>
                     <div className={s.timeLifeItems}>
-                        <div
+                        <Button
                             className={`${s.timeLifeItem} ${
                                 activeTimeLife === 7 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(7)}
+                            tgStyles={{ background: `${activeTimeLife === 7 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 7 ? '#fff' : '#000'}` }}
                         >
                             7 days
-                        </div>
-                        <div
+                        </Button>
+                        <Button
                             className={`${s.timeLifeItem} ${
                                 activeTimeLife === 14 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(14)}
+                            tgStyles={{ background: `${activeTimeLife === 14 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 14 ? '#fff' : '#000'}` }}
                         >
                             14 days
-                        </div>
-                        <div
+                        </Button>
+                        <Button
                             className={`${s.timeLifeItem} ${
                                 activeTimeLife === 30 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(30)}
+                            tgStyles={{ background: `${activeTimeLife === 30 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 30 ? '#fff' : '#000'}` }}
                         >
                             30 days
-                        </div>
-                        <div
+                        </Button>
+                        <Button
                             className={`${s.timeLifeItem} ${
                                 activeTimeLife === 0 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(0)}
+                            tgStyles={{ background: `${activeTimeLife === 0 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 0 ? '#fff' : '#000'}` }}
                         >
                             ∞ days
-                        </div>
+                        </Button>
                     </div>
                 </div>
                 <div className={s.fileData}>
@@ -280,15 +294,16 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                     <Spinner />
                                 </div>
                             ) : (
-                                <button onChange={handleFileChange} className={s.fileBtn}>
+                                <Button onChange={handleFileChange} className={s.fileBtn}>
                                     <FileUpload
                                         onFileUpload={() => {}}
                                         accept=".jpg, .jpeg, .png"
                                         className={s.fileUpload}
                                         variant="white"
                                         uploadText="Upload Image"
+                                        tgStyles={fileUploadTg}
                                     />
-                                </button>
+                                </Button>
                             )}
                         </>
                     ) : (
@@ -313,7 +328,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                             />
                         </div>
                     )}
-                    {img.length < 1 && !uploading && <Text className={s.fileText}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
+                    {img.length < 1 && !uploading && <Text className={s.fileText} tgStyles={fileTextTg}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
                 </div>
                 <Button
                     rounded="l"

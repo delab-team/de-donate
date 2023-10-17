@@ -3,7 +3,6 @@
 }
 
 .expandButton {
-  margin-top: 2rem;
   color: #45AEF5 !important;
   font-weight: bold;
   position: absolute;
@@ -11,12 +10,11 @@
   bottom: -10px;
   text-align: right;
   transition: duration 300ms;
-  margin-bottom: 10px;
 }
 
 .expanded {
   width: 100%;
-  bottom: -25px;
+  bottom: -15px;
 }
 
 .text {

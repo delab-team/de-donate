@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { FC, useState } from 'react'
 
 import { Button, IconSelector, Input, Modal, Text, Title } from '@delab-team/de-ui'
@@ -22,13 +23,18 @@ interface AmountProps {
         websites?: string[] | null;
         catalogs?: string[] | null;
     }[];
+    border?: boolean
 }
+
+const amountModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
+const amountModalButtonTg = { color: '#000' }
 
 export const Amount: FC<AmountProps> = ({
     value,
     onChange,
     selectedValue,
-    handleSelect
+    handleSelect,
+    border = false
 }) => {
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false)
 
@@ -48,13 +54,20 @@ export const Amount: FC<AmountProps> = ({
                 variant="black"
                 className={`input ${s.input}`}
                 placeholder="Amount"
+                tgStyles={{
+                    input: {
+                        background: '#fff',
+                        color: '#000',
+                        border: border ? '1px solid #B7B7BB' : 'none'
+                    }
+                }}
             />
-            <Button className={s.selectBtn} onClick={handleOpenModal}>
+            <Button className={s.selectBtn} onClick={handleOpenModal} tgStyles={amountModalButtonTg}>
                 {selectedValue}
-                <IconSelector id="chevron-down" color='#fff' size="17px" />
+                <IconSelector id="chevron-down" color='#fff' size="17px" tgStyles={{ stroke: '#000' }} />
             </Button>
-            <Modal isOpen={isModalOpen} onClose={handleCloseModal} className={s.modal}>
-                <Title variant="h6" className={s.tokenTitle}>
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal} className={s.modal} tgStyles={amountModalTg}>
+                <Title variant="h6" className={s.tokenTitle} tgStyles={{ color: '#000' }}>
                     Select Token
                 </Title>
                 <div className={s.jettons}>
@@ -69,9 +82,9 @@ export const Amount: FC<AmountProps> = ({
                         >
                             <div className={s.selectInfo}>
                                 <img src={el.image} alt={el.label} width={20} height={20} />
-                                <Text className={s.selectInfoLabel}>{el.label}</Text>
+                                <Text className={s.selectInfoLabel} tgStyles={{ color: '#000' }}>{el.label}</Text>
                             </div>
-                            {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" />}
+                            {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" tgStyles={{ stroke: '#000' }} />}
                         </Button>
                     ))}
                 </div>

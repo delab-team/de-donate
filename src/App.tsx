@@ -36,6 +36,8 @@ export const App: FC = () => {
 
     const [ balance, setBalance ] = useState<string | undefined>(undefined)
 
+    const [ createdFund, setCreatedFund ] = useState<boolean>(false)
+
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const RawAddress = useTonAddress()
@@ -68,10 +70,17 @@ export const App: FC = () => {
             const isTgCheck = window.Telegram.WebApp.initData !== ''
             const TgObj = window.Telegram.WebApp
 
-            setIsTg(isTgCheck)
-            TgObj.ready()
-            TgObj.enableClosingConfirmation()
-            TgObj.expand()
+            if (isTg) {
+                document.body.style.background = '#EFEFF3'
+            }
+
+            // setIsTg(isTgCheck)
+            // if (isTgCheck) {
+            //     TgObj.ready()
+            //     TgObj.enableClosingConfirmation()
+            //     TgObj.expand()
+            //     setIsTg(true)
+            // }
         }
     }, [])
 
@@ -93,6 +102,7 @@ export const App: FC = () => {
                             <FundraiserCreate
                                 addressCollection={addressCollection}
                                 isTestnet={isTestnet}
+                                setCreatedFund={setCreatedFund}
                             />}
                         path={ROUTES.FUNDRAISER_CREATE}
                         />
@@ -102,6 +112,8 @@ export const App: FC = () => {
                                 balance={balance}
                                 addressCollection={addressCollection}
                                 isTestnet={isTestnet}
+                                createdFund={createdFund}
+                                setCreatedFund={setCreatedFund}
                             />}
                         path={ROUTES.PROFILE}
                         />
