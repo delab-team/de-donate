@@ -74,13 +74,13 @@ export const App: FC = () => {
                 document.body.style.background = '#EFEFF3'
             }
 
-            // setIsTg(isTgCheck)
-            // if (isTgCheck) {
-            //     TgObj.ready()
-            //     TgObj.enableClosingConfirmation()
-            //     TgObj.expand()
-            //     setIsTg(true)
-            // }
+            setIsTg(isTgCheck)
+            if (isTgCheck) {
+                TgObj.ready()
+                TgObj.enableClosingConfirmation()
+                TgObj.expand()
+                setIsTg(true)
+            }
         }
     }, [])
 
