@@ -42,6 +42,10 @@
     font-size: 15px;
 }
 
+.btnSelect:hover {
+    background: transparent;
+}
+
 .btnSelect:not(:last-child) {
     margin-bottom: 8px;
 }

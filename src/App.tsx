@@ -114,6 +114,7 @@ export const App: FC = () => {
                                 isTestnet={isTestnet}
                                 createdFund={createdFund}
                                 setCreatedFund={setCreatedFund}
+                                isTg={isTg}
                             />}
                         path={ROUTES.PROFILE}
                         />
@@ -123,13 +124,14 @@ export const App: FC = () => {
                         <HomePage
                             addressCollection={addressCollection}
                             isTestnet={isTestnet}
+                            isTg={isTg}
                         />}
                     path={ROUTES.HOME}
                     />
                     <Route path={ROUTES.FUNDRAISER_DETAIL} element={
                         <FundraiserDetail
                             addressCollection={addressCollection}
-                            isTestnet={isTestnet} />}
+                            isTestnet={isTestnet} isTg={isTg} />}
                     />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

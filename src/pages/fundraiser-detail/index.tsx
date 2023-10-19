@@ -4,7 +4,7 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Button, Input, Modal, Text, Title } from '@delab-team/de-ui'
+import { Button, Div, Input, Modal, Text, Title } from '@delab-team/de-ui'
 import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { toNano } from 'ton-core'
 
@@ -29,7 +29,8 @@ import IMG1 from '../../assets/img/01.png'
 
 interface FundraiserDetailProps {
     addressCollection: string[],
-    isTestnet: boolean
+    isTestnet: boolean,
+    isTg: boolean
 }
 
 type DataType = {
@@ -42,7 +43,7 @@ const editButtonTg = { border: '2px solid #989898', color: '#989898' }
 const withdrawalModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
 const withdrawalModalInputTg = { input: { background: '#fff', color: '#000', border: '1px solid #B7B7BB' } }
 
-export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection, isTestnet }) => {
+export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection, isTestnet, isTg }) => {
     const { id } = useParams()
     const [ first, setFirst ] = useState<boolean>(false)
 
@@ -213,7 +214,6 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             }}
                             selectedValue={jettonWithdrawal}
                             handleSelect={jettonSelectWithdrawal}
-                            border
                         />
                         <Button
                             rounded="l"
@@ -227,7 +227,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                 </Modal>
             )}
             {loading ? (
-                <FundDetailSkeleton />
+                <FundDetailSkeleton isTg={isTg} />
             ) : (
                 <FundCard
                     title={fundData.title}
@@ -242,7 +242,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                 />
             )}
 
-            <div className={s.innerActions}>
+            <Div className={s.innerActions} tgStyles={{ background: '#fff' }}>
                 <div className={s.amountInner}>
                     <Amount
                         options={jettons}
@@ -255,6 +255,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                         }}
                         selectedValue={selectedValue}
                         handleSelect={handleSelect}
+                        detailStyles
                     />
                 </div>
                 <Button
@@ -266,7 +267,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                 >
                     Donate Now
                 </Button>
-            </div>
+            </Div>
 
             {isOwnFund && (
                 <div className={s.actionsButtons}>

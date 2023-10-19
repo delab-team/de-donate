@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable max-len */
 import { FC } from 'react'
-import { ProgressBar, Text } from '@delab-team/de-ui'
+import { Div, ProgressBar, Text } from '@delab-team/de-ui'
 
 import { ExpandableText } from '../expandable-text'
 
@@ -22,7 +22,8 @@ interface FundCardProps {
     formatNumberWithCommas: (number: number) => string;
 }
 
-
+const cardTg = { background: '#fff' }
+const cardTextTg = { color: '#000' }
 
 export const FundCard: FC<FundCardProps> = ({
     img,
@@ -44,8 +45,8 @@ export const FundCard: FC<FundCardProps> = ({
     return (
         <div className={s.card}>
             <div className={s.cardTop} style={{ backgroundImage: `url(${img})` }} />
-            <div className={s.cardDetail}>
-                <div className={s.title}>{title}</div>
+            <Div className={s.cardDetail} tgStyles={cardTg}>
+                <Text className={s.title} tgStyles={cardTextTg}>{title}</Text>
                 <ProgressBar
                     type="default"
                     size="large"
@@ -56,13 +57,13 @@ export const FundCard: FC<FundCardProps> = ({
                 <div className={s.cardInfo}>
                     <div className={s.cardTarget}>
                         <img src={TON} width="18" height="18" alt="ton icon" />
-                        <Text fontSize="medium" fontWeight="bold">
+                        <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                             {formatNumberWithCommas(amount)}
                             {' / '}
                             {formatNumberWithCommas(target)}
                         </Text>
                     </div>
-                    <Text fontSize="medium" fontWeight="bold">
+                    <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                         {!isNaN(parseInt(progressValue, 10)) ? `${progressValue}%` : '0.00%'}
                     </Text>
                 </div>
@@ -70,13 +71,13 @@ export const FundCard: FC<FundCardProps> = ({
                     <div className={`${s.cardInfo} ${s.cardDays}`}>
                         <div className={s.cardTarget}>
                             <img src={TIME} className={s.cardTime} width="18" height="18" alt="time icon" />
-                            <Text fontSize="medium" fontWeight="bold">
+                            <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                                 {formatNumberWithCommas(daysPassed)}
                                 {' / '}
                                 {formatNumberWithCommas(daysTarget)} days
                             </Text>
                         </div>
-                        <Text fontSize="medium" fontWeight="bold">
+                        <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                             {progressValueDays + '%'}
                         </Text>
                     </div>
@@ -86,7 +87,7 @@ export const FundCard: FC<FundCardProps> = ({
                         <ExpandableText text={description} />
                     </>
                 )}
-            </div>
+            </Div>
         </div>
     )
 }

@@ -33,12 +33,13 @@ import { ROUTES } from '../../utils/router'
 
 interface HomePageProps {
     addressCollection: string[],
-    isTestnet: boolean
+    isTestnet: boolean,
+    isTg: boolean
 }
 
 const inputTgStyles = { input: { background: '#FFF', color: '#000' } }
 
-export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) => {
+export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg }) => {
     const navigate = useNavigate()
 
     const [ first, setFirst ] = useState<boolean>(false)
@@ -157,7 +158,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet }) =>
                         {loading
                             ? Array(3)
                                 .fill(null)
-                                .map(_ => <FundCardSkeleton key={v1()} />)
+                                .map(_ => <FundCardSkeleton key={v1()} isTg={isTg} />)
                             : loadedFunds.map(el => (
                                 <Link to={`/fundraiser-detail/${el.addressFund}`} key={v1()}>
                                     <FundCard

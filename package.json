@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@delab-team/de-ui": "0.0.16",
+    "@delab-team/de-ui": "0.0.17",
     "@delab-team/ton-network-react": "^0.0.7",
     "@orbs-network/ton-access": "^2.3.3",
     "@ton-community/blueprint": "^0.12.0",

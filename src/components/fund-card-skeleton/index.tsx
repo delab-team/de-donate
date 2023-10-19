@@ -1,19 +1,22 @@
 import { FC } from 'react'
 import ContentLoader from 'react-content-loader'
+import { Div } from '@delab-team/de-ui'
 
 import s from './fund-card-skeleton.module.scss'
 
-interface FundCardSkeletonProps {}
+interface FundCardSkeletonProps {
+    isTg: boolean;
+}
 
-export const FundCardSkeleton: FC<FundCardSkeletonProps> = ({ ...rest }) => (
-    <div className={s.skeletonInner}>
+export const FundCardSkeleton: FC<FundCardSkeletonProps> = ({ isTg, ...rest }) => (
+    <Div className={s.skeletonInner} tgStyles={{ background: '#fff' }}>
         <ContentLoader
             speed={2}
             width="100%"
             height="100%"
             viewBox="0 0 440 250"
-            backgroundColor="#3d3d3d"
-            foregroundColor="#545151"
+            backgroundColor={isTg ? '#E3e3e4' : '#3d3d3d'}
+            foregroundColor={isTg ? '#fff' : '#545151'}
             style={{ borderRadius: '20px 20px 0 0' }}
             {...rest}
         >
@@ -26,5 +29,5 @@ export const FundCardSkeleton: FC<FundCardSkeletonProps> = ({ ...rest }) => (
             <rect x="332" y="252" rx="9" ry="9" width="96" height="24" />
         </ContentLoader>
 
-    </div>
+    </Div>
 )

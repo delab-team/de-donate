@@ -23,18 +23,18 @@ interface AmountProps {
         websites?: string[] | null;
         catalogs?: string[] | null;
     }[];
-    border?: boolean
+    detailStyles?: boolean
 }
 
 const amountModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
-const amountModalButtonTg = { color: '#000' }
+const textModalTg = { color: '#000' }
 
 export const Amount: FC<AmountProps> = ({
     value,
     onChange,
     selectedValue,
     handleSelect,
-    border = false
+    detailStyles = false
 }) => {
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false)
 
@@ -56,18 +56,18 @@ export const Amount: FC<AmountProps> = ({
                 placeholder="Amount"
                 tgStyles={{
                     input: {
-                        background: '#fff',
+                        background: !detailStyles ? '#fff' : '#EFEFF3',
                         color: '#000',
-                        border: border ? '1px solid #B7B7BB' : 'none'
+                        border: !detailStyles ? '1px solid #B7B7BB' : 'none'
                     }
                 }}
             />
-            <Button className={s.selectBtn} onClick={handleOpenModal} tgStyles={amountModalButtonTg}>
+            <Button tgStyles={textModalTg} className={s.selectBtn} onClick={handleOpenModal}>
                 {selectedValue}
                 <IconSelector id="chevron-down" color='#fff' size="17px" tgStyles={{ stroke: '#000' }} />
             </Button>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal} className={s.modal} tgStyles={amountModalTg}>
-                <Title variant="h6" className={s.tokenTitle} tgStyles={{ color: '#000' }}>
+                <Title variant="h6" className={s.tokenTitle} tgStyles={textModalTg}>
                     Select Token
                 </Title>
                 <div className={s.jettons}>
@@ -79,10 +79,11 @@ export const Amount: FC<AmountProps> = ({
                                 handleSelect(el.label)
                                 setIsModalOpen(false)
                             }}
+                            tgStyles={textModalTg}
                         >
                             <div className={s.selectInfo}>
                                 <img src={el.image} alt={el.label} width={20} height={20} />
-                                <Text className={s.selectInfoLabel} tgStyles={{ color: '#000' }}>{el.label}</Text>
+                                <Text className={s.selectInfoLabel} tgStyles={textModalTg}>{el.label}</Text>
                             </div>
                             {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" tgStyles={{ stroke: '#000' }} />}
                         </Button>

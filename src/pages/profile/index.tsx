@@ -21,21 +21,23 @@ import { Smart } from '../../logic/smart'
 
 import { FundType } from '../../@types/fund'
 
+import { loadFund } from '../../logic/loadFund'
+
 import IMG1 from '../../assets/img/01.png'
 import TON from '../../assets/icons/ton.svg'
 
 import s from './profile.module.scss'
-import { loadFund } from '../../logic/loadFund'
 
 interface ProfileProps {
     addressCollection: string[];
     balance: string | undefined;
     isTestnet: boolean;
     createdFund: boolean;
-    setCreatedFund: (el: boolean) => void
+    setCreatedFund: (el: boolean) => void;
+    isTg: boolean;
 }
 
-export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestnet, createdFund, setCreatedFund }) => {
+export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestnet, createdFund, setCreatedFund, isTg }) => {
     const [ first, setFirst ] = useState<boolean>(false)
 
     const [ loading, setLoading ] = useState<boolean>(false)
@@ -136,7 +138,7 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                     {loading
                         ? Array(3)
                             .fill(null)
-                            .map(_ => <FundCardSkeleton key={v1()} />)
+                            .map(_ => <FundCardSkeleton key={v1()} isTg={isTg} />)
                         : loadedFunds.map(el => (
                             <Link to={`/fundraiser-detail/${el.addressFund}`} key={v1()}>
                                 <FundCard formatNumberWithCommas={formatNumberWithCommas} {...el} />
