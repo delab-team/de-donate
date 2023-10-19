@@ -214,6 +214,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             }}
                             selectedValue={jettonWithdrawal}
                             handleSelect={jettonSelectWithdrawal}
+                            detailStyles
                         />
                         <Button
                             rounded="l"

@@ -56,9 +56,9 @@ export const Amount: FC<AmountProps> = ({
                 placeholder="Amount"
                 tgStyles={{
                     input: {
-                        background: !detailStyles ? '#fff' : '#EFEFF3',
+                        background: '#FFF',
                         color: '#000',
-                        border: !detailStyles ? '1px solid #B7B7BB' : 'none'
+                        border: !detailStyles ? 'none' : '1px solid #B7B7BB'
                     }
                 }}
             />
