@@ -18,10 +18,16 @@
   background: var(--gray3);
 }
 
+.cardDetailTop {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
 .title {
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 8px;
 }
 
 .cardInfo {

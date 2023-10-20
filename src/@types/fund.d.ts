@@ -6,6 +6,7 @@ export interface FundType {
     asset: string,
     addressFund: string,
     ownerAddress: string | undefined,
+    verificated: boolean
 }
 
 export type FundDetailType = {

@@ -10,6 +10,9 @@ import s from './fund-card.module.scss'
 import TON from '../../assets/icons/ton.svg'
 import TIME from '../../assets/icons/time.svg'
 
+import VERIFICATED from '../../assets/icons/verificated.svg'
+import NOT_VERIFICATED from '../../assets/icons/error.svg'
+
 interface FundCardProps {
     img: string;
     title: string;
@@ -19,6 +22,7 @@ interface FundCardProps {
     daysTarget?: number;
     daysPassed?: number;
     fundType?: number;
+    verificated: boolean;
     formatNumberWithCommas: (number: number) => string;
 }
 
@@ -34,6 +38,7 @@ export const FundCard: FC<FundCardProps> = ({
     daysPassed,
     description,
     fundType,
+    verificated,
     formatNumberWithCommas
 }) => {
     const progressValue = ((amount / target) * 100).toFixed(2)
@@ -46,7 +51,10 @@ export const FundCard: FC<FundCardProps> = ({
         <div className={s.card}>
             <div className={s.cardTop} style={{ backgroundImage: `url(${img})` }} />
             <Div className={s.cardDetail} tgStyles={cardTg}>
-                <Text className={s.title} tgStyles={cardTextTg}>{title}</Text>
+                <div className={s.cardDetailTop}>
+                    <Text className={s.title} tgStyles={cardTextTg}>{title}</Text>
+                    <img src={verificated ? VERIFICATED : NOT_VERIFICATED} width="18" height="18" alt="verificated icon" />
+                </div>
                 <ProgressBar
                     type="default"
                     size="large"

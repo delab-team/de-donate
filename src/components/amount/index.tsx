@@ -24,6 +24,7 @@ interface AmountProps {
         catalogs?: string[] | null;
     }[];
     detailStyles?: boolean
+    isTestnet: boolean
 }
 
 const amountModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
@@ -34,7 +35,8 @@ export const Amount: FC<AmountProps> = ({
     onChange,
     selectedValue,
     handleSelect,
-    detailStyles = false
+    detailStyles = false,
+    isTestnet
 }) => {
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false)
 
@@ -76,7 +78,12 @@ export const Amount: FC<AmountProps> = ({
                             className={s.btnSelect}
                             key={el.label}
                             onClick={() => {
-                                handleSelect(el.label)
+                                handleSelect(
+                                    {
+                                        token: el.label,
+                                        tokenAddress: isTestnet ? el.addressTestnet : el.address
+                                    }
+                                )
                                 setIsModalOpen(false)
                             }}
                             tgStyles={textModalTg}

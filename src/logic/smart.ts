@@ -1,12 +1,15 @@
+/* eslint-disable consistent-return */
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
 import { TonConnectUI } from '@tonconnect/ui'
-import { Address, beginCell, toNano, Cell, Dictionary, TupleReader } from 'ton-core'
+import { Address, beginCell, toNano, Cell, Dictionary, TupleReader, Sender } from 'ton-core'
 import { getHttpV4Endpoint } from '@orbs-network/ton-access'
 import { TonClient, TonClient4 } from 'ton'
 import { BOC, Slice } from 'ton3'
 import axios from 'axios'
+import { JettonMinter } from './wrappers/JettonMinter'
 import { Deployer } from './wrappers/Deployer'
 import { Fundraiser as FundraiserClass } from './wrappers/Fundraiser'
+import { JettonWallet as JettonWalletClass } from './wrappers/JettonWallet'
 import { Helper as HelperClass } from './wrappers/Helper'
 import { DeployerHex, Fundraiser, Helper, JettonWallet } from './build'
 
@@ -330,5 +333,71 @@ export class Smart {
 
         const Trans = await this._provider.api().getAccountTransactions(Address.parse(address), 0n, Buffer.from(''))
         console.log(Trans)
+    }
+
+    public async getWalletAddressOf (address: string): Promise<Address | undefined> {
+        await this._provider.sunc()
+
+        const JettonMinterContract = new JettonMinter(Address.parse(address))
+
+        const jettonMinter = this._provider.open(JettonMinterContract)
+
+        try {
+            const walletAddress = await jettonMinter.getWalletAddressOf(Address.parse(address))
+
+            return walletAddress
+        } catch (error) {
+            console.log('getWalletAddressOf', error)
+            return undefined
+        }
+    }
+
+    public async sendTransfer (
+        address: string,
+        via: Sender,
+        value: bigint,
+        forwardValue: bigint,
+        recipient: Address,
+        amount: bigint,
+        forwardPayload: Cell
+    ): Promise<true | undefined> {
+        await this._provider.sunc()
+
+        const JettonWalletContract = new JettonWalletClass(Address.parse(address))
+
+        const jettonWallet = this._provider.open(JettonWalletContract)
+
+        try {
+            await jettonWallet.sendTransfer(
+                via,
+                value,
+                forwardValue,
+                recipient,
+                amount,
+                forwardPayload
+            )
+
+            return true
+        } catch (error) {
+            console.log('sendTransfer', error)
+            return undefined
+        }
+    }
+
+    public async getJettonBalance (address: string): Promise<bigint | undefined> {
+        await this._provider.sunc()
+
+        const JettonWalletContract = new JettonWalletClass(Address.parse(address))
+
+        const jettonWallet = this._provider.open(JettonWalletContract)
+
+        try {
+            const jettonBalance = await jettonWallet.getJettonBalance()
+
+            return jettonBalance
+        } catch (error) {
+            console.log('getJettonBalance', error)
+            return undefined
+        }
     }
 }

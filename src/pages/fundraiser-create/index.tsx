@@ -39,6 +39,7 @@ type FundraiserCreateDataType = {
     amount: string;
     timeLife: number;
     token: string;
+    tokenAddress: string;
     file: string;
 }
 
@@ -72,6 +73,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
         description: '',
         amount: '',
         token: 'WTON',
+        tokenAddress: isTestnet ? jettons[0].addressTestnet : jettons[0].address,
         timeLife: 7,
         file: ''
     })
@@ -166,11 +168,12 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
         })
     }
 
-    const handleSelect = (value: string) => {
-        setSelectedValue(value)
+    const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
+        setSelectedValue(token)
         setCreateData({
             ...createData,
-            token: value
+            token,
+            tokenAddress
         })
     }
 
@@ -239,6 +242,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 amount: e.target.value
                             })
                         }}
+                        isTestnet={isTestnet}
                         selectedValue={selectedValue}
                         handleSelect={handleSelect}
                     />

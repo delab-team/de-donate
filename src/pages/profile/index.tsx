@@ -18,12 +18,10 @@ import { fixAmount } from '../../utils/fixAmount'
 
 import { TonApi } from '../../logic/tonapi'
 import { Smart } from '../../logic/smart'
+import { loadFund } from '../../logic/loadFund'
 
 import { FundType } from '../../@types/fund'
 
-import { loadFund } from '../../logic/loadFund'
-
-import IMG1 from '../../assets/img/01.png'
 import TON from '../../assets/icons/ton.svg'
 
 import s from './profile.module.scss'
@@ -89,7 +87,6 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                         newFunds.push(fund as FundType)
                     }
                 }
-                // const profileFunds = newFunds.filter(fund => fund.ownerAddress === rawAddress)
 
                 setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
                 setOffset(offset + newFunds.length)

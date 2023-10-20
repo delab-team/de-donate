@@ -36,6 +36,7 @@ interface FundraiserDetailProps {
 type DataType = {
     amount: string;
     token: string;
+    tokenAddress: string;
 }
 
 const editButtonTg = { border: '2px solid #989898', color: '#989898' }
@@ -62,7 +63,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
         daysTarget: 0,
         daysPassed: 0,
         ownerAddress: '',
-        type: 0
+        type: 0,
+        verificated: false
     })
 
     // Success donate modal
@@ -74,16 +76,18 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     const [ withdrawalData, setWithdrawalData ] = useState<Record <string, string>>({
         address: rawAddress,
         amount: '',
-        asset: 'TOH'
+        asset: 'WTON',
+        tokenAddress: isTestnet ? jettons[0].addressTestnet : jettons[0].address
     })
 
     const [ jettonWithdrawal, setJettonWithdrawal ] = useState<string>(jettons[0].value)
 
-    const jettonSelectWithdrawal = (value: string) => {
-        setJettonWithdrawal(value)
+    const jettonSelectWithdrawal = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
+        setJettonWithdrawal(token)
         setWithdrawalData({
             ...withdrawalData,
-            asset: value
+            token,
+            tokenAddress
         })
     }
 
@@ -95,16 +99,18 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
     const [ data, setData ] = useState<DataType>({
         amount: '',
-        token: 'WTON'
+        token: 'WTON',
+        tokenAddress: isTestnet ? jettons[0].addressTestnet : jettons[0].address
     })
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
 
-    const handleSelect = (value: string) => {
-        setSelectedValue(value)
+    const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
+        setSelectedValue(token)
         setData({
             ...data,
-            token: value
+            token,
+            tokenAddress
         })
     }
 
@@ -188,7 +194,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                 daysTarget: 0,
                 daysPassed: 0,
                 ownerAddress: '',
-                type: 0
+                type: 0,
+                verificated: false
             })
         }
     }, [ id ])
@@ -215,6 +222,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             selectedValue={jettonWithdrawal}
                             handleSelect={jettonSelectWithdrawal}
                             detailStyles
+                            isTestnet={isTestnet}
                         />
                         <Button
                             rounded="l"
@@ -239,6 +247,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     daysPassed={fundData.daysPassed}
                     formatNumberWithCommas={formatNumberWithCommas}
                     description={fundData.description}
+                    verificated={fundData.verificated}
                     fundType={fundData.type}
                 />
             )}
@@ -257,6 +266,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                         selectedValue={selectedValue}
                         handleSelect={handleSelect}
                         detailStyles
+                        isTestnet={isTestnet}
                     />
                 </div>
                 <Button

@@ -48,7 +48,8 @@ export async function loadFund (
             asset,
             addressFund: address,
             ownerAddress,
-            type: Number(info[1])
+            type: Number(info[1]),
+            verificated: Number(info[1]) === 0
         }
 
         if (excludeFields?.description) {
