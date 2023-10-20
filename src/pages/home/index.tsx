@@ -134,7 +134,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
     return (
         <div className={s.home}>
             <div className={s.searchInner}>
-                <IconSelector id="search" color="#98989E" className={s.searchIcon} size="20" />
+                <IconSelector id="search" color="#98989E" className={s.searchIcon} size="20" tgStyles={{ stroke: 'var(--tg-theme-link-color)' }} />
                 <Input
                     placeholder="Search by address fund"
                     value={address}
@@ -145,13 +145,13 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                 />
                 {address.length >= 1 && (
                     <button className={s.searchClear} onClick={() => setAddress('')}>
-                        <IconSelector id="x" size='20' color="#fff" tgStyles={{ stroke: '#000' }} />
+                        <IconSelector id="x" size='20' color="#fff" tgStyles={{ stroke: 'var(--tg-theme-link-color)' }} />
                     </button>
                 )
                 }
             </div>
             <div className={s.homeBlock}>
-                <Title variant="h1" className={s.title} color="#fff" tgStyles={{ color: '#000' }}>
+                <Title variant="h1" className={s.title} color="#fff" tgStyles={{ color: 'var(--tg-theme-button-text-color)' }}>
                     Top fundraiser
                 </Title>
                 <div className={s.cards}>

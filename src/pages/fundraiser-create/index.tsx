@@ -44,7 +44,7 @@ type FundraiserCreateDataType = {
 }
 
 const titleTgStyles = { color: 'var(--tg-theme-text-color)' }
-const inputTgStyles = { background: '#fff', color: 'var(--tg-theme-text-color)' }
+const inputTgStyles = { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)' }
 const fileTextTg = { color: 'var(--tg-theme-text-color)' }
 const timeLifeTg = { color: 'var(--tg-theme-text-color)' }
 const fileUploadTg = { icon: { fill: 'var(--tg-theme-link-color)' }, uploadText: { color: 'var(--tg-theme-text-color)' }, uploadContainer: { border: '3px dashed var(--tg-theme-text-color)' } }
