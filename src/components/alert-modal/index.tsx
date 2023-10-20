@@ -9,7 +9,7 @@ interface AlertModalProps {
     content: React.ReactNode | React.ReactNode[]
 }
 
-const alertModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
+const alertModalTg = { modalContent: { background: 'var(--tg-theme-bg-color)' }, closeButton: { color: 'var(--tg-theme-text-color)' } }
 
 export const AlertModal: FC<AlertModalProps> = ({
     isOpen,
@@ -22,9 +22,9 @@ export const AlertModal: FC<AlertModalProps> = ({
                 <i>✔</i>
             </div>
         </div>
-        <Title variant='h3' className={s.alertModalTitle} tgStyles={{ color: '#000' }}>Awesome!</Title>
+        <Title variant='h3' className={s.alertModalTitle} tgStyles={{ color: 'var(--tg-theme-text-color)' }}>Awesome!</Title>
         <div className={s.alertModalContent}>
-            <Text tgStyles={{ color: '#000' }}>
+            <Text tgStyles={{ color: 'var(--tg-theme-text-color)' }}>
                 {content}
             </Text>
         </div>

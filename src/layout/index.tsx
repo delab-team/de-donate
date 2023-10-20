@@ -39,7 +39,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     size="30px"
                     className={`${s.actionIcon}`}
                     color={path === ROUTES.HOME ? '#fff' : '#98989E' }
-                    tgStyles={{ stroke: path === ROUTES.HOME ? 'var(--tg-theme-bg-color)' : 'var(--tg-theme-link-color)'  }}
+                    tgStyles={{ stroke: path === ROUTES.HOME ? '#000' : '#fff'  }}
                 />
             ),
             text: '',
@@ -55,7 +55,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     size="30px"
                     className={`${s.actionIcon}`}
                     color={path === ROUTES.FUNDRAISER_CREATE ? '#fff' : '#98989E' }
-                    tgStyles={{ stroke: path === ROUTES.FUNDRAISER_CREATE ? 'var(--tg-theme-bg-color)' : 'var(--tg-theme-link-color)' }}
+                    tgStyles={{ stroke: path === ROUTES.FUNDRAISER_CREATE ? '#000' : '#fff' }}
                 />
             ),
             text: '',
@@ -71,7 +71,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     size="30px"
                     className={`${s.actionIcon}`}
                     color={path === ROUTES.PROFILE ? '#fff' : '#98989fff' }
-                    tgStyles={{ stroke: path === ROUTES.PROFILE ? 'var(--tg-theme-bg-color)' : 'var(--tg-theme-link-color)' }}
+                    tgStyles={{ stroke: path === ROUTES.PROFILE ? '#000' : '#fff' }}
                 />
             ),
             text: '',

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable max-len */
@@ -274,7 +275,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     rounded="l"
                     size="stretched"
                     className="action-btn"
-                    disabled={data.amount.length < 1}
+                    disabled={Number(data.amount) < 0.0001 || isNaN(parseFloat(data.amount))}
                     onClick={() => (rawAddress ? donate() : tonConnectUI.connectWallet())}
                     tgStyles={editButtonTg}
                 >

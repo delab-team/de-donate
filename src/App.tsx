@@ -130,7 +130,9 @@ export const App: FC = () => {
                     <Route path={ROUTES.FUNDRAISER_DETAIL} element={
                         <FundraiserDetail
                             addressCollection={addressCollection}
-                            isTestnet={isTestnet} isTg={isTg} />}
+                            isTestnet={isTestnet}
+                            isTg={isTg}
+                        />}
                     />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
