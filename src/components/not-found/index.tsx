@@ -11,6 +11,6 @@ const textTgStyles = { color: '#000' }
 
 export const NotFound: FC<NotFoundProps> = ({ text }) => (
     <div className={s.notFound}>
-        <Title variant="h4" tgStyles={textTgStyles}>{text}</Title>
+        <Title variant="h4" tgStyles={textTgStyles} className={s.notFoundText}>{text}</Title>
     </div>
 )

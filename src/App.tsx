@@ -69,10 +69,7 @@ export const App: FC = () => {
 
             const isTgCheck = window.Telegram.WebApp.initData !== ''
             const TgObj = window.Telegram.WebApp
-
-            if (isTg) {
-                document.body.style.background = '#EFEFF3'
-            }
+            const bodyStyle = document.body.style
 
             setIsTg(isTgCheck)
             if (isTgCheck) {
@@ -80,6 +77,8 @@ export const App: FC = () => {
                 TgObj.enableClosingConfirmation()
                 TgObj.expand()
                 setIsTg(true)
+                bodyStyle.backgroundColor = '#EFEFF3'
+                bodyStyle.setProperty('background-color', '#EFEFF3', '!important')
             }
         }
     }, [])

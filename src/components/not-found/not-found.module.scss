@@ -6,6 +6,10 @@
   justify-content: center;
 }
 
+.notFoundText {
+  color: #fff;
+}
+
 @media (max-height: 550px) {
   .notFound {
     height: 35vh;
