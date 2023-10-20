@@ -63,6 +63,15 @@
     }
 }
 
+@media (max-width: 355px) {
+    .timeLifeItem {
+        padding: 9px;
+    }
+    .timeLifeItems {
+        gap: 6px;
+    }
+}
+
 .activeLifeItem {
     background: #2e7ddb !important;
     &:hover {

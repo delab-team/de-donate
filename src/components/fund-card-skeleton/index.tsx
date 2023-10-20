@@ -15,8 +15,8 @@ export const FundCardSkeleton: FC<FundCardSkeletonProps> = ({ isTg, ...rest }) =
             width="100%"
             height="100%"
             viewBox="0 0 440 250"
-            backgroundColor={isTg ? '#E3e3e4' : '#3d3d3d'}
-            foregroundColor={isTg ? '#fff' : '#545151'}
+            backgroundColor={isTg ? 'var(--tg-theme-bg-color)' : '#3d3d3d'}
+            foregroundColor={isTg ? 'var(--tg-theme-secondary-bg-color)' : '#545151'}
             style={{ borderRadius: '20px 20px 0 0' }}
             {...rest}
         >

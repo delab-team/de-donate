@@ -39,7 +39,7 @@ type DataType = {
     tokenAddress: string;
 }
 
-const editButtonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)' }
+const editButtonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)', border: 'none' }
 
 const withdrawalModalTg = { modalContent: { background: 'var(--tg-theme-bg-color)' }, closeButton: { color: 'var(--tg-theme-text-color)' } }
 const withdrawalModalInputTg = { input: { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)', border: '1px solid #B7B7BB' } }

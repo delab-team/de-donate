@@ -20,7 +20,7 @@ export const ExpandableText: FC<ExpandableTextProps> = ({ text, className }) => 
         const paragraphs = content.split('\n\n')
 
         return paragraphs.map((paragraph, index) => (
-            <Text key={index} className={`${s.text} ${expanded || index < 2 ? 'block' : 'hidden'}`}>
+            <Text key={index} className={`${s.text} ${expanded || index < 2 ? 'block' : 'hidden'}`} tgStyles={{ color: 'var(--tg-theme-text-color)' }}>
                 {paragraph.split('\n').map((line, i) => (
                     <Fragment key={i}>
                         {line}
