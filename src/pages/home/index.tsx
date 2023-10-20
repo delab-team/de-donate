@@ -151,7 +151,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                 }
             </div>
             <div className={s.homeBlock}>
-                <Title variant="h1" className={s.title} color="#fff" tgStyles={{ color: 'var(--tg-theme-button-text-color)' }}>
+                <Title variant="h1" className={s.title} color="#fff" tgStyles={{ color: 'var(--tg-theme-text-color)' }}>
                     Top fundraiser
                 </Title>
                 <div className={s.cards}>

@@ -9,7 +9,7 @@ interface FundCardSkeletonProps {
 }
 
 export const FundCardSkeleton: FC<FundCardSkeletonProps> = ({ isTg, ...rest }) => (
-    <Div className={s.skeletonInner} tgStyles={{ background: '#fff' }}>
+    <Div className={s.skeletonInner} tgStyles={{ background: 'var(--tg-theme-bg-color)' }}>
         <ContentLoader
             speed={2}
             width="100%"

@@ -28,9 +28,9 @@ import { ROUTES } from '../../utils/router'
 import s from './fundraiser-create.module.scss'
 
 interface FundraiserCreateProps {
-    addressCollection: string[],
-    isTestnet: boolean,
-    setCreatedFund: (el: boolean) => void
+    addressCollection: string[];
+    isTestnet: boolean;
+    setCreatedFund: (el: boolean) => void;
 }
 
 type FundraiserCreateDataType = {
@@ -44,13 +44,27 @@ type FundraiserCreateDataType = {
 }
 
 const titleTgStyles = { color: 'var(--tg-theme-text-color)' }
-const inputTgStyles = { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)' }
+const inputTgStyles = {
+    background: 'var(--tg-theme-bg-color)',
+    color: 'var(--tg-theme-text-color)'
+}
 const fileTextTg = { color: 'var(--tg-theme-text-color)' }
 const timeLifeTg = { color: 'var(--tg-theme-text-color)' }
-const fileUploadTg = { icon: { fill: 'var(--tg-theme-link-color)' }, uploadText: { color: 'var(--tg-theme-text-color)' }, uploadContainer: { border: '3px dashed var(--tg-theme-text-color)' } }
-const buttonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)' }
+const fileUploadTg = {
+    icon: { fill: 'var(--tg-theme-link-color)' },
+    uploadText: { color: 'var(--tg-theme-text-color)' },
+    uploadContainer: { border: '3px dashed var(--tg-theme-text-color)' }
+}
+const buttonTg = {
+    background: 'var(--tg-theme-button-color)',
+    color: 'var(--tg-theme-button-text-color)'
+}
 
-export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection, isTestnet, setCreatedFund }) => {
+export const FundraiserCreate: FC<FundraiserCreateProps> = ({
+    addressCollection,
+    isTestnet,
+    setCreatedFund
+}) => {
     const navigate = useNavigate()
 
     const [ activeTimeLife, setActiveTimeLife ] = useState<number>(7)
@@ -148,7 +162,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
             data.content,
             jettons.filter(jetton => jetton.label === createData.token)[0].address,
             toNano(createData.amount),
-            BigInt(nowTime + (createData.timeLife * 86400))
+            BigInt(nowTime + createData.timeLife * 86400)
         )
 
         if (res) {
@@ -169,7 +183,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
         })
     }
 
-    const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
+    const handleSelect = ({ token, tokenAddress }: { token: string; tokenAddress: string }) => {
         setSelectedValue(token)
         setCreateData({
             ...createData,
@@ -183,7 +197,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
     const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const textarea = e.target
         textarea.style.height = 'auto'
-        textarea.style.height = textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px'
+        textarea.style.height =            textarea.scrollHeight > 120 ? '120px' : textarea.scrollHeight + 'px'
         setCreateData({
             ...createData,
             description: e.target.value
@@ -258,7 +272,14 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 7 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(7)}
-                            tgStyles={{ background: `${activeTimeLife === 7 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-bg-color)'}`, color: `${activeTimeLife === 7 ? '#fff' : '#000'}` }}
+                            tgStyles={{
+                                background: `${
+                                    activeTimeLife === 7
+                                        ? 'var(--tg-theme-link-color)'
+                                        : 'var(--tg-theme-bg-color)'
+                                }`,
+                                color: 'var(--tg-theme-button-text-color)'
+                            }}
                         >
                             7 days
                         </Button>
@@ -267,7 +288,14 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 14 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(14)}
-                            tgStyles={{ background: `${activeTimeLife === 14 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-bg-color)'}`, color: `${activeTimeLife === 14 ? '#fff' : '#000'}` }}
+                            tgStyles={{
+                                background: `${
+                                    activeTimeLife === 14
+                                        ? 'var(--tg-theme-link-color)'
+                                        : 'var(--tg-theme-bg-color)'
+                                }`,
+                                color: 'var(--tg-theme-button-text-color)'
+                            }}
                         >
                             14 days
                         </Button>
@@ -276,7 +304,14 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 30 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(30)}
-                            tgStyles={{ background: `${activeTimeLife === 30 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-bg-color)'}`, color: `${activeTimeLife === 30 ? '#fff' : '#000'}` }}
+                            tgStyles={{
+                                background: `${
+                                    activeTimeLife === 30
+                                        ? 'var(--tg-theme-link-color)'
+                                        : 'var(--tg-theme-bg-color)'
+                                }`,
+                                color: 'var(--tg-theme-button-text-color)'
+                            }}
                         >
                             30 days
                         </Button>
@@ -285,7 +320,14 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 0 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(0)}
-                            tgStyles={{ background: `${activeTimeLife === 0 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-bg-color)'}`, color: `${activeTimeLife === 0 ? '#fff' : '#000'}` }}
+                            tgStyles={{
+                                background: `${
+                                    activeTimeLife === 0
+                                        ? 'var(--tg-theme-link-color)'
+                                        : 'var(--tg-theme-bg-color)'
+                                }`,
+                                color: `${activeTimeLife === 0 ? '#fff' : '#000'}`
+                            }}
                         >
                             ∞ days
                         </Button>
@@ -296,7 +338,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                         <>
                             {uploading ? (
                                 <div className={s.spinner}>
-                                    <Spinner tgStyles='var(--tg-theme-link-color)' />
+                                    <Spinner tgStyles="var(--tg-theme-link-color)" />
                                 </div>
                             ) : (
                                 <Button onChange={handleFileChange} className={s.fileBtn}>
@@ -333,7 +375,11 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                             />
                         </div>
                     )}
-                    {img.length < 1 && !uploading && <Text className={s.fileText} tgStyles={fileTextTg}>Maximum allowed size: 440 x 150 (10 MB)</Text>}
+                    {img.length < 1 && !uploading && (
+                        <Text className={s.fileText} tgStyles={fileTextTg}>
+                            Maximum allowed size: 440 x 150 (10 MB)
+                        </Text>
+                    )}
                 </div>
                 <Button
                     rounded="l"
