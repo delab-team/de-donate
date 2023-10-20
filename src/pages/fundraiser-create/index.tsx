@@ -50,11 +50,7 @@ const inputTgStyles = {
 }
 const fileTextTg = { color: 'var(--tg-theme-text-color)' }
 const timeLifeTg = { color: 'var(--tg-theme-text-color)' }
-const fileUploadTg = {
-    icon: { fill: 'var(--tg-theme-link-color)' },
-    uploadText: { color: 'var(--tg-theme-text-color)' },
-    uploadContainer: { border: '3px dashed var(--tg-theme-text-color)' }
-}
+const fileUploadTg = { icon: { fill: 'var(--tg-theme-link-color)' }, uploadText: { color: 'var(--tg-theme-text-color)' }, uploadContainer: { border: '3px dashed #B7B7BB' } }
 const buttonTg = {
     background: 'var(--tg-theme-button-color)',
     color: 'var(--tg-theme-button-text-color)'
