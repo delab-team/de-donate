@@ -274,7 +274,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: activeTimeLife === 7 ? '#FFF' : 'var(--tg-theme-text-color)'
+                                color: activeTimeLife === 7 ? '#FFF' : 'var(--tg-theme-text-color)',
+                                padding: '9px 17px'
                             }}
                         >
                             7 days
@@ -290,7 +291,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: activeTimeLife === 14 ? '#FFF' : 'var(--tg-theme-text-color)'
+                                color: activeTimeLife === 14 ? '#FFF' : 'var(--tg-theme-text-color)',
+                                padding: '9px 17px'
                             }}
                         >
                             14 days
@@ -306,7 +308,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: activeTimeLife === 30 ? '#FFF' : 'var(--tg-theme-text-color)'
+                                color: activeTimeLife === 30 ? '#FFF' : 'var(--tg-theme-text-color)',
+                                padding: '9px 17px'
                             }}
                         >
                             30 days
@@ -322,7 +325,8 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: activeTimeLife === 0 ? '#FFF' : 'var(--tg-theme-text-color)'
+                                color: activeTimeLife === 0 ? '#FFF' : 'var(--tg-theme-text-color)',
+                                padding: '9px 17px'
                             }}
                         >
                             ∞ days
