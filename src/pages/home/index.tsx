@@ -37,7 +37,8 @@ interface HomePageProps {
     isTg: boolean
 }
 
-const inputTgStyles = { input: { background: '#FFF', color: '#000' } }
+const inputTgStyles = { input: { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)' } }
+const buttonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)' }
 
 export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg }) => {
     const navigate = useNavigate()
@@ -175,6 +176,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                                     className="action-btn"
                                     disabled={loading || allItemsLoaded}
                                     onClick={loadMoreItems}
+                                    tgStyles={buttonTg}
                                 >
                                     Load more
                                 </Button>

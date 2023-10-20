@@ -35,6 +35,8 @@ interface ProfileProps {
     isTg: boolean;
 }
 
+const buttonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)' }
+
 export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestnet, createdFund, setCreatedFund, isTg }) => {
     const [ first, setFirst ] = useState<boolean>(false)
 
@@ -127,7 +129,7 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                     <img src={TON} alt="icon" />
                 </Text>
             </div>
-            <Title variant="h2" className={s.title} color="#fff" tgStyles={{ color: '#000' }}>
+            <Title variant="h2" className={s.title} color="#fff" tgStyles={{ color: 'var(--tg-theme-text-color)' }}>
                 My fundraiser
             </Title>
             <div className={s.cards}>
@@ -148,6 +150,7 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                             className="action-btn"
                             disabled={loading || allItemsLoaded}
                             onClick={loadMoreItems}
+                            tgStyles={buttonTg}
                         >
                             Load more
                         </Button>

@@ -7,7 +7,7 @@ interface NotFoundProps {
     text: React.ReactNode;
 }
 
-const textTgStyles = { color: '#000' }
+const textTgStyles = { color: 'var(--tg-theme-text-color)' }
 
 export const NotFound: FC<NotFoundProps> = ({ text }) => (
     <div className={s.notFound}>

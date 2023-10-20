@@ -26,8 +26,8 @@ interface FundCardProps {
     formatNumberWithCommas: (number: number) => string;
 }
 
-const cardTg = { background: '#fff' }
-const cardTextTg = { color: '#000' }
+const cardTg = { background: 'var(--tg-theme-bg-color)' }
+const cardTextTg = { color: 'var(--tg-theme-text-color)' }
 
 export const FundCard: FC<FundCardProps> = ({
     img,

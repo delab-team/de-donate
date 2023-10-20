@@ -77,8 +77,8 @@ export const App: FC = () => {
                 TgObj.enableClosingConfirmation()
                 TgObj.expand()
                 setIsTg(true)
-                bodyStyle.backgroundColor = '#EFEFF3'
-                bodyStyle.setProperty('background-color', '#EFEFF3', '!important')
+                bodyStyle.backgroundColor = 'var(--tg-theme-secondary-bg-color)'
+                bodyStyle.setProperty('background-color', 'var(--tg-theme-secondary-bg-color)', 'important')
             }
         }
     }, [])

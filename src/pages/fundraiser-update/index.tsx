@@ -34,10 +34,10 @@ type FundType = {
     addressFund: string;
 }
 
-const titleTgStyles = { color: '#000' }
-const inputTgStyles = { background: '#fff', color: '#000' }
-const fileTextTg = { color: '#000' }
-const fileUploadTg = { icon: { fill: '#B7B7BB' }, uploadText: { color: '#B7B7BB' }, uploadContainer: { border: '3px dashed #B7B7BB' } }
+const titleTgStyles = { color: 'var(--tg-theme-text-color)' }
+const inputTgStyles = { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)' }
+const fileTextTg = { color: 'var(--tg-theme-text-color)' }
+const fileUploadTg = { icon: { fill: 'var(--tg-theme-link-color)' }, uploadText: { color: 'var(--tg-theme-text-color)' }, uploadContainer: { border: '3px dashed #B7B7BB' } }
 
 export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
     const { id } = useParams()

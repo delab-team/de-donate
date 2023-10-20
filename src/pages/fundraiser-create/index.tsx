@@ -43,11 +43,11 @@ type FundraiserCreateDataType = {
     file: string;
 }
 
-const titleTgStyles = { color: '#000' }
-const inputTgStyles = { background: '#fff', color: '#000' }
-const fileTextTg = { color: '#000' }
-const timeLifeTg = { color: 'rgba(0, 0, 0, 0.70)' }
-const fileUploadTg = { icon: { fill: '#B7B7BB' }, uploadText: { color: '#B7B7BB' }, uploadContainer: { border: '3px dashed #B7B7BB' } }
+const titleTgStyles = { color: 'var(--tg-theme-text-color)' }
+const inputTgStyles = { background: '#fff', color: 'var(--tg-theme-text-color)' }
+const fileTextTg = { color: 'var(--tg-theme-text-color)' }
+const timeLifeTg = { color: 'var(--tg-theme-text-color)' }
+const fileUploadTg = { icon: { fill: 'var(--tg-theme-link-color)' }, uploadText: { color: 'var(--tg-theme-text-color)' }, uploadContainer: { border: '3px dashed var(--tg-theme-text-color)' } }
 
 export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection, isTestnet, setCreatedFund }) => {
     const navigate = useNavigate()
@@ -257,7 +257,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 7 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(7)}
-                            tgStyles={{ background: `${activeTimeLife === 7 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 7 ? '#fff' : '#000'}` }}
+                            tgStyles={{ background: `${activeTimeLife === 7 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'}`, color: `${activeTimeLife === 7 ? '#fff' : '#000'}` }}
                         >
                             7 days
                         </Button>
@@ -266,7 +266,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 14 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(14)}
-                            tgStyles={{ background: `${activeTimeLife === 14 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 14 ? '#fff' : '#000'}` }}
+                            tgStyles={{ background: `${activeTimeLife === 14 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'}`, color: `${activeTimeLife === 14 ? '#fff' : '#000'}` }}
                         >
                             14 days
                         </Button>
@@ -275,7 +275,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 30 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(30)}
-                            tgStyles={{ background: `${activeTimeLife === 30 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 30 ? '#fff' : '#000'}` }}
+                            tgStyles={{ background: `${activeTimeLife === 30 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'}`, color: `${activeTimeLife === 30 ? '#fff' : '#000'}` }}
                         >
                             30 days
                         </Button>
@@ -284,7 +284,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
                                 activeTimeLife === 0 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(0)}
-                            tgStyles={{ background: `${activeTimeLife === 0 ? '#2e7ddb' : '#fff'}`, color: `${activeTimeLife === 0 ? '#fff' : '#000'}` }}
+                            tgStyles={{ background: `${activeTimeLife === 0 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'}`, color: `${activeTimeLife === 0 ? '#fff' : '#000'}` }}
                         >
                             ∞ days
                         </Button>

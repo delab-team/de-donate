@@ -27,8 +27,8 @@ interface AmountProps {
     isTestnet: boolean
 }
 
-const amountModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
-const textModalTg = { color: '#000' }
+const amountModalTg = { modalContent: { background: 'var(--tg-theme-bg-color)' }, closeButton: { color: 'var(--tg-theme-text-color)' } }
+const textModalTg = { color: 'var(--tg-theme-text-color)' }
 
 export const Amount: FC<AmountProps> = ({
     value,
@@ -58,15 +58,15 @@ export const Amount: FC<AmountProps> = ({
                 placeholder="Amount"
                 tgStyles={{
                     input: {
-                        background: '#FFF',
-                        color: '#000',
+                        background: 'var(--tg-theme-bg-color)',
+                        color: 'var(--tg-theme-text-color)',
                         border: !detailStyles ? 'none' : '1px solid #B7B7BB'
                     }
                 }}
             />
             <Button tgStyles={textModalTg} className={s.selectBtn} onClick={handleOpenModal}>
                 {selectedValue}
-                <IconSelector id="chevron-down" color='#fff' size="17px" tgStyles={{ stroke: '#000' }} />
+                <IconSelector id="chevron-down" color='#fff' size="17px" tgStyles={{ stroke: 'var(--tg-theme-link-color)' }} />
             </Button>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal} className={s.modal} tgStyles={amountModalTg}>
                 <Title variant="h6" className={s.tokenTitle} tgStyles={textModalTg}>
@@ -92,7 +92,7 @@ export const Amount: FC<AmountProps> = ({
                                 <img src={el.image} alt={el.label} width={20} height={20} />
                                 <Text className={s.selectInfoLabel} tgStyles={textModalTg}>{el.label}</Text>
                             </div>
-                            {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" tgStyles={{ stroke: '#000' }} />}
+                            {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" tgStyles={{ stroke: 'var(--tg-theme-link-color)' }} />}
                         </Button>
                     ))}
                 </div>

@@ -16,9 +16,9 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
-const wrapperTgStyles = { headerStyles: { background: '#FFF' } }
-const headerStyles = { header: { background: '#FFF' } }
-const menuTgStyles = { menuContainer: { background: 'rgba(255, 255, 255, 0.8)' } }
+const wrapperTgStyles = { headerStyles: { background: 'var(--tg-theme-secondary-bg-color)' } }
+const headerStyles = { header: { background: 'var(--tg-theme-secondary-bg-color)' } }
+const menuTgStyles = { menuContainer: { background: 'var(--tg-theme-button-color)' } }
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
     const navigate = useNavigate()
@@ -96,7 +96,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     variant="black"
                     actionLeft={
                         <Link to={ROUTES.HOME} className={s.logo}>
-                            <Text fontSize="large" fontWeight="bold" tgStyles={{ color: '#000' }}>
+                            <Text fontSize="large" fontWeight="bold" tgStyles={{ color: 'var(--tg-theme-text-color)' }}>
                                 DeDonate
                             </Text>
                         </Link>

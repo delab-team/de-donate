@@ -39,10 +39,10 @@ type DataType = {
     tokenAddress: string;
 }
 
-const editButtonTg = { border: '2px solid #989898', color: '#989898' }
+const editButtonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)' }
 
-const withdrawalModalTg = { modalContent: { background: '#fff' }, closeButton: { color: '#000' } }
-const withdrawalModalInputTg = { input: { background: '#fff', color: '#000', border: '1px solid #B7B7BB' } }
+const withdrawalModalTg = { modalContent: { background: 'var(--tg-theme-bg-color)' }, closeButton: { color: 'var(--tg-theme-text-color)' } }
+const withdrawalModalInputTg = { input: { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)', border: '1px solid #B7B7BB' } }
 
 export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection, isTestnet, isTg }) => {
     const { id } = useParams()
@@ -203,12 +203,12 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     return (
         <div className={s.inner}>
             {isDonated && (
-                <AlertModal isOpen={isDonated} onClose={() => setIsDonated(false)} content={<Text tgStyles={{ color: '#000' }} className={s.textModal}>The <span>{fundData.title}</span> fund has been successfully donated!</Text>}  />
+                <AlertModal isOpen={isDonated} onClose={() => setIsDonated(false)} content={<Text tgStyles={{ color: 'var(--tg-theme-text-color)' }} className={s.textModal}>The <span>{fundData.title}</span> fund has been successfully donated!</Text>}  />
             )}
             {isWithdrawal && (
                 <Modal isOpen={isWithdrawal} onClose={() => setIsWithdrawal(false)} tgStyles={withdrawalModalTg}>
                     <div className={s.withdrawalModal}>
-                        <Title variant="h5" className={s.withdrawalModalTitle} tgStyles={ { color: '#000' } }>Withdrawal</Title>
+                        <Title variant="h5" className={s.withdrawalModalTitle} tgStyles={ { color: 'var(--tg-theme-text-color)' } }>Withdrawal</Title>
                         <Input className={`input ${s.withdrawalModalInput}`} value={rawAddress} variant='black' onChange={() => {}} tgStyles={withdrawalModalInputTg} />
                         <Amount
                             options={jettons}
@@ -229,6 +229,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             size="stretched"
                             className="action-btn"
                             disabled={withdrawalData.amount.length < 1}
+                            tgStyles={editButtonTg}
                         >
                             Submit
                         </Button>
@@ -252,7 +253,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                 />
             )}
 
-            <Div className={s.innerActions} tgStyles={{ background: '#fff' }}>
+            <Div className={s.innerActions} tgStyles={{ background: 'var(--tg-theme-bg-color)' }}>
                 <div className={s.amountInner}>
                     <Amount
                         options={jettons}
@@ -275,6 +276,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     className="action-btn"
                     disabled={data.amount.length < 1}
                     onClick={() => (rawAddress ? donate() : tonConnectUI.connectWallet())}
+                    tgStyles={editButtonTg}
                 >
                     Donate Now
                 </Button>
