@@ -16,7 +16,7 @@ export const FundDetailSkeleton: FC<FundDetailSkeletonProps> = ({ isTg, ...rest 
             height="100%"
             viewBox="0 0 440 399"
             backgroundColor={isTg ? 'var(--tg-theme-secondary-bg-color)' : '#3d3d3d'}
-            foregroundColor={isTg ? 'var(--tg-theme-hint_color)' : '#545151'}
+            foregroundColor={isTg ? 'var(--tg-theme-bg-color)' : '#545151'}
             style={{ borderRadius: '25px 25px 0 0' }}
             {...rest}
         >

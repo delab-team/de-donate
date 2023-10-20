@@ -278,7 +278,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: 'var(--tg-theme-button-text-color)'
+                                color: activeTimeLife === 7 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'
                             }}
                         >
                             7 days
@@ -294,7 +294,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: 'var(--tg-theme-button-text-color)'
+                                color: activeTimeLife === 14 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'
                             }}
                         >
                             14 days
@@ -310,7 +310,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: 'var(--tg-theme-button-text-color)'
+                                color: activeTimeLife === 30 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'
                             }}
                         >
                             30 days
@@ -326,7 +326,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                                         ? 'var(--tg-theme-link-color)'
                                         : 'var(--tg-theme-bg-color)'
                                 }`,
-                                color: `${activeTimeLife === 0 ? '#fff' : '#000'}`
+                                color: activeTimeLife === 0 ? 'var(--tg-theme-link-color)' : 'var(--tg-theme-text-color)'
                             }}
                         >
                             ∞ days
