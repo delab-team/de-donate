@@ -29,7 +29,7 @@ export async function loadFund (
     const nowTime = Math.floor(Date.now() / 1000)
 
     if (info) {
-        let asset: string = 'TON'
+        let asset: string = 'WTON'
         try {
             const addr = info[3].beginParse().loadAddress()
             asset = jettons.filter(j => j.address === addr.toString())[0].label
@@ -37,10 +37,13 @@ export async function loadFund (
             console.log(e)
         }
 
+        const AmountToken = info[3].beginParse().loadAddress()
+        console.log(AmountToken)
+
         const fund: Partial<FundType & FundDetailType> = {
             title: metadata?.name ?? 'Not name',
             img: metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
-            amount: Number(info[5] / 10n ** 9n),
+            amount: 0,
             target: Number(info[4] / 10n ** 9n),
             asset,
             addressFund: address,

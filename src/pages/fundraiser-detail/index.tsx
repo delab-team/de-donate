@@ -95,7 +95,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
     const [ data, setData ] = useState<DataType>({
         amount: '',
-        token: 'TON'
+        token: 'WTON'
     })
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)

@@ -65,14 +65,13 @@ export class Fundraiser implements Contract {
         return (await provider.get('get_goal', [])).stack.readBigNumber();
     }
 
-    async getInfo(provider: ContractProvider): Promise<[bigint, bigint, bigint, Cell, bigint, bigint]> {
+    async getInfo(provider: ContractProvider): Promise<[bigint, bigint, bigint, Cell, bigint]> {
         const result = await provider.get('get_info', []);
         return [
             result.stack.readBigNumber(),
             result.stack.readBigNumber(),
             result.stack.readBigNumber(),
             result.stack.readCell(),
-            result.stack.readBigNumber(),
             result.stack.readBigNumber()
         ]
     }

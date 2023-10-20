@@ -70,24 +70,24 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                 const newFunds: FundType[] = []
                 for (let i = 0; i < items?.nft_items.length; i++) {
                     const addressFund = items.nft_items[i].address
+
+                    if (items.nft_items[i].collection_address === addressCollection[isTestnet ? 1 : 0]) {
                     // const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address)
-                    const total = await smart.getTotal(addressFund)
-                    const type = await smart.getType(addressFund)
 
-                    console.log('total', total)
-                    console.log('type', type)
+                        const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
 
-                    const fund = {
-                        title: items.nft_items[i].metadata.name ?? 'Not name',
-                        img: items.nft_items[i].metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? IMG1,
-                        amount: 1,
-                        target: 1,
-                        asset: 'TON',
-                        addressFund,
-                        ownerAddress: items.nft_items[i].owner?.address
+                        // const fund = {
+                        //     title: items.nft_items[i].metadata.name ?? 'Not name',
+                        //     img: items.nft_items[i].metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? IMG1,
+                        //     amount: 1,
+                        //     target: 1,
+                        //     asset: 'WTON',
+                        //     addressFund,
+                        //     ownerAddress: items.nft_items[i].owner?.address
+                        // }
+
+                        newFunds.push(fund as FundType)
                     }
-
-                    newFunds.push(fund as FundType)
                 }
                 // const profileFunds = newFunds.filter(fund => fund.ownerAddress === rawAddress)
 

@@ -276,7 +276,7 @@ export class Smart {
         }
     }
 
-    public async getInfo (address: string): Promise<[bigint, bigint, bigint, Cell, bigint, bigint] | undefined> {
+    public async getInfo (address: string): Promise<[bigint, bigint, bigint, Cell, bigint] | undefined> {
         await this._provider.sunc()
 
         const fundraiserContract = new FundraiserClass(Address.parse(address))

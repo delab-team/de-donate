@@ -71,7 +71,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({ addressCollection,
         name: '',
         description: '',
         amount: '',
-        token: 'TON',
+        token: 'WTON',
         timeLife: 7,
         file: ''
     })

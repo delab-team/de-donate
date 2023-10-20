@@ -44,7 +44,7 @@ export const App: FC = () => {
 
     const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
-    const addressCollection = [ '', 'kQBgIaAgLpvVtxM0IhIdsqfCfdYaXUSru2ocUSyoFbhzbNka' ]
+    const addressCollection = [ '', 'EQAs-ubgKczyuNXxYKgGzUbtL5v8a2XJm_Tq77HkGXBxIbG6' ]
 
     async function loadUser (address: string): Promise<boolean | undefined> {
         const data = await api.getInfoUserV2(address)
