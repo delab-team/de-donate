@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button, Div, Input, Modal, Text, Title } from '@delab-team/de-ui'
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
-import { Address, toNano } from 'ton-core'
+import { Address, fromNano, toNano } from 'ton-core'
 
 import { FundCard } from '../../components/fund-card'
 import { Amount } from '../../components/amount'
@@ -41,14 +41,28 @@ type DataType = {
     tokenAddress: string;
 }
 
+type TokenBalancesType = {
+    balance: string;
+    token: string;
+    tokenAddress: string
+}
+
+type WithdrawalType = {
+    address: string,
+    amount: string,
+    asset: string,
+    tokenAddress: string
+}
+
 const editButtonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)', border: 'none' }
 
 const withdrawalModalTg = { modalContent: { background: 'var(--tg-theme-bg-color)' }, closeButton: { color: 'var(--tg-theme-text-color)' } }
 const withdrawalModalInputTg = { input: { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)', border: '1px solid #B7B7BB' } }
 
-export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection, isTestnet, isTg }) => {
+export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg }) => {
     const { id } = useParams()
     const [ first, setFirst ] = useState<boolean>(false)
+    const [ firstLoadTokens, setFirstLoadTokens ] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
@@ -76,7 +90,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     // Withdrawal modal
     const [ isWithdrawal, setIsWithdrawal ] = useState<boolean>(false)
 
-    const [ withdrawalData, setWithdrawalData ] = useState<Record <string, string>>({
+    const [ withdrawalData, setWithdrawalData ] = useState<WithdrawalType>({
         address: rawAddress,
         amount: '',
         asset: 'WTON',
@@ -84,15 +98,6 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     })
 
     const [ jettonWithdrawal, setJettonWithdrawal ] = useState<string>(jettons[0].value)
-
-    const jettonSelectWithdrawal = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
-        setJettonWithdrawal(token)
-        setWithdrawalData({
-            ...withdrawalData,
-            token,
-            tokenAddress
-        })
-    }
 
     // Withdrawal modal end
 
@@ -108,10 +113,10 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
 
-    // Token Balance
+    // Balance Token State
+    const [ tokenBalance, setTokenBalance ] = useState<string | undefined>(undefined)
 
-    const [ tokenBalance, setTokenBalance ] = useState<any | undefined>(undefined)
-
+    // Handle Select Amount
     const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
         setSelectedValue(token)
         setData({
@@ -142,29 +147,82 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
         if (tr) setIsDonated(true)
     }
 
-    async function getBalanceToken () {
-        if (!id || !rawAddress || !data.tokenAddress || fundData.ownerAddress !== rawAddress) {
+    // Tokens Balance START
+
+    const [ tokenBalances, setTokenBalances ] = useState<TokenBalancesType[]>([])
+
+    const tokensToLoad = jettons.map(el => ({
+        token: el.label,
+        tokenAddress: el.address[Number(isTestnet)]
+    }))
+
+    async function loadAllTokenBalances () {
+        if (!rawAddress || !isOwnFund) {
             return
         }
 
         const smart = new Smart(tonConnectUI, true)
-
-        const addressWalletUser = await smart.getWalletAddressOf(rawAddress, data.tokenAddress)
-        if (addressWalletUser) {
-            const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
-
-            if (balanceToken !== undefined) {
-                const balance = toNano(balanceToken).toString()
-                setTokenBalance(balance)
+        const balancePromises = tokensToLoad.map(async (tokenInfo) => {
+            const addressWalletUser = await smart.getWalletAddressOf(rawAddress, tokenInfo.tokenAddress)
+            if (addressWalletUser) {
+                const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
+                if (balanceToken !== undefined) {
+                    const balance = fromNano(balanceToken).toString()
+                    return {
+                        ...tokenInfo,
+                        balance
+                    }
+                }
             }
+            return null
+        })
+
+        const balances = await Promise.all(balancePromises)
+        const balancesResult = balances.filter(balance => balance !== null) as TokenBalancesType[]
+
+        setTokenBalances(balancesResult)
+
+        setFirstLoadTokens(true)
+
+        if (!firstLoadTokens) {
+            const tokenBalanceDefault = balancesResult.find((el: { token: string, tokenAddress: string }) => el.tokenAddress === jettons[0].address[Number(isTestnet)])
+            setTokenBalance(tokenBalanceDefault?.balance)
         }
     }
 
     useEffect(() => {
         if (id) {
-            getBalanceToken()
+            loadAllTokenBalances()
         }
-    }, [ data.tokenAddress, id, rawAddress, isWithdrawal ])
+    }, [ id, rawAddress, isOwnFund ])
+
+    const jettonSelectWithdrawal = async ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
+        setJettonWithdrawal(token)
+
+        const selectedTokenBalance = tokenBalances.find((balance: { token: string, tokenAddress: string }) => balance.tokenAddress === tokenAddress)
+
+        if (selectedTokenBalance) {
+            setTokenBalance(selectedTokenBalance.balance)
+        } else {
+            const smart = new Smart(tonConnectUI, true)
+            const addressWalletUser = await smart.getWalletAddressOf(rawAddress, tokenAddress)
+            if (addressWalletUser) {
+                const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
+                if (balanceToken !== undefined) {
+                    const balance = fromNano(balanceToken).toString()
+                    setTokenBalance(balance)
+                }
+            }
+        }
+
+        setWithdrawalData({
+            ...withdrawalData,
+            asset: token,
+            tokenAddress
+        })
+    }
+
+    // Tokens Balance END
 
     useEffect(() => {
         if (!first) {
@@ -211,7 +269,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     setLoading(false)
                 }, 200)
                 console.log(error)
-                // navigate('/')
+            // navigate('/')
             })
         }
 
@@ -263,7 +321,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             rounded="l"
                             size="stretched"
                             className="action-btn"
-                            disabled={Number(withdrawalData.amount) > tokenBalance || isNaN(parseFloat(withdrawalData.amount)) || Number(withdrawalData.amount) === 0}
+                            disabled={Number(withdrawalData.amount) > Number(tokenBalance) || isNaN(parseFloat(withdrawalData.amount)) || Number(withdrawalData.amount) === 0}
                             tgStyles={editButtonTg}
                         >
                             Submit
