@@ -115,6 +115,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
     // Balance Token State
     const [ tokenBalance, setTokenBalance ] = useState<string | undefined>(undefined)
+    console.log('🚀 ~ file: index.tsx:118 ~ tokenBalance:', tokenBalance)
 
     // Handle Select Amount
     const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
@@ -182,12 +183,11 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
         setTokenBalances(balancesResult)
 
-        setFirstLoadTokens(true)
-
         if (!firstLoadTokens) {
             const tokenBalanceDefault = balancesResult.find((el: { token: string, tokenAddress: string }) => el.tokenAddress === jettons[0].address[Number(isTestnet)])
             setTokenBalance(tokenBalanceDefault?.balance)
         }
+        setFirstLoadTokens(true)
     }
 
     useEffect(() => {
