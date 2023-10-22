@@ -74,7 +74,7 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                     if (items.nft_items[i].collection_address === addressCollection[isTestnet ? 1 : 0]) {
                     // const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address)
 
-                        const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
+                        const fund = await loadFund(addressFund, smart, isTestnet, items.nft_items[i].owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
 
                         // const fund = {
                         //     title: items.nft_items[i].metadata.name ?? 'Not name',

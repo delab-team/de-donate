@@ -83,7 +83,7 @@ export class Smart {
     public async deployFundraiser (
         addressDeployer: string,
         ipfs: string,
-        priorityCoin: string | undefined,
+        priorityCoin: string,
         goal: bigint,
         blockTime: bigint
     ): Promise<Address | undefined> {
@@ -98,7 +98,7 @@ export class Smart {
                 goal,
                 blockTime,
                 ipfs,
-                priorityCoin ? Address.parse(priorityCoin) : undefined
+                Address.parse(priorityCoin)
             )
 
             return deployer.address
@@ -279,7 +279,7 @@ export class Smart {
         }
     }
 
-    public async getInfo (address: string): Promise<[bigint, bigint, bigint, Cell, bigint] | undefined> {
+    public async getInfo (address: string): Promise<[bigint, bigint, bigint, Cell | null, bigint] | undefined> {
         await this._provider.sunc()
 
         const fundraiserContract = new FundraiserClass(Address.parse(address))
@@ -335,10 +335,10 @@ export class Smart {
         console.log(Trans)
     }
 
-    public async getWalletAddressOf (address: string): Promise<Address | undefined> {
+    public async getWalletAddressOf (address: string, addressToken: string): Promise<Address | undefined> {
         await this._provider.sunc()
 
-        const JettonMinterContract = new JettonMinter(Address.parse(address))
+        const JettonMinterContract = new JettonMinter(Address.parse(addressToken))
 
         const jettonMinter = this._provider.open(JettonMinterContract)
 
@@ -354,12 +354,8 @@ export class Smart {
 
     public async sendTransfer (
         address: string,
-        via: Sender,
-        value: bigint,
-        forwardValue: bigint,
         recipient: Address,
-        amount: bigint,
-        forwardPayload: Cell
+        amount: bigint
     ): Promise<true | undefined> {
         await this._provider.sunc()
 
@@ -369,12 +365,12 @@ export class Smart {
 
         try {
             await jettonWallet.sendTransfer(
-                via,
-                value,
-                forwardValue,
+                this._provider.sender(),
+                toNano('0.1'),
+                toNano('0.08'),
                 recipient,
                 amount,
-                forwardPayload
+                beginCell().storeUint(0, 32).endCell()
             )
 
             return true
@@ -395,6 +391,23 @@ export class Smart {
             const jettonBalance = await jettonWallet.getJettonBalance()
 
             return jettonBalance
+        } catch (error) {
+            console.log('getJettonBalance', error)
+            return undefined
+        }
+    }
+
+    public async getJettonMaster (address: string): Promise<Address | bigint | undefined> {
+        await this._provider.sunc()
+
+        const JettonWalletContract = new JettonWalletClass(Address.parse(address))
+
+        const jettonWallet = this._provider.open(JettonWalletContract)
+
+        try {
+            const jettonMaster = await jettonWallet.getJettonMaster()
+
+            return jettonMaster
         } catch (error) {
             console.log('getJettonBalance', error)
             return undefined

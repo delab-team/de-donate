@@ -1,3 +1,4 @@
+import { Address, Dictionary } from 'ton-core'
 import { Smart } from './smart'
 import { jettons } from '../constants/jettons'
 import { FundDetailType, FundType } from '../@types/fund'
@@ -5,6 +6,7 @@ import { FundDetailType, FundType } from '../@types/fund'
 export async function loadFund (
     address: string,
     smart: Smart,
+    isTestnet: boolean,
     ownerAddress?: string,
     excludeFields: {
         description?: boolean;
@@ -18,32 +20,50 @@ export async function loadFund (
 ): Promise<Partial<FundType & FundDetailType> | undefined> {
     const promise = Promise.all([
         smart.getJsonNft(address),
-        smart.getInfo(address)
+        smart.getInfo(address),
+        smart.getPriorityCoin(address),
+        smart.getTotal(address)
     ])
 
-    const [ metadata, info ] = await promise
+    const [ metadata, info, priority, total ] = await promise
     // const d = await smart.getTotalTon(addressFund)
 
     console.log('info', info)
+    console.log('priority', priority?.toString())
 
     const nowTime = Math.floor(Date.now() / 1000)
 
-    if (info) {
-        let asset: string = 'WTON'
-        try {
-            const addr = info[3].beginParse().loadAddress()
-            asset = jettons.filter(j => j.address === addr.toString())[0].label
-        } catch (e) {
-            console.log(e)
-        }
+    let asset: string = 'WTON'
 
-        const AmountToken = info[3].beginParse().loadAddress()
-        console.log(AmountToken)
+    if (info && priority) {
+        const addressWalletPriorityFund = await smart.getWalletAddressOf(address, priority.toString())
+
+        let amountPriority = 0n
+
+        if (total && priority && typeof priority !== 'number' && addressWalletPriorityFund) {
+            const DictAmountTest = total
+            const keys = DictAmountTest.keys()
+            const values = DictAmountTest.values()
+
+            amountPriority = DictAmountTest.get(addressWalletPriorityFund) ?? 0n
+
+            console.log('amountPriority', amountPriority)
+            console.log('keys', keys)
+            console.log('values', values)
+            console.log('size', DictAmountTest.size)
+
+            try {
+                const addr = priority
+                asset = jettons.filter(j => Address.parse(j.address[Number(isTestnet)]).toString() === addr.toString())[0].label
+            } catch (e) {
+                console.log(e)
+            }
+        }
 
         const fund: Partial<FundType & FundDetailType> = {
             title: metadata?.name ?? 'Not name',
             img: metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
-            amount: 0,
+            amount: Number(amountPriority / 10n ** 9n),
             target: Number(info[4] / 10n ** 9n),
             asset,
             addressFund: address,

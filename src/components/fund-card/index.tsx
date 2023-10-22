@@ -12,11 +12,13 @@ import TIME from '../../assets/icons/time.svg'
 
 import VERIFICATED from '../../assets/icons/verificated.svg'
 import NOT_VERIFICATED from '../../assets/icons/error.svg'
+import { jettons } from '../../constants/jettons'
 
 interface FundCardProps {
     img: string;
     title: string;
     amount: number;
+    asset: string;
     target: number;
     description?: string;
     daysTarget?: number;
@@ -33,6 +35,7 @@ export const FundCard: FC<FundCardProps> = ({
     img,
     title,
     amount,
+    asset,
     target,
     daysTarget,
     daysPassed,
@@ -45,6 +48,14 @@ export const FundCard: FC<FundCardProps> = ({
     let progressValueDays = null
     if (daysTarget !== undefined && daysPassed !== undefined) {
         progressValueDays = ((daysPassed / daysTarget) * 100).toFixed(2)
+    }
+
+    function assetImg () {
+        const jetton = jettons.filter(j => j.label === asset)
+        if (jetton.length > 0) {
+            return jetton[0].image
+        }
+        return TON
     }
 
     return (
@@ -64,11 +75,21 @@ export const FundCard: FC<FundCardProps> = ({
                 />
                 <div className={s.cardInfo}>
                     <div className={s.cardTarget}>
-                        <img src={TON} width="18" height="18" alt="ton icon" />
+                        <img
+                            src={
+                                assetImg()
+                            }
+                            width="36"
+                            height="36"
+                            style={{ borderRadius: '36px' }}
+                            alt="ton icon"
+                        />
                         <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                             {formatNumberWithCommas(amount)}
                             {' / '}
                             {formatNumberWithCommas(target)}
+                            {' '}
+                            {asset}
                         </Text>
                     </div>
                     <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
@@ -76,9 +97,9 @@ export const FundCard: FC<FundCardProps> = ({
                     </Text>
                 </div>
                 {daysTarget && daysPassed && fundType !== 1 && daysTarget > 0 ? (
-                    <div className={`${s.cardInfo} ${s.cardDays}`}>
+                    <div className={`${s.cardInfo} `}>
                         <div className={s.cardTarget}>
-                            <img src={TIME} className={s.cardTime} width="18" height="18" alt="time icon" />
+                            <img src={TIME} className={s.cardTime} width="36" height="36" alt="time icon" />
                             <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                                 {formatNumberWithCommas(daysPassed)}
                                 {' / '}
@@ -88,6 +109,17 @@ export const FundCard: FC<FundCardProps> = ({
                         <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                             {progressValueDays + '%'}
                         </Text>
+                    </div>
+                ) : (<></>)}
+
+                {daysTarget && daysPassed ? (
+                    <div className={`${s.cardInfo} ${s.cardDays}`}>
+                        <div className={s.cardTarget}>
+                            <img src={verificated ? VERIFICATED : NOT_VERIFICATED} width="36" height="36" alt="verificated icon" />
+                            <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
+                                {verificated ? 'Money back guarantee' : 'Money cannot be returned'}
+                            </Text>
+                        </div>
                     </div>
                 ) : (<></>)}
                 {description && (

@@ -1,42 +1,42 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core';
+import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core'
 
 export type JettonWalletConfig = {
     owner: Address;
     minter: Address;
     walletCode: Cell;
-};
+}
 
-export function jettonWalletConfigToCell(config: JettonWalletConfig): Cell {
+export function jettonWalletConfigToCell (config: JettonWalletConfig): Cell {
     return beginCell()
         .storeCoins(0)
         .storeAddress(config.owner)
         .storeAddress(config.minter)
         .storeRef(config.walletCode)
-        .endCell();
+        .endCell()
 }
 
 export class JettonWallet implements Contract {
-    constructor(readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
+    constructor (readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
 
-    static createFromAddress(address: Address) {
-        return new JettonWallet(address);
+    static createFromAddress (address: Address) {
+        return new JettonWallet(address)
     }
 
-    static createFromConfig(config: JettonWalletConfig, code: Cell, workchain = 0) {
-        const data = jettonWalletConfigToCell(config);
-        const init = { code, data };
-        return new JettonWallet(contractAddress(workchain, init), init);
+    static createFromConfig (config: JettonWalletConfig, code: Cell, workchain = 0) {
+        const data = jettonWalletConfigToCell(config)
+        const init = { code, data }
+        return new JettonWallet(contractAddress(workchain, init), init)
     }
 
-    async sendDeploy(provider: ContractProvider, via: Sender, value: bigint) {
+    async sendDeploy (provider: ContractProvider, via: Sender, value: bigint) {
         await provider.internal(via, {
             value,
             sendMode: SendMode.PAY_GAS_SEPARATELY,
-            body: beginCell().endCell(),
-        });
+            body: beginCell().endCell()
+        })
     }
 
-    async sendTransfer(
+    async sendTransfer (
         provider: ContractProvider,
         via: Sender,
         value: bigint,
@@ -58,16 +58,27 @@ export class JettonWallet implements Contract {
                 .storeUint(1, 1)
                 .storeRef(forwardPayload)
                 .endCell(),
-            value: value + forwardValue,
-        });
+            value: value + forwardValue
+        })
     }
 
-    async getJettonBalance(provider: ContractProvider) {
-        let state = await provider.getState();
+    async getJettonBalance (provider: ContractProvider) {
+        const state = await provider.getState()
         if (state.state.type !== 'active') {
-            return 0n;
+            return 0n
         }
-        let res = await provider.get('get_wallet_data', []);
-        return res.stack.readBigNumber();
+        const res = await provider.get('get_wallet_data', [])
+        return res.stack.readBigNumber()
+    }
+
+    async getJettonMaster (provider: ContractProvider) {
+        const state = await provider.getState()
+        if (state.state.type !== 'active') {
+            return 0n
+        }
+        const res = await provider.get('get_wallet_data', [])
+        res.stack.readBigNumber()
+        res.stack.readAddress()
+        return res.stack.readAddress()
     }
 }

@@ -13,7 +13,7 @@ interface AmountProps {
     selectedValue: string;
     handleSelect: ([ ...args ]: any) => void;
     options: {
-        address?: null | string;
+        address: string[];
         value: string;
         label: string;
         decimals?: number;
@@ -81,7 +81,7 @@ export const Amount: FC<AmountProps> = ({
                                 handleSelect(
                                     {
                                         token: el.label,
-                                        tokenAddress: isTestnet ? el.addressTestnet : el.address
+                                        tokenAddress: el.address[Number(isTestnet)]
                                     }
                                 )
                                 setIsModalOpen(false)

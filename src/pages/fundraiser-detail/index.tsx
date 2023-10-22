@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button, Div, Input, Modal, Text, Title } from '@delab-team/de-ui'
 import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
-import { toNano } from 'ton-core'
+import { Address, Cell, toNano } from 'ton-core'
 
 import { FundCard } from '../../components/fund-card'
 import { Amount } from '../../components/amount'
@@ -78,7 +78,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
         address: rawAddress,
         amount: '',
         asset: 'WTON',
-        tokenAddress: isTestnet ? jettons[0].addressTestnet : jettons[0].address
+        tokenAddress: jettons[0].address[Number(isTestnet)]
     })
 
     const [ jettonWithdrawal, setJettonWithdrawal ] = useState<string>(jettons[0].value)
@@ -101,7 +101,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     const [ data, setData ] = useState<DataType>({
         amount: '',
         token: 'WTON',
-        tokenAddress: isTestnet ? jettons[0].addressTestnet : jettons[0].address
+        tokenAddress: jettons[0].address[Number(isTestnet)]
     })
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
@@ -117,21 +117,23 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
     const isOwnFund = rawAddress === fundData.ownerAddress
 
-    async function donate () {
-        // const smart = new Smart(tonConnectUI, true)
-
-        if (id) {
-            const tx: SendTransactionRequest = {
-                validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-                messages: [
-                    {
-                        address: id,
-                        amount: toNano(data.amount).toString()
-                    }
-                ]
-            }
-            tonConnectUI.sendTransaction(tx).then(() => setIsDonated(true))
+    async function donate (addressToken: string) {
+        if (!id) {
+            return
         }
+        const smart = new Smart(tonConnectUI, true)
+
+        const addressWalletUser = await smart.getWalletAddressOf(rawAddress, addressToken)
+
+        if (!addressWalletUser) {
+            return
+        }
+
+        console.log('addressWalletUser', addressWalletUser.toString())
+
+        const tr = await smart.sendTransfer(addressWalletUser.toString(), Address.parse(id), toNano(data.amount))
+
+        if (tr) setIsDonated(true)
     }
 
     useEffect(() => {
@@ -154,7 +156,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                         return
                     }
 
-                    const fund = await loadFund(id, smart, item.owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
+                    const fund = await loadFund(id, smart, isTestnet, item.owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
 
                     if (!fund) {
                         navigate('/')
@@ -167,7 +169,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     }, 200)
                 }
             }).catch(async (error) => {
-                const fund = await loadFund(id, smart, '')
+                const fund = await loadFund(id, smart, isTestnet, '')
 
                 if (!fund) {
                     navigate('/')
@@ -242,6 +244,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
             ) : (
                 <FundCard
                     title={fundData.title}
+                    asset={fundData.asset}
                     target={fundData.target}
                     img={fundData.img || IMG1}
                     amount={fundData.amount}
@@ -276,7 +279,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                     size="stretched"
                     className="action-btn"
                     disabled={Number(data.amount) < 0.0001 || isNaN(parseFloat(data.amount))}
-                    onClick={() => (rawAddress ? donate() : tonConnectUI.connectWallet())}
+                    onClick={() => (rawAddress ? donate(data.tokenAddress) : tonConnectUI.connectWallet())}
                     tgStyles={editButtonTg}
                 >
                     Donate Now

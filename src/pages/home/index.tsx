@@ -83,11 +83,19 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                 for (let i = 0; i < items.nft_items.length; i++) {
                     const addressFund = items.nft_items[i].address
 
-                    const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address)
+                    const fund = await loadFund(addressFund, smart, isTestnet, items.nft_items[i].owner?.address[Number(isTestnet)], {})
                     newFunds.push(fund as FundType)
+
+                    if (fund) {
+                        const local: FundType[] = [ fund as FundType ]
+
+                        setLoadedFunds(prevFunds => [ ...prevFunds, ...local ])
+
+                        setLoading(false)
+                    }
                 }
 
-                setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
+                // setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
                 setOffset(offset + newFunds.length)
 
                 if (items.nft_items.length < 10) {

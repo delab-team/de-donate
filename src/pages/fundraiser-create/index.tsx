@@ -84,7 +84,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
         description: '',
         amount: '',
         token: 'WTON',
-        tokenAddress: isTestnet ? jettons[0].addressTestnet : jettons[0].address,
+        tokenAddress: jettons[0].address[Number(isTestnet)],
         timeLife: 7,
         file: ''
     })
@@ -156,9 +156,9 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
         const res = await smart.deployFundraiser(
             addrColl,
             data.content,
-            jettons.filter(jetton => jetton.label === createData.token)[0].address,
+            jettons.filter(jetton => jetton.label === createData.token)[0].address[Number(isTestnet)],
             toNano(createData.amount),
-            BigInt(nowTime + createData.timeLife * 86400)
+            createData.timeLife === 0 ? 0n : BigInt(nowTime + createData.timeLife * 86400)
         )
 
         if (res) {
