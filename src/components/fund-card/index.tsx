@@ -79,6 +79,7 @@ export const FundCard: FC<FundCardProps> = ({
 
         const tempTextArea = document.createElement('textarea')
         tempTextArea.value = finalUrl
+        tempTextArea.setAttribute('readonly', '')
         document.body.appendChild(tempTextArea)
         tempTextArea.select()
         document.execCommand('copy')
