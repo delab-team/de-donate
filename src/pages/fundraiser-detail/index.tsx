@@ -259,7 +259,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             detailStyles
                             isTestnet={isTestnet}
                         />
-                        <Text fontSize='small' className={s.withdrawalModalBalance}>Balance: {tokenBalance || 0}</Text>
+                        <Text fontSize='small' className={s.withdrawalModalBalance} tgStyles={{ color: 'var(--tg-theme-text-color)' }}>Balance: {tokenBalance || 0}</Text>
                         <Button
                             rounded="l"
                             size="stretched"
