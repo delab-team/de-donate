@@ -61,6 +61,7 @@ export async function loadFund (
         }
 
         const fund: Partial<FundType & FundDetailType> = {
+            id: address,
             title: metadata?.name ?? 'Not name',
             img: metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
             amount: Number(amountPriority / 10n ** 9n),

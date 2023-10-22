@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/space-infix-ops */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable no-await-in-loop */
@@ -6,8 +7,8 @@ import { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button, Div, Input, Modal, Text, Title } from '@delab-team/de-ui'
-import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
-import { Address, Cell, toNano } from 'ton-core'
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
+import { Address, toNano } from 'ton-core'
 
 import { FundCard } from '../../components/fund-card'
 import { Amount } from '../../components/amount'
@@ -54,6 +55,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     const rawAddress = useTonAddress(false)
 
     const [ fundData, setFundData ] = useState<FundType & FundDetailType>({
+        id: '',
         addressFund: '',
         amount: 0,
         img: '',
@@ -106,6 +108,11 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
 
+    // Token Balance
+
+    const [ tokenBalance, setTokenBalance ] = useState<any | undefined>(undefined)
+    console.log('🚀 ~ file: index.tsx:112 ~ tokenBalance:', tokenBalance)
+
     const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
         setSelectedValue(token)
         setData({
@@ -135,6 +142,30 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
         if (tr) setIsDonated(true)
     }
+
+    async function getBalanceToken () {
+        if (!id || !rawAddress || !data.tokenAddress) {
+            return
+        }
+
+        const smart = new Smart(tonConnectUI, true)
+
+        const addressWalletUser = await smart.getWalletAddressOf(rawAddress, data.tokenAddress)
+        if (addressWalletUser) {
+            const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
+
+            if (balanceToken !== undefined) {
+                const balance = toNano(balanceToken).toString()
+                setTokenBalance(balance)
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            getBalanceToken()
+        }
+    }, [ data.tokenAddress, id, rawAddress ])
 
     useEffect(() => {
         if (!first) {
@@ -187,6 +218,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
         return () => {
             setFundData({
+                id: '',
                 addressFund: '',
                 amount: 0,
                 img: '',
@@ -227,11 +259,12 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                             detailStyles
                             isTestnet={isTestnet}
                         />
+                        <Text fontSize='small' className={s.withdrawalModalBalance}>Balance: {tokenBalance || 0}</Text>
                         <Button
                             rounded="l"
                             size="stretched"
                             className="action-btn"
-                            disabled={withdrawalData.amount.length < 1}
+                            disabled={Number(withdrawalData.amount) > tokenBalance || isNaN(parseFloat(withdrawalData.amount)) || Number(withdrawalData.amount) === 0}
                             tgStyles={editButtonTg}
                         >
                             Submit
@@ -243,6 +276,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
                 <FundDetailSkeleton isTg={isTg} />
             ) : (
                 <FundCard
+                    id={fundData.id}
                     title={fundData.title}
                     asset={fundData.asset}
                     target={fundData.target}

@@ -1,4 +1,5 @@
 export interface FundType {
+    id: string,
     img: string,
     title: string,
     amount: number,

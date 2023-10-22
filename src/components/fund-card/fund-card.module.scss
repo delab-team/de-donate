@@ -1,66 +1,76 @@
-.cardTop {
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 150px;
-  border-radius: 30px 30px 0px 0px;
-}
-
-.progressBar {
-  border-radius: 20px;
-  height: 3px;
-  background: #fff;
-}
-
-.cardDetail {
-  padding: 19px 15px;
-  margin-top: -10px;
-  border-radius: 0 0 20px 20px;
-  background: var(--gray3);
-}
-
-.cardDetailTop {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 8px;
+.card {
+  &Link {
+    cursor: pointer;
+  }
+  &DisabledLink {
+    pointer-events: none;
+  }
+  &Top {
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 150px;
+    border-radius: 30px 30px 0px 0px;
+  }
+  &ProgressBar {
+    border-radius: 20px;
+    height: 3px;
+    background: #fff;
+  }
+  &Detail {
+    padding: 19px 15px;
+    margin-top: -10px;
+    border-radius: 0 0 20px 20px;
+    background: var(--gray3);
+    &Top {
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    &Title {
+      display: flex;
+      align-items: center;
+      gap: 5px
+    }
+  }  
+  &Info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 7px;
+  }
+  &Target {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  &Description {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.70);
+    position: relative;
+  }
+  &Days {
+    margin-bottom: 20px;
+  }  
+  &Time {
+    border-radius: 50%;
+    border: 1px solid #E3E3E3;
+  }
+  &Copy {
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    &:hover {
+      transform: scale(1.03);
+      background: transparent!important;
+    }
+  }
 }
 
 .title {
   font-size: 16px;
   font-weight: 700;
-}
-
-.cardInfo {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 7px;
-}
-
-.cardTarget {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.customClassName {
-  margin-top: 20px;
-}
-
-.cardDescription {
-  font-size: 13px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.70);
-  position: relative;
-}
-
-.cardDays {
-  margin-bottom: 20px;
-}
-
-.cardTime {
-  border-radius: 50%;
-  border: 1px solid #E3E3E3;
 }

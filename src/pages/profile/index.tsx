@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom'
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { Title, Text, Button } from '@delab-team/de-ui'
 
+import { Address } from 'ton-core'
 import { FundCard } from '../../components/fund-card'
-import { FundCardSkeleton } from '../../components/fund-card-skeleton'
+import { FundDetailSkeleton } from '../../components/fund-detail-skeleton'
 import { NotFound } from '../../components/not-found'
 import { AlertModal } from '../../components/alert-modal'
 
@@ -52,48 +53,36 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
     const rawAddress = useTonAddress(false)
     const rawAddressProfile = useTonAddress(true)
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
     const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
     const loadMoreItems = async () => {
-        if (allItemsLoaded) {
+        if (allItemsLoaded || !rawAddress) {
             return
         }
         setLoading(true)
 
         const coll = addressCollection[isTestnet ? 1 : 0]
+        const collAddr = Address.parse(coll).toRawString()
         const smart = new Smart(tonConnectUI, true)
 
-        api.searchItemsFromUser(rawAddress, 10, offset).then(async (items) => {
+        api.getProfileItemsV2(rawAddress, collAddr).then(async (items) => {
             if (items) {
                 const newFunds: FundType[] = []
-                for (let i = 0; i < items?.nft_items.length; i++) {
-                    const addressFund = items.nft_items[i].address
 
-                    if (items.nft_items[i].collection_address === addressCollection[isTestnet ? 1 : 0]) {
-                    // const fund = await loadFund(addressFund, smart, items.nft_items[i].owner?.address)
+                for (let i = 0; i < items.length; i++) {
+                    const addressFund = items[i].address
+                    const fund = await loadFund(addressFund, smart, isTestnet, items[i].owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
 
-                        const fund = await loadFund(addressFund, smart, isTestnet, items.nft_items[i].owner?.address ?? '',  { daysPassed: true,  daysTarget: true, description: true })
-
-                        // const fund = {
-                        //     title: items.nft_items[i].metadata.name ?? 'Not name',
-                        //     img: items.nft_items[i].metadata.image?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? IMG1,
-                        //     amount: 1,
-                        //     target: 1,
-                        //     asset: 'WTON',
-                        //     addressFund,
-                        //     ownerAddress: items.nft_items[i].owner?.address
-                        // }
-
-                        newFunds.push(fund as FundType)
-                    }
+                    newFunds.push(fund as FundType)
                 }
 
                 setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
                 setOffset(offset + newFunds.length)
 
-                if (items.nft_items.length < 10) {
+                if (items.length < 10) {
                     setAllItemsLoaded(true)
                 }
             }
@@ -137,11 +126,9 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                     {loading
                         ? Array(3)
                             .fill(null)
-                            .map(_ => <FundCardSkeleton key={v1()} isTg={isTg} />)
+                            .map(_ => <FundDetailSkeleton widthFull key={v1()} isTg={isTg} />)
                         : loadedFunds.map(el => (
-                            <Link to={`/fundraiser-detail/${el.addressFund}`} key={v1()}>
-                                <FundCard formatNumberWithCommas={formatNumberWithCommas} {...el} />
-                            </Link>
+                            <FundCard key={v1()} formatNumberWithCommas={formatNumberWithCommas} isLink {...el} />
                         ))}
                     {loadedFunds.length >= 10 && (
                         <Button

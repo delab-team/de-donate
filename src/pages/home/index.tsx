@@ -169,12 +169,12 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                                 .fill(null)
                                 .map(_ => <FundCardSkeleton key={v1()} isTg={isTg} />)
                             : loadedFunds.map(el => (
-                                <Link to={`/fundraiser-detail/${el.addressFund}`} key={v1()}>
-                                    <FundCard
-                                        formatNumberWithCommas={formatNumberWithCommas}
-                                        {...el}
-                                    />
-                                </Link>
+                                <FundCard
+                                    key={v1()}
+                                    isLink
+                                    formatNumberWithCommas={formatNumberWithCommas}
+                                    {...el}
+                                />
                             ))}
                         {
                             loadMoreItems.length >= 10 && (

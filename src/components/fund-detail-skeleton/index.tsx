@@ -6,10 +6,11 @@ import s from './fund-card-skeleton.module.scss'
 
 interface FundDetailSkeletonProps {
     isTg: boolean;
+    widthFull?: boolean;
 }
 
-export const FundDetailSkeleton: FC<FundDetailSkeletonProps> = ({ isTg, ...rest }) => (
-    <Div className={s.skeletonInner} tgStyles={{ background: 'var(--tg-theme-bg-color)' }}>
+export const FundDetailSkeleton: FC<FundDetailSkeletonProps> = ({ isTg, widthFull, ...rest }) => (
+    <Div className={`${s.skeletonInner} ${widthFull && s.skeletonInnerFull}`} tgStyles={{ background: 'var(--tg-theme-bg-color)' }}>
         <ContentLoader
             speed={2}
             width="100%"

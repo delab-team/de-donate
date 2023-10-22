@@ -287,7 +287,7 @@ export class TonApi {
     }
 
     public async getInfoUserV2 (address: string): Promise<AccountV2 | undefined> {
-        const data = await this.send(`accounts/${address}`, { }, true)
+        const data = await this.send(`accounts/${address}`, {  }, true)
 
         console.log(data)
         return data
@@ -321,12 +321,12 @@ export class TonApi {
         return data
     }
 
-    // public async getProfileItems (accountId: string, collectionAddress: string): Promise<Items | undefined> {
-    //     const data = await this.send(`accounts/${accountId}/nfts?collection=${collectionAddress}`, true)
+    public async getProfileItemsV2 (accountId: string, collectionAddress: string): Promise<Item[] | undefined> {
+        const data = await this.send(`accounts/${accountId}/nfts?collection=${collectionAddress}`, {}, true)
 
-    //     console.log(data)
-    //     return data
-    // }
+        console.log(data)
+        return data.nft_items
+    }
 }
 
 export type { Items, Item, Collection, Collections, Account, AccountV2, Transactions, Transaction }

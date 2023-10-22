@@ -1,72 +1,72 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Dictionary, Sender } from 'ton-core';
+import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Dictionary, Sender } from 'ton-core'
 
 export type FundraiserConfig = {
     collection: Address;
     index: bigint;
-};
+}
 
-export function fundraiserConfigToCell(config: FundraiserConfig): Cell {
-    return beginCell().storeAddress(config.collection).storeUint(config.index, 64).endCell();
+export function fundraiserConfigToCell (config: FundraiserConfig): Cell {
+    return beginCell().storeAddress(config.collection).storeUint(config.index, 64).endCell()
 }
 
 export class Fundraiser implements Contract {
-    constructor(readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
+    constructor (readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
 
-    static createFromAddress(address: Address) {
-        return new Fundraiser(address);
+    static createFromAddress (address: Address) {
+        return new Fundraiser(address)
     }
 
-    static createFromConfig(config: FundraiserConfig, code: Cell, workchain = 0) {
-        const data = fundraiserConfigToCell(config);
-        const init = { code, data };
-        return new Fundraiser(contractAddress(workchain, init), init);
+    static createFromConfig (config: FundraiserConfig, code: Cell, workchain = 0) {
+        const data = fundraiserConfigToCell(config)
+        const init = { code, data }
+        return new Fundraiser(contractAddress(workchain, init), init)
     }
 
-    async sendClaim(provider: ContractProvider, via: Sender, value: bigint, queryId: bigint) {
+    async sendClaim (provider: ContractProvider, via: Sender, value: bigint, queryId: bigint) {
         await provider.internal(via, {
             value,
-            body: beginCell().storeUint(0x4d0c099d, 32).storeUint(queryId, 64).endCell(),
-        });
+            body: beginCell().storeUint(0x4d0c099d, 32).storeUint(queryId, 64).endCell()
+        })
     }
 
-    async getActive(provider: ContractProvider): Promise<boolean> {
-        return Boolean((await provider.get('get_active', [])).stack.readNumber());
+    async getActive (provider: ContractProvider): Promise<boolean> {
+        return Boolean((await provider.get('get_active', [])).stack.readNumber())
     }
 
-    async getType(provider: ContractProvider): Promise<number> {
-        return (await provider.get('get_type', [])).stack.readNumber();
+    async getType (provider: ContractProvider): Promise<number> {
+        return (await provider.get('get_type', [])).stack.readNumber()
     }
 
-    async getBlockTime(provider: ContractProvider): Promise<number> {
-        return (await provider.get('get_block_time', [])).stack.readNumber();
+    async getBlockTime (provider: ContractProvider): Promise<number> {
+        return (await provider.get('get_block_time', [])).stack.readNumber()
     }
 
-    async getTotal(provider: ContractProvider): Promise<Dictionary<Address, bigint>> {
-        const total = (await provider.get('get_total', [])).stack.readCellOpt();
+    async getTotal (provider: ContractProvider): Promise<Dictionary<Address, bigint>> {
+        const total = (await provider.get('get_total', [])).stack.readCellOpt()
         if (!total) {
-            return Dictionary.empty(Dictionary.Keys.Address(), Dictionary.Values.BigVarUint(4));
+            return Dictionary.empty(Dictionary.Keys.Address(), Dictionary.Values.BigVarUint(4))
         }
-        return total.beginParse().loadDictDirect(Dictionary.Keys.Address(), Dictionary.Values.BigVarUint(4));
+        return total.beginParse().loadDictDirect(Dictionary.Keys.Address(), Dictionary.Values.BigVarUint(4))
     }
 
-    async getHelperAddress(provider: ContractProvider, user: Address): Promise<Address> {
+    async getHelperAddress (provider: ContractProvider, user: Address): Promise<Address> {
         return (
             await provider.get('get_helper_address', [
-                { type: 'slice', cell: beginCell().storeAddress(user).endCell() },
+                { type: 'slice', cell: beginCell().storeAddress(user).endCell() }
             ])
-        ).stack.readAddress();
+        ).stack.readAddress()
     }
 
-    async getPriorityCoin(provider: ContractProvider): Promise<Address> {
-        return (await provider.get('get_priority_coin', [])).stack.readAddress();
+    async getPriorityCoin (provider: ContractProvider): Promise<Address> {
+        return (await provider.get('get_priority_coin', [])).stack.readAddress()
     }
 
-    async getGoal(provider: ContractProvider): Promise<bigint> {
-        return (await provider.get('get_goal', [])).stack.readBigNumber();
+    async getGoal (provider: ContractProvider): Promise<bigint> {
+        return (await provider.get('get_goal', [])).stack.readBigNumber()
     }
 
-    async getInfo(provider: ContractProvider): Promise<[bigint, bigint, bigint, Cell | null, bigint]> {
-        const result = await provider.get('get_info', []);
+    async getInfo (provider: ContractProvider): Promise<[bigint, bigint, bigint, Cell | null, bigint]> {
+        const result = await provider.get('get_info', [])
         return [
             result.stack.readBigNumber(),
             result.stack.readBigNumber(),
@@ -76,15 +76,13 @@ export class Fundraiser implements Contract {
         ]
     }
 
-    async getContent(provider: ContractProvider): Promise<Cell>  {
-        const result = await provider.get('get_nft_data', []);
+    async getContent (provider: ContractProvider): Promise<Cell>  {
+        const result = await provider.get('get_nft_data', [])
         result.stack.readBigNumber()
         result.stack.readBigNumber()
         result.stack.readAddress()
         result.stack.readAddress()
         const content = result.stack.readCell()
         return content
-      }
-
-    
+    }
 }
