@@ -2,7 +2,6 @@
 /* eslint-disable no-await-in-loop */
 import { FC, useEffect, useState } from 'react'
 import { v1 } from 'uuid'
-import { Link } from 'react-router-dom'
 
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { Title, Text, Button } from '@delab-team/de-ui'
@@ -68,7 +67,9 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
         const collAddr = Address.parse(coll).toRawString()
         const smart = new Smart(tonConnectUI, true)
 
-        api.getProfileItemsV2(rawAddress, collAddr).then(async (items) => {
+        const limit = 5
+
+        api.getProfileItemsV2(rawAddress, collAddr, limit, offset).then(async (items) => {
             if (items) {
                 const newFunds: FundType[] = []
 
@@ -82,7 +83,7 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                 setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
                 setOffset(offset + newFunds.length)
 
-                if (items.length < 10) {
+                if (items.length < 5) {
                     setAllItemsLoaded(true)
                 }
             }
@@ -130,7 +131,7 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
                         : loadedFunds.map(el => (
                             <FundCard key={v1()} formatNumberWithCommas={formatNumberWithCommas} isLink {...el} />
                         ))}
-                    {loadedFunds.length >= 10 && (
+                    {loadedFunds.length >= 5 && (
                         <Button
                             rounded="l"
                             size="stretched"

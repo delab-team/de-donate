@@ -321,10 +321,8 @@ export class TonApi {
         return data
     }
 
-    public async getProfileItemsV2 (accountId: string, collectionAddress: string): Promise<Item[] | undefined> {
-        const data = await this.send(`accounts/${accountId}/nfts?collection=${collectionAddress}`, {}, true)
-
-        console.log(data)
+    public async getProfileItemsV2 (accountId: string, collectionAddress: string, limitNft: number, offsetNft: number): Promise<Item[] | undefined> {
+        const data = await this.send(`accounts/${accountId}/nfts?collection=${collectionAddress}`, { indirect_ownership: false, offset: offsetNft, limit: limitNft }, true)
         return data.nft_items
     }
 }

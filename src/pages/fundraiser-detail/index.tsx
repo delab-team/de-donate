@@ -155,7 +155,6 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
             if (balanceToken !== undefined) {
                 const balance = toNano(balanceToken).toString()
-                console.log('🚀 ~ file: index.tsx:158 ~ getBalanceToken ~ balance:', balance)
                 setTokenBalance(balance)
             }
         }
