@@ -111,7 +111,6 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     // Token Balance
 
     const [ tokenBalance, setTokenBalance ] = useState<any | undefined>(undefined)
-    console.log('🚀 ~ file: index.tsx:112 ~ tokenBalance:', tokenBalance)
 
     const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
         setSelectedValue(token)
@@ -144,7 +143,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
     }
 
     async function getBalanceToken () {
-        if (!id || !rawAddress || !data.tokenAddress) {
+        if (!id || !rawAddress || !data.tokenAddress || fundData.ownerAddress !== rawAddress) {
             return
         }
 
@@ -156,6 +155,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
 
             if (balanceToken !== undefined) {
                 const balance = toNano(balanceToken).toString()
+                console.log('🚀 ~ file: index.tsx:158 ~ getBalanceToken ~ balance:', balance)
                 setTokenBalance(balance)
             }
         }
@@ -165,7 +165,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ addressCollection,
         if (id) {
             getBalanceToken()
         }
-    }, [ data.tokenAddress, id, rawAddress ])
+    }, [ data.tokenAddress, id, rawAddress, isWithdrawal ])
 
     useEffect(() => {
         if (!first) {
