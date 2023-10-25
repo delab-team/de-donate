@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/space-infix-ops */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
@@ -115,7 +116,6 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
     // Balance Token State
     const [ tokenBalance, setTokenBalance ] = useState<string | undefined>(undefined)
-    console.log('🚀 ~ file: index.tsx:118 ~ tokenBalance:', tokenBalance)
 
     // Handle Select Amount
     const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
@@ -308,6 +308,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
         }
     }, [ id ])
 
+    const updatedJettons = jettons.map((jetton: any) => {
+        const matchingTokenBalance = tokenBalances.find(balance => balance.token === jetton.label)
+        if (matchingTokenBalance) {
+            jetton.balance = matchingTokenBalance.balance
+        }
+        return jetton
+    })
     return (
         <div className={s.inner}>
             {isDonated && (
@@ -319,8 +326,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                         <Title variant="h5" className={s.withdrawalModalTitle} tgStyles={ { color: 'var(--tg-theme-text-color)' } }>Withdrawal</Title>
                         <Input className={`input ${s.withdrawalModalInput}`} value={rawAddress} variant='black' onChange={() => {}} tgStyles={withdrawalModalInputTg} />
                         <Amount
-                            options={jettons}
-                            value={String(withdrawalData.amount)}
+                            options={updatedJettons}
+                            value={tokenBalance || '0'}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setWithdrawalData({
                                     ...withdrawalData,
@@ -330,9 +337,10 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                             selectedValue={jettonWithdrawal}
                             handleSelect={jettonSelectWithdrawal}
                             detailStyles
+                            onlyRead
                             isTestnet={isTestnet}
+                            showBalanceToken
                         />
-                        <Text fontSize='small' className={s.withdrawalModalBalance} tgStyles={{ color: 'var(--tg-theme-text-color)' }}>Balance: {tokenBalance || 0}</Text>
                         <Button
                             rounded="l"
                             size="stretched"

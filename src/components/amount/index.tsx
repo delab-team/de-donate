@@ -3,8 +3,6 @@ import { FC, useState } from 'react'
 
 import { Button, IconSelector, Input, Modal, Text, Title } from '@delab-team/de-ui'
 
-import { jettons } from '../../constants/jettons'
-
 import s from './amount.module.scss'
 
 interface AmountProps {
@@ -13,6 +11,7 @@ interface AmountProps {
     selectedValue: string;
     handleSelect: ([ ...args ]: any) => void;
     options: {
+        balance?: string;
         address: string[];
         value: string;
         label: string;
@@ -24,6 +23,8 @@ interface AmountProps {
         catalogs?: string[] | null;
     }[];
     detailStyles?: boolean
+    showBalanceToken?: boolean
+    onlyRead?: boolean
     isTestnet: boolean
 }
 
@@ -36,7 +37,10 @@ export const Amount: FC<AmountProps> = ({
     selectedValue,
     handleSelect,
     detailStyles = false,
-    isTestnet
+    isTestnet,
+    onlyRead = false,
+    options,
+    showBalanceToken
 }) => {
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false)
 
@@ -54,7 +58,7 @@ export const Amount: FC<AmountProps> = ({
                 value={value}
                 onChange={onChange}
                 variant="black"
-                className={`input ${s.input}`}
+                className={`input ${s.input} ${onlyRead ? s.inputDisabled : ''}`}
                 placeholder="Amount"
                 tgStyles={{
                     input: {
@@ -73,7 +77,7 @@ export const Amount: FC<AmountProps> = ({
                     Select Token
                 </Title>
                 <div className={s.jettons}>
-                    {jettons.map(el => (
+                    {options.map(el => (
                         <Button
                             className={s.btnSelect}
                             key={el.label}
@@ -90,6 +94,7 @@ export const Amount: FC<AmountProps> = ({
                         >
                             <div className={s.selectInfo}>
                                 <img src={el.image} alt={el.label} width={20} height={20} />
+                                {showBalanceToken && el.balance}
                                 <Text className={s.selectInfoLabel} tgStyles={textModalTg}>{el.label}</Text>
                             </div>
                             {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" tgStyles={{ stroke: 'var(--tg-theme-link-color)' }} />}
