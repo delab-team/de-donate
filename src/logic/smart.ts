@@ -108,7 +108,7 @@ export class Smart {
         }
     }
 
-    public async sendClaim (addressFundraiser: string): Promise<true | undefined> {
+    public async sendClaim (addressFundraiser: string, tokens: Address[]): Promise<true | undefined> {
         await this._provider.sunc() // обязательно перед каждой функией
 
         const fundraiserContract = new FundraiserClass(Address.parse(addressFundraiser)) // создаем класс контракта
@@ -116,7 +116,7 @@ export class Smart {
         const fundraiser = this._provider.open(fundraiserContract) // открываем контракт для работы с ним
 
         try {
-            await fundraiser.sendClaim(this._provider.sender(), toNano('0.5'), 123n) // отправляем нужный запрос
+            await fundraiser.sendClaim(this._provider.sender(), toNano('0.4'), 123n, tokens) // отправляем нужный запрос
 
             return true
         } catch (error) {
@@ -391,23 +391,6 @@ export class Smart {
             const jettonBalance = await jettonWallet.getJettonBalance()
 
             return jettonBalance
-        } catch (error) {
-            console.log('getJettonBalance', error)
-            return undefined
-        }
-    }
-
-    public async getJettonMaster (address: string): Promise<Address | bigint | undefined> {
-        await this._provider.sunc()
-
-        const JettonWalletContract = new JettonWalletClass(Address.parse(address))
-
-        const jettonWallet = this._provider.open(JettonWalletContract)
-
-        try {
-            const jettonMaster = await jettonWallet.getJettonMaster()
-
-            return jettonMaster
         } catch (error) {
             console.log('getJettonBalance', error)
             return undefined

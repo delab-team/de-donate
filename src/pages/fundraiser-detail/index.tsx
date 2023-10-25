@@ -134,8 +134,14 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
             return
         }
 
+        const address = jettons.filter(j => j.label === selectedValue)[0].address[Number(isTestnet)]
+
         const smart = new Smart(tonConnectUI, true)
-        const res = await smart.sendClaim(id)
+        const wallet = await smart.getWalletAddressOf(id, address)
+
+        if (!wallet) return
+
+        const res = await smart.sendClaim(id, [ wallet ])
         if (res) setIsDonated(true)
     }
 
@@ -168,13 +174,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
     }))
 
     async function loadAllTokenBalances () {
-        if (!rawAddress || !isOwnFund) {
+        if (!rawAddress || !isOwnFund || !id) {
             return
         }
 
         const smart = new Smart(tonConnectUI, true)
         const balancePromises = tokensToLoad.map(async (tokenInfo) => {
-            const addressWalletUser = await smart.getWalletAddressOf(rawAddress, tokenInfo.tokenAddress)
+            const addressWalletUser = await smart.getWalletAddressOf(id, tokenInfo.tokenAddress)
             if (addressWalletUser) {
                 const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
                 if (balanceToken !== undefined) {
@@ -335,7 +341,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                             tgStyles={editButtonTg}
                             onClick={() => Withdrawal()}
                         >
-                            Submit
+                            Withdrawal
                         </Button>
                     </div>
                 </Modal>
@@ -390,13 +396,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
             {isOwnFund && (
                 <div className={s.actionsButtons}>
-                    <Button
+                    {/* <Button
                         className={s.editButton}
                         onClick={() => navigate(`/fundraiser-update/${id}`)}
                         tgStyles={editButtonTg}
                     >
                         Edit
-                    </Button>
+                    </Button> */}
                     <Button className={s.editButton} onClick={() => setIsWithdrawal(true)}
                         tgStyles={editButtonTg}
                     >
