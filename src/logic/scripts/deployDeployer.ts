@@ -1,8 +1,8 @@
-import { Address, beginCell, toNano } from 'ton-core'
-import { compile, NetworkProvider } from '@ton-community/blueprint'
-import { Deployer } from '../wrappers/Deployer'
+import { Address, beginCell, toNano } from 'ton-core';
+import { Deployer } from '../wrappers/Deployer';
+import { compile, NetworkProvider } from '@ton-community/blueprint';
 
-export async function run (provider: NetworkProvider) {
+export async function run(provider: NetworkProvider) {
     const deployer = provider.open(
         Deployer.createFromConfig(
             {
@@ -13,13 +13,13 @@ export async function run (provider: NetworkProvider) {
                 helperCode: await compile('Helper'),
                 index: 0n,
                 jettonWalletCode: await compile('JettonWallet'),
-                collectionContent: beginCell().storeUint(1, 8).endCell()
+                collectionContent: beginCell().storeUint(1, 8).endCell(),
             },
             await compile('Deployer')
         )
-    )
+    );
 
-    await deployer.sendDeploy(provider.sender(), toNano('0.05'))
+    await deployer.sendDeploy(provider.sender(), toNano('0.05'));
 
-    await provider.waitForDeploy(deployer.address)
+    await provider.waitForDeploy(deployer.address);
 }

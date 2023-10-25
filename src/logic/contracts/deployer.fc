@@ -118,7 +118,6 @@ global slice context::sender;
                     .store_uint(data::fee_percentage, 16)
                     .store_ref(data::helper_code)
                     .store_ref(data::jetton_wallet_code)
-                    .store_uint(0, 64)
                 .end_cell())
             .end_cell())
         .end_cell(), 64);
