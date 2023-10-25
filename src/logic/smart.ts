@@ -116,7 +116,7 @@ export class Smart {
         const fundraiser = this._provider.open(fundraiserContract) // открываем контракт для работы с ним
 
         try {
-            await fundraiser.sendClaim(this._provider.sender(), toNano('0.05'), 123n) // отправляем нужный запрос
+            await fundraiser.sendClaim(this._provider.sender(), toNano('0.5'), 123n) // отправляем нужный запрос
 
             return true
         } catch (error) {

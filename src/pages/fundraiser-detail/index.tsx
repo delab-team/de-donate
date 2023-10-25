@@ -129,6 +129,16 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
     const isOwnFund = rawAddress === fundData.ownerAddress
 
+    async function Withdrawal () {
+        if (!id) {
+            return
+        }
+
+        const smart = new Smart(tonConnectUI, true)
+        const res = await smart.sendClaim(id)
+        if (res) setIsDonated(true)
+    }
+
     async function donate (addressToken: string) {
         if (!id) {
             return
@@ -323,6 +333,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                             className="action-btn"
                             disabled={Number(withdrawalData.amount) > Number(tokenBalance) || isNaN(parseFloat(withdrawalData.amount)) || Number(withdrawalData.amount) === 0}
                             tgStyles={editButtonTg}
+                            onClick={() => Withdrawal()}
                         >
                             Submit
                         </Button>
