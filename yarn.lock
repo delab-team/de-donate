@@ -1302,10 +1302,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@delab-team/de-ui@0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@delab-team/de-ui/-/de-ui-0.0.23.tgz#39e9404d5297d618d4c93a03487a84f208a238a3"
-  integrity sha512-JbeTD3P1LyYofGqn1cUq4ndWA/CEReIb4otjkM9+NkFraH9V9OpxG7VGXOK1nK7QCVrRgX8QquWsHjgxWt8/OA==
+"@delab-team/de-ui@0.0.24":
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/@delab-team/de-ui/-/de-ui-0.0.24.tgz#0a62c689bc9eb26a39484964ca34acdef621813f"
+  integrity sha512-gPYugY+q/DQ+h+lVd/JkQurffXBHNV7+t3q9DZkLAR3KA/S/uRvUYiU0y70wRSFYYE7Y3pho2L3miiamw61ovg==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
