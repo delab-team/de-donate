@@ -40,6 +40,7 @@ type DataType = {
     amount: string;
     token: string;
     tokenAddress: string;
+    decimals: number;
 }
 
 type TokenBalancesType = {
@@ -109,7 +110,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
     const [ data, setData ] = useState<DataType>({
         amount: '',
         token: 'WTON',
-        tokenAddress: jettons[0].address[Number(isTestnet)]
+        tokenAddress: jettons[0].address[Number(isTestnet)],
+        decimals: 9
     })
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
@@ -118,12 +120,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
     const [ tokenBalance, setTokenBalance ] = useState<string | undefined>(undefined)
 
     // Handle Select Amount
-    const handleSelect = ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
+    const handleSelect = ({ token, tokenAddress, decimals }: { token: string, tokenAddress: string, decimals: number }) => {
         setSelectedValue(token)
         setData({
             ...data,
             token,
-            tokenAddress
+            tokenAddress,
+            decimals
         })
     }
 
@@ -142,6 +145,21 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
         if (!wallet) return
 
         const res = await smart.sendClaim(id, [ wallet ])
+        if (res) setIsDonated(true)
+    }
+
+    async function returnMoney () {
+        if (!id) {
+            return
+        }
+        const smart = new Smart(tonConnectUI, true)
+
+        const helper = await smart.getHelperAddress(Address.parse(id))
+
+        if (!helper) return
+
+        const res = await smart.sendReturn(helper.toString())
+
         if (res) setIsDonated(true)
     }
 
@@ -170,7 +188,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
     const tokensToLoad = jettons.map(el => ({
         token: el.label,
-        tokenAddress: el.address[Number(isTestnet)]
+        tokenAddress: el.address[Number(isTestnet)],
+        decimals: el.decimals
     }))
 
     async function loadAllTokenBalances () {
@@ -184,7 +203,11 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
             if (addressWalletUser) {
                 const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
                 if (balanceToken !== undefined) {
-                    const balance = fromNano(balanceToken).toString()
+                    let balance = fromNano(balanceToken).toString()
+
+                    if (tokenInfo.decimals !== 9) {
+                        balance = (balanceToken * 10n ** BigInt(tokenInfo.decimals)).toString()
+                    }
                     return {
                         ...tokenInfo,
                         balance
@@ -212,7 +235,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
         }
     }, [ id, rawAddress, isOwnFund ])
 
-    const jettonSelectWithdrawal = async ({ token, tokenAddress }: { token: string, tokenAddress: string }) => {
+    const jettonSelectWithdrawal = async ({ token, tokenAddress, decimals }: { token: string, tokenAddress: string, decimals: number }) => {
         setJettonWithdrawal(token)
 
         const selectedTokenBalance = tokenBalances.find((balance: { token: string, tokenAddress: string }) => balance.tokenAddress === tokenAddress)
@@ -225,7 +248,11 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
             if (addressWalletUser) {
                 const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
                 if (balanceToken !== undefined) {
-                    const balance = fromNano(balanceToken).toString()
+                    let balance = fromNano(balanceToken).toString()
+
+                    if (decimals !== 9) {
+                        balance = (balanceToken * 10n ** BigInt(decimals)).toString()
+                    }
                     setTokenBalance(balance)
                 }
             }
@@ -319,13 +346,13 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
     return (
         <div className={s.inner}>
             {isDonated && (
-                <AlertModal isOpen={isDonated} onClose={() => setIsDonated(false)} content={<Text tgStyles={{ color: 'var(--tg-theme-text-color)' }} className={s.textModal}>The <span>{fundData.title}</span> fund has been successfully donated!</Text>}  />
+                <AlertModal isOpen={isDonated} onClose={() => setIsDonated(false)} content={<Text tgStyles={{ color: 'var(--tg-theme-text-color)' }} className={s.textModal}>The <span>{fundData.title}</span> fund has been successfully transaction!</Text>}  />
             )}
             {isWithdrawal && (
                 <Modal isOpen={isWithdrawal} onClose={() => setIsWithdrawal(false)} tgStyles={withdrawalModalTg}>
                     <div className={s.withdrawalModal}>
                         <Title variant="h5" className={s.withdrawalModalTitle} tgStyles={ { color: 'var(--tg-theme-text-color)' } }>Withdrawal</Title>
-                        <Input className={`input ${s.withdrawalModalInput}`} value={rawAddress} variant='black' onChange={() => {}} tgStyles={withdrawalModalInputTg} />
+                        <Input className={`input ${s.withdrawalModalInput}`} value={Address.parse(rawAddress).toString()} variant='black' onChange={() => {}} tgStyles={withdrawalModalInputTg} />
                         <Amount
                             options={updatedJettons}
                             value={tokenBalance || '0'}
@@ -405,19 +432,22 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
             {isOwnFund && (
                 <div className={s.actionsButtons}>
-                    {/* <Button
-                        className={s.editButton}
-                        onClick={() => navigate(`/fundraiser-update/${id}`)}
-                        tgStyles={editButtonTg}
-                    >
-                        Edit
-                    </Button> */}
                     <Button className={s.editButton} onClick={() => setIsWithdrawal(true)}
                         tgStyles={editButtonTg}
                     >
                         Withdrawal
                     </Button>
                 </div>
+            )}
+
+            { fundData.daysTarget === 0 && fundData.verificated && fundData.amount < fundData.target && (
+                <Button
+                    className={s.editButton}
+                    onClick={() => returnMoney()}
+                    tgStyles={editButtonTg}
+                >
+                Return fund
+                </Button>
             )}
         </div>
     )

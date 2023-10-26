@@ -396,4 +396,21 @@ export class Smart {
             return undefined
         }
     }
+
+    public async sendReturn (address: string): Promise<boolean | undefined> {
+        await this._provider.sunc() // обязательно перед каждой функией
+
+        const helperContract = new HelperClass(Address.parse(address)) // создаем класс контракта
+
+        const helper = this._provider.open(helperContract) // открываем контракт для работы с ним
+
+        try {
+            await helper.sendReturn(this._provider.sender(), toNano('0.5'), 123n) // отправляем нужный запрос
+
+            return true
+        } catch (error) {
+            console.error('sendReturn', error)
+            return undefined
+        }
+    }
 }

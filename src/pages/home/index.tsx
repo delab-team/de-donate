@@ -86,7 +86,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                     const fund = await loadFund(addressFund, smart, isTestnet, items.nft_items[i].owner?.address[Number(isTestnet)], {})
                     newFunds.push(fund as FundType)
 
-                    if (fund) {
+                    if (fund && fund.verificated && fund.amount && fund.amount > 1) {
                         const local: FundType[] = [ fund as FundType ]
 
                         setLoadedFunds(prevFunds => [ ...prevFunds, ...local ])

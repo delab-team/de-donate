@@ -151,14 +151,12 @@ export const FundCard: FC<FundCardProps> = ({
                                 alt="time icon"
                             />
                             <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
-                                {formatNumberWithCommas(daysPassed)}
-                                {' / '}
-                                {formatNumberWithCommas(daysTarget)} days
+                                left {formatNumberWithCommas(daysTarget)} days
                             </Text>
                         </div>
-                        <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
+                        {/* <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                             {progressValueDays + '%'}
-                        </Text>
+                        </Text> */}
                     </div>
                 ) : (
                     <></>
