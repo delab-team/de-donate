@@ -94,7 +94,7 @@ export const Amount: FC<AmountProps> = ({
                         >
                             <div className={s.selectInfo}>
                                 <img src={el.image} alt={el.label} width={20} height={20} />
-                                {showBalanceToken && el.balance}
+                                {showBalanceToken && <Text tgStyles={textModalTg}>{el.balance}</Text>}
                                 <Text className={s.selectInfoLabel} tgStyles={textModalTg}>{el.label}</Text>
                             </div>
                             {selectedValue === el.label && <IconSelector id="check" color='#fff' size="20px" tgStyles={{ stroke: 'var(--tg-theme-link-color)' }} />}

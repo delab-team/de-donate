@@ -315,6 +315,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
         }
         return jetton
     })
+
     return (
         <div className={s.inner}>
             {isDonated && (
