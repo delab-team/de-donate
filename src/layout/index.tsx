@@ -18,7 +18,7 @@ interface LayoutProps {
 
 const wrapperTgStyles = { headerStyles: { background: 'var(--tg-theme-secondary-bg-color)' } }
 const headerStyles = { header: { background: 'var(--tg-theme-secondary-bg-color)' } }
-const menuTgStyles = { menuContainer: { background: 'var(--tg-theme-button-color)' } }
+const menuTgStyles = { menuContainer: { background: 'var(--tg-theme-bg-color)' } }
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
     const navigate = useNavigate()
