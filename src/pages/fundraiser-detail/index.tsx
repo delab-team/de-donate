@@ -294,6 +294,12 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
             if (!id) {
                 return
             }
+
+            try {
+                const addr = Address.parse(id)
+            } catch (error) {
+                navigate('/')
+            }
             setFirst(true)
             setLoading(true)
 
