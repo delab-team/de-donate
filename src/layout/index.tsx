@@ -18,7 +18,7 @@ interface LayoutProps {
 
 const wrapperTgStyles = { headerStyles: { background: 'var(--tg-theme-secondary-bg-color)' } }
 const headerStyles = { header: { background: 'var(--tg-theme-secondary-bg-color)' } }
-const menuTgStyles = { menuContainer: { background: 'var(--tg-theme-button-color)' } }
+const menuTgStyles = { menuContainer: { background: 'var(--tg-theme-bg-color)' } }
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
     const navigate = useNavigate()
@@ -39,14 +39,15 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     size="30px"
                     className={`${s.actionIcon}`}
                     color={path === ROUTES.HOME ? '#fff' : '#98989E' }
-                    tgStyles={{ stroke: path === ROUTES.HOME ? '#000' : '#fff'  }}
+                    tgStyles={{ stroke: 'var(--tg-theme-text-color)'  }}
                 />
             ),
             text: '',
             onClick: () => {
                 setActiveLink(ROUTES.HOME)
                 navigate(ROUTES.HOME)
-            }
+            },
+            tgStyles: { item: { opacity: path === ROUTES.HOME ? '1' : '0.7' } }
         },
         {
             icon: (
@@ -55,14 +56,15 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     size="30px"
                     className={`${s.actionIcon}`}
                     color={path === ROUTES.FUNDRAISER_CREATE ? '#fff' : '#98989E' }
-                    tgStyles={{ stroke: path === ROUTES.FUNDRAISER_CREATE ? '#000' : '#fff' }}
+                    tgStyles={{ stroke: 'var(--tg-theme-text-color)'  }}
                 />
             ),
             text: '',
             onClick: () => {
                 setActiveLink(ROUTES.FUNDRAISER_CREATE)
                 !rawAddress ? tonConnectUI.connectWallet() : navigate(ROUTES.FUNDRAISER_CREATE)
-            }
+            },
+            tgStyles: { item: { opacity: path === ROUTES.FUNDRAISER_CREATE ? '1' : '0.7' } }
         },
         {
             icon: (
@@ -71,14 +73,15 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
                     size="30px"
                     className={`${s.actionIcon}`}
                     color={path === ROUTES.PROFILE ? '#fff' : '#98989fff' }
-                    tgStyles={{ stroke: path === ROUTES.PROFILE ? '#000' : '#fff' }}
+                    tgStyles={{ stroke: 'var(--tg-theme-text-color)'  }}
                 />
             ),
             text: '',
             onClick: () => {
                 setActiveLink(ROUTES.PROFILE)
                 !rawAddress ? tonConnectUI.connectWallet() : navigate(ROUTES.PROFILE)
-            }
+            },
+            tgStyles: { item: { opacity: path === ROUTES.PROFILE ? '1' : '0.7' } }
         }
     ]
 
