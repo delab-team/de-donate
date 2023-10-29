@@ -86,11 +86,13 @@ export const App: FC = () => {
 
                 // const id = TgObj.tgWebAppStartParam()
                 const search = window.location.search.slice(1)
+                const searchParams = new URLSearchParams(search)
+                const id = searchParams.get('tgWebAppStartParam')
                 // if (id) {
                 //     navigate('/fundraiser-detail/' + id)
                 // }
-                if (search) {
-                    navigate('/fundraiser-detail/' + search)
+                if (id) {
+                    navigate('/fundraiser-detail/' + id)
                 }
             }
         }
