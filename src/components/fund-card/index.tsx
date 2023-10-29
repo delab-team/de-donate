@@ -14,6 +14,7 @@ import TIME from '../../assets/icons/time.svg'
 import VERIFICATED from '../../assets/icons/verificated.svg'
 import NOT_VERIFICATED from '../../assets/icons/error.svg'
 import { jettons } from '../../constants/jettons'
+import { Address } from 'ton-core'
 
 interface FundCardProps {
     id: string;
@@ -77,10 +78,12 @@ export const FundCard: FC<FundCardProps> = ({
 
         const isTgCheck = window.Telegram.WebApp.initData !== ''
 
-        let finalUrl = currentUrl + '/fundraiser-detail/' + id
+        const idFund = Address.parse(id).toString()
+
+        let finalUrl = currentUrl + '/fundraiser-detail/' + idFund
 
         if (isTgCheck) {
-            finalUrl = 'https://t.me/delabtonbot/donate?startapp=' + id
+            finalUrl = 'https://t.me/delabtonbot/donate?startapp=' + idFund
         }
 
         const tempTextArea = document.createElement('textarea')
