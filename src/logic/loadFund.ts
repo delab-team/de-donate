@@ -1,4 +1,4 @@
-import { Address, Dictionary } from 'ton-core'
+import { Address, Dictionary, fromNano } from 'ton-core'
 import { Smart } from './smart'
 import { jettons } from '../constants/jettons'
 import { FundDetailType, FundType } from '../@types/fund'
@@ -47,7 +47,8 @@ export async function loadFund (
 
             amountPriority = DictAmountTest.get(addressWalletPriorityFund) ?? 0n
 
-            console.log('amountPriority', amountPriority)
+            console.log('amountPriority', fromNano(amountPriority))
+            console.log('amountPriority', (amountPriority / 10n ** 9n))
             console.log('keys', keys)
             console.log('values', values)
             console.log('size', DictAmountTest.size)
@@ -64,8 +65,8 @@ export async function loadFund (
             id: address,
             title: metadata?.name ?? 'Not name',
             img: metadata?.image.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') ?? '',
-            amount: Number(amountPriority / 10n ** 9n),
-            target: Number(info[4] / 10n ** 9n),
+            amount: Number(fromNano(amountPriority)),
+            target: Number(fromNano(info[4])),
             asset,
             addressFund: address,
             ownerAddress,

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 export const jettons = [
     {
-        address: [ '0:d0a1ce4cdc187c79615ea618bd6c29617af7a56d966f5a192a768f345ee63fd2', '0:436b4ff60f7bacf75f70d422cfb6b5ae7cd2846f0f3553ae8bcc798258923608' ],
+        address: [ '0:9a8da514d575d20234c3fb1395ee9138f5f1ad838abc905dc42c2389b46bd015', '0:436b4ff60f7bacf75f70d422cfb6b5ae7cd2846f0f3553ae8bcc798258923608' ],
         value: 'WTON',
         label: 'WTON',
         decimals: 9,

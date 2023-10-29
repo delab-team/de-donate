@@ -30,6 +30,8 @@ const isTestnet = window.location.host.indexOf('localhost') >= 0
     ? true
     : window.location.href.indexOf('testnet') >= 0
 
+// const isTestnet = false
+
 export const App: FC = () => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
     const [ isTg, setIsTg ] = useState<boolean>(false)
@@ -44,7 +46,7 @@ export const App: FC = () => {
 
     const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
-    const addressCollection = [ '', 'EQBVdUsIL3jBn211_wrFwm8AJBnF_r9kefjgcOfrU8a2yyHp' ]
+    const addressCollection = [ 'EQDtUbSCZk7aA9HHezxLJyzmMpWabMeo0KAG7gdm_ds3qkt4', 'EQBVdUsIL3jBn211_wrFwm8AJBnF_r9kefjgcOfrU8a2yyHp' ]
 
     async function loadUser (address: string): Promise<boolean | undefined> {
         const data = await api.getInfoUserV2(address)
@@ -85,10 +87,12 @@ export const App: FC = () => {
 
     useEffect(() => {
         if (RawAddress) {
-            Smart.getBalanceProfile(RawAddress, isTestnet).then((bl) => {
-                setBalance(fixAmount(bl.toString()))
-                loadUser(RawAddress)
-            })
+            // Smart.getBalanceProfile(RawAddress, isTestnet).then((bl) => {
+            //     setBalance(fixAmount(bl.toString()))
+            //     loadUser(RawAddress)
+            // })
+
+            loadUser(RawAddress)
         }
     }, [ RawAddress ])
 

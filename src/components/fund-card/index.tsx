@@ -131,9 +131,9 @@ export const FundCard: FC<FundCardProps> = ({
                             alt="ton icon"
                         />
                         <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
-                            {formatNumberWithCommas(amount)}
+                            {formatNumberWithCommas(amount ?? 0)}
                             {' / '}
-                            {formatNumberWithCommas(target)} {asset}
+                            {formatNumberWithCommas(target ?? 0)} {asset}
                         </Text>
                     </div>
                     <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>

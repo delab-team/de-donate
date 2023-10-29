@@ -139,7 +139,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
         const address = jettons.filter(j => j.label === selectedValue)[0].address[Number(isTestnet)]
 
-        const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, isTestnet)
         const wallet = await smart.getWalletAddressOf(id, address)
 
         if (!wallet) return
@@ -152,7 +152,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
         if (!id) {
             return
         }
-        const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, isTestnet)
 
         const helper = await smart.getHelperAddress(Address.parse(id))
 
@@ -167,7 +167,9 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
         if (!id) {
             return
         }
-        const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, isTestnet)
+
+        console.log('addressToken', addressToken)
 
         const addressWalletUser = await smart.getWalletAddressOf(rawAddress, addressToken)
 
@@ -197,7 +199,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
             return
         }
 
-        const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, isTestnet)
         const balancePromises = tokensToLoad.map(async (tokenInfo) => {
             const addressWalletUser = await smart.getWalletAddressOf(id, tokenInfo.tokenAddress)
             if (addressWalletUser) {
@@ -243,7 +245,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
         if (selectedTokenBalance) {
             setTokenBalance(selectedTokenBalance.balance)
         } else {
-            const smart = new Smart(tonConnectUI, true)
+            const smart = new Smart(tonConnectUI, isTestnet)
             const addressWalletUser = await smart.getWalletAddressOf(rawAddress, tokenAddress)
             if (addressWalletUser) {
                 const balanceToken = await smart.getJettonBalance(String(addressWalletUser))
@@ -277,7 +279,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
             const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
-            const smart = new Smart(tonConnectUI, true)
+            const smart = new Smart(tonConnectUI, isTestnet)
 
             api.getItemV2(id).then(async (item: Item | undefined) => {
                 if (item) {

@@ -1325,10 +1325,10 @@
     style-loader "^3.3.3"
     uuid "^9.0.1"
 
-"@delab-team/ton-network-react@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@delab-team/ton-network-react/-/ton-network-react-0.0.7.tgz#d40f317f4186d1a6f9454ccc9f9104046d25f719"
-  integrity sha512-QPEUzpurabwH2PJM3XMCoPUrTVPV+jJmaBNLxlQz+fAyyCkKU8w/fkyY9HrR+1ZU7A4/8eW8bttMjj2wYn45+Q==
+"@delab-team/ton-network-react@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@delab-team/ton-network-react/-/ton-network-react-0.0.10.tgz#691a1257d9cc7182097eed447524ea227759d5bf"
+  integrity sha512-6rkuxy6O8uptLr8ojCdYsKDlBlU6TprFNEbig4JadqXjPvhXSoryTwJnKHoNlCpRkWm6SpFHlPQYs0wmk2sSpg==
   dependencies:
     "@orbs-network/ton-access" "^2.3.3"
     "@ton/core" "^0.52.2"

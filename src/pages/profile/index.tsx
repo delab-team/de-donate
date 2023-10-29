@@ -65,7 +65,7 @@ export const Profile: FC<ProfileProps> = ({ balance, addressCollection, isTestne
 
         const coll = addressCollection[isTestnet ? 1 : 0]
         const collAddr = Address.parse(coll).toRawString()
-        const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, isTestnet)
 
         const limit = 5
 

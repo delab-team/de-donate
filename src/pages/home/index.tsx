@@ -74,7 +74,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
 
         const coll = addressCollection[isTestnet ? 1 : 0]
 
-        const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, isTestnet)
 
         api.getItemsV2(coll, 5, offset).then(async (items: Items | undefined) => {
             if (items) {
@@ -86,7 +86,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                     const fund = await loadFund(addressFund, smart, isTestnet, items.nft_items[i].owner?.address[Number(isTestnet)], {})
                     newFunds.push(fund as FundType)
 
-                    if (fund && fund.verificated && fund.amount && fund.amount > 1) {
+                    if (fund && fund.verificated && fund.amount && fund.amount > 0.001) {
                         const local: FundType[] = [ fund as FundType ]
 
                         setLoadedFunds(prevFunds => [ ...prevFunds, ...local ])

@@ -3,7 +3,8 @@ export const formatNumberWithCommas = (number: number): string => {
         throw new Error('Error: Invalid number')
     }
 
-    const formattedNumber = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const formattedNumber = number.toString()
+    // .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-    return formattedNumber
+    return formattedNumber.toString()
 }

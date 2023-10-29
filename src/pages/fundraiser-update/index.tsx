@@ -87,7 +87,7 @@ export const FundraiserUpdate: FC<FundraiserUpdateProps> = ({ isTestnet }) => {
 
             const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
 
-            const smart = new Smart(tonConnectUI, true)
+            const smart = new Smart(tonConnectUI, isTestnet)
 
             api.getItemV2(id).then(async (item: Item | undefined) => {
                 if (item) {

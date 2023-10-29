@@ -146,7 +146,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
 
         const addrColl = addressCollection[isTestnet ? 1 : 0]
 
-        const smart = new Smart(tonConnectUI, true)
+        const smart = new Smart(tonConnectUI, isTestnet)
 
         // const createColl = await smart.deployDeployer('EQDYl5uFtd5O0EI19GLnMZPKPMtopdLlyvTexPmeJgkAAfq3', data.content)
 

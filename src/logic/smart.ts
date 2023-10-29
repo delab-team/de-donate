@@ -40,7 +40,11 @@ export class Smart {
 
     public static async getBalanceProfile (address: string, isTestnet: boolean): Promise<string> {
         try {
-            const endpoint = await getHttpV4Endpoint({ network: isTestnet ? 'testnet' : 'mainnet' })
+            let endpoint = await getHttpV4Endpoint({ network: isTestnet ? 'testnet' : 'mainnet' })
+
+            if (!isTestnet) {
+                endpoint = 'https://mainnet-v4.tonhubapi.com'
+            }
 
             const client = new TonClient4({ endpoint })
             const addr = await client.getAccount(0, Address.parse(address))
