@@ -132,6 +132,26 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
     const isOwnFund = rawAddress === fundData.ownerAddress
 
+    async function setPriority (asset: string) {
+        const priorityTokenArr = jettons.filter(j => j.label === asset)
+        let priorityToken = jettons[0].address[Number(isTestnet)]
+        let decimals = 9
+        if (priorityTokenArr.length > 0) {
+            priorityToken = priorityTokenArr[0].address[Number(isTestnet)]
+            decimals = priorityTokenArr[0].decimals
+        }
+        setData({
+            amount: '',
+            token: asset,
+            tokenAddress: priorityToken,
+            decimals
+        })
+
+        setSelectedValue(asset)
+
+        console.log('asset', asset)
+    }
+
     async function Withdrawal () {
         if (!id) {
             return
@@ -297,6 +317,8 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                     }
                     setFundData(fund as FundType & FundDetailType)
 
+                    setPriority(fund.asset ?? 'WTON')
+
                     setTimeout(() => {
                         setLoading(false)
                     }, 200)
@@ -309,6 +331,9 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                     return
                 }
                 setFundData(fund as FundType & FundDetailType)
+
+                setPriority(fund.asset ?? 'WTON')
+
 
                 setTimeout(() => {
                     setLoading(false)
@@ -418,6 +443,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                         handleSelect={handleSelect}
                         detailStyles
                         isTestnet={isTestnet}
+                        disabled={fundData.type === 0}
                     />
                 </div>
                 <Button

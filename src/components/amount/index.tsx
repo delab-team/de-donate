@@ -25,7 +25,8 @@ interface AmountProps {
     detailStyles?: boolean
     showBalanceToken?: boolean
     onlyRead?: boolean
-    isTestnet: boolean
+    isTestnet: boolean,
+    disabled?: boolean
 }
 
 const amountModalTg = { modalContent: { background: 'var(--tg-theme-bg-color)' }, closeButton: { color: 'var(--tg-theme-text-color)' } }
@@ -40,7 +41,8 @@ export const Amount: FC<AmountProps> = ({
     isTestnet,
     onlyRead = false,
     options,
-    showBalanceToken
+    showBalanceToken,
+    disabled = false
 }) => {
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false)
 
@@ -51,6 +53,8 @@ export const Amount: FC<AmountProps> = ({
     const handleCloseModal = () => {
         setIsModalOpen(false)
     }
+
+    console.log('disabled', disabled)
 
     return (
         <div className={s.inner}>
@@ -68,7 +72,9 @@ export const Amount: FC<AmountProps> = ({
                     }
                 }}
             />
-            <Button tgStyles={textModalTg} className={s.selectBtn} onClick={handleOpenModal}>
+            <Button tgStyles={textModalTg} className={s.selectBtn} onClick={() => {
+                if (!disabled) handleOpenModal()
+            }}>
                 {selectedValue}
                 <IconSelector id="chevron-down" color='#fff' size="17px" tgStyles={{ stroke: 'var(--tg-theme-link-color)' }} />
             </Button>

@@ -26,11 +26,11 @@ declare global {
     }
 }
 
-const isTestnet = window.location.host.indexOf('localhost') >= 0
-    ? true
-    : window.location.href.indexOf('testnet') >= 0
+// const isTestnet = window.location.host.indexOf('localhost') >= 0
+//     ? true
+//     : window.location.href.indexOf('testnet') >= 0
 
-// const isTestnet = false
+const isTestnet = false
 
 export const App: FC = () => {
     const [ firstRender, setFirstRender ] = useState<boolean>(false)
