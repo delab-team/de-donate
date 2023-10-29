@@ -11,7 +11,7 @@ import './index.scss'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
-    <TonConnectUIProvider manifestUrl="https://gist.github.com/anovic123/208c0ac63ac7f206190b7bd53933cf56.txt">
+    <TonConnectUIProvider manifestUrl="https://raw.githubusercontent.com/delab-team/de-donate/main/connect.txt">
         <BrowserRouter>
             <App />
         </BrowserRouter>
