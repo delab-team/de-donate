@@ -76,7 +76,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
 
         const smart = new Smart(tonConnectUI, isTestnet)
 
-        api.getItemsV2(coll, 5, offset).then(async (items: Items | undefined) => {
+        api.getItemsV2(coll, 10, offset).then(async (items: Items | undefined) => {
             if (items) {
                 const newFunds: FundType[] = []
 
@@ -98,7 +98,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                 // setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
                 setOffset(offset + newFunds.length)
 
-                if (items.nft_items.length < 5) {
+                if (items.nft_items.length < 10) {
                     setAllItemsLoaded(true)
                 }
             }
@@ -177,7 +177,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                                 />
                             ))}
                         {
-                            loadMoreItems.length >= 5 && (
+                            loadMoreItems.length >= 10 && (
                                 <Button
                                     rounded="l"
                                     size="stretched"
