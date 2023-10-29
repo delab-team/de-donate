@@ -331,6 +331,10 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                         >
                             ∞ days
                         </Button>
+                    
+                    <Text className={s.timeLifeTitle} fontSize="small" tgStyles={timeLifeTg}>
+                        {activeTimeLife === 0 ? 'Funds can be withdrawn instantly, without blocking ' : `The funds will be blocked for ${activeTimeLife} days - after that they can be withdrawn, if the required amount is not collected - the funds will be returned to the donors`}
+                    </Text>
                     </div>
                 </div>
                 <div className={s.fileData}>
