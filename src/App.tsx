@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useEffect, useState } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react'
 import { ProviderTonConnect } from '@delab-team/ton-network-react'
 import { AppInner } from '@delab-team/de-ui'
@@ -42,6 +42,8 @@ export const App: FC = () => {
 
     const [ tonConnectUI, setOptions ] = useTonConnectUI()
 
+    const navigate = useNavigate()
+
     const RawAddress = useTonAddress()
 
     const api = new TonApi(isTestnet ? 'testnet' : 'mainnet')
@@ -81,6 +83,15 @@ export const App: FC = () => {
                 setIsTg(true)
                 bodyStyle.backgroundColor = 'var(--tg-theme-secondary-bg-color)'
                 bodyStyle.setProperty('background-color', 'var(--tg-theme-secondary-bg-color)', 'important')
+
+                // const id = TgObj.tgWebAppStartParam()
+                const search = window.location.search.slice(1)
+                // if (id) {
+                //     navigate('/fundraiser-detail/' + id)
+                // }
+                if (search) {
+                    navigate('/fundraiser-detail/' + search)
+                }
             }
         }
     }, [])

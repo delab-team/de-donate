@@ -75,7 +75,13 @@ export const FundCard: FC<FundCardProps> = ({
 
         const currentUrl = window.location.origin
 
-        const finalUrl = currentUrl + '/fundraiser-detail/' + id
+        const isTgCheck = window.Telegram.WebApp.initData !== ''
+
+        let finalUrl = currentUrl + '/fundraiser-detail/' + id
+
+        if (isTgCheck) {
+            finalUrl = 'https://t.me/delabtonbot/donate?startapp=' + id
+        }
 
         const tempTextArea = document.createElement('textarea')
         tempTextArea.value = finalUrl
