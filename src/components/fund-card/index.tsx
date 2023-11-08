@@ -106,12 +106,12 @@ export const FundCard: FC<FundCardProps> = ({
                         <Text className={s.title} tgStyles={cardTextTg}>
                             {title}
                         </Text>
-                        <img
+                        {verificated ? <img
                             src={verificated ? VERIFICATED : NOT_VERIFICATED}
                             width="18"
                             height="18"
                             alt="verificated icon"
-                        />
+                        /> : null }
                     </div>
                     <div onClick={handleCopyAddress}>
                         <IconSelector
@@ -149,7 +149,7 @@ export const FundCard: FC<FundCardProps> = ({
                         {!isNaN(parseInt(progressValue, 10)) ? `${progressValue}%` : '0.00%'}
                     </Text>
                 </div>
-                {daysTarget && daysPassed && fundType !== 1 && daysTarget > 0 ? (
+                {daysTarget && fundType == 0 && daysTarget > 0 ? (
                     <div className={`${s.cardInfo} `}>
                         <div className={s.cardTarget}>
                             <img
@@ -161,6 +161,28 @@ export const FundCard: FC<FundCardProps> = ({
                             />
                             <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
                                 left {formatNumberWithCommas(daysTarget)} days
+                            </Text>
+                        </div>
+                        {/* <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
+                            {progressValueDays + '%'}
+                        </Text> */}
+                    </div>
+                ) : (
+                    <></>
+                )}
+
+                {daysTarget && fundType == 0 && daysTarget <= 0 ? (
+                    <div className={`${s.cardInfo} `}>
+                        <div className={s.cardTarget}>
+                            <img
+                                src={TIME}
+                                className={s.cardTime}
+                                width="32"
+                                height="32"
+                                alt="time icon"
+                            />
+                            <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>
+                                Time is over
                             </Text>
                         </div>
                         {/* <Text fontSize="medium" fontWeight="bold" tgStyles={cardTextTg}>

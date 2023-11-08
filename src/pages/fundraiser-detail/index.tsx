@@ -341,7 +341,6 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
 
                 setPriority(fund.asset ?? 'WTON')
 
-
                 setTimeout(() => {
                     setLoading(false)
                 }, 200)
@@ -435,35 +434,36 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                 />
             )}
 
-            <Div className={s.innerActions} tgStyles={{ background: 'var(--tg-theme-bg-color)' }}>
-                <div className={s.amountInner}>
-                    <Amount
-                        options={jettons}
-                        value={String(data.amount)}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setData({
-                                ...data,
-                                amount: e.target.value
-                            })
-                        }}
-                        selectedValue={selectedValue}
-                        handleSelect={handleSelect}
-                        detailStyles
-                        isTestnet={isTestnet}
-                        disabled={fundData.type === 0}
-                    />
-                </div>
-                <Button
-                    rounded="l"
-                    size="stretched"
-                    className="action-btn"
-                    disabled={Number(data.amount) < 0.0001 || isNaN(parseFloat(data.amount))}
-                    onClick={() => (rawAddress ? donate(data.tokenAddress) : tonConnectUI.connectWallet())}
-                    tgStyles={editButtonTg}
-                >
+            {!fundData.verificated || fundData.daysTarget > 0
+                ? <Div className={s.innerActions} tgStyles={{ background: 'var(--tg-theme-bg-color)' }}>
+                    <div className={s.amountInner}>
+                        <Amount
+                            options={jettons}
+                            value={String(data.amount)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setData({
+                                    ...data,
+                                    amount: e.target.value
+                                })
+                            }}
+                            selectedValue={selectedValue}
+                            handleSelect={handleSelect}
+                            detailStyles
+                            isTestnet={isTestnet}
+                            disabled={fundData.type === 0}
+                        />
+                    </div>
+                    <Button
+                        rounded="l"
+                        size="stretched"
+                        className="action-btn"
+                        disabled={Number(data.amount) < 0.0001 || isNaN(parseFloat(data.amount))}
+                        onClick={() => (rawAddress ? donate(data.tokenAddress) : tonConnectUI.connectWallet())}
+                        tgStyles={editButtonTg}
+                    >
                     Donate Now
-                </Button>
-            </Div>
+                    </Button>
+                </Div> : null }
 
             {isOwnFund && (
                 <div className={s.actionsButtons}>
@@ -475,7 +475,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                 </div>
             )}
 
-            { fundData.daysTarget === 0 && fundData.verificated && fundData.amount < fundData.target && (
+            {fundData.daysTarget <= 0 && fundData.verificated && fundData.amount < fundData.target && (
                 <Button
                     className={s.editButton}
                     onClick={() => returnMoney()}

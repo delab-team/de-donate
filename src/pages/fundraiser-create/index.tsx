@@ -63,7 +63,7 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
 }) => {
     const navigate = useNavigate()
 
-    const [ activeTimeLife, setActiveTimeLife ] = useState<number>(7)
+    const [ activeTimeLife, setActiveTimeLife ] = useState<number>(0)
 
     const [ selectedValue, setSelectedValue ] = useState<string>(jettons[0].value)
 
@@ -265,23 +265,6 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                     <div className={s.timeLifeItems}>
                         <Button
                             className={`${s.timeLifeItem} ${
-                                activeTimeLife === 7 ? s.activeLifeItem : ''
-                            }`}
-                            onClick={() => handleTimeClick(7)}
-                            tgStyles={{
-                                background: `${
-                                    activeTimeLife === 7
-                                        ? 'var(--tg-theme-link-color)'
-                                        : 'var(--tg-theme-bg-color)'
-                                }`,
-                                color: activeTimeLife === 7 ? '#FFF' : 'var(--tg-theme-text-color)',
-                                padding: '9px 17px'
-                            }}
-                        >
-                            7 days
-                        </Button>
-                        <Button
-                            className={`${s.timeLifeItem} ${
                                 activeTimeLife === 14 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(14)}
@@ -316,6 +299,23 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                         </Button>
                         <Button
                             className={`${s.timeLifeItem} ${
+                                activeTimeLife === 60 ? s.activeLifeItem : ''
+                            }`}
+                            onClick={() => handleTimeClick(60)}
+                            tgStyles={{
+                                background: `${
+                                    activeTimeLife === 60
+                                        ? 'var(--tg-theme-link-color)'
+                                        : 'var(--tg-theme-bg-color)'
+                                }`,
+                                color: activeTimeLife === 60 ? '#FFF' : 'var(--tg-theme-text-color)',
+                                padding: '9px 17px'
+                            }}
+                        >
+                            60 days
+                        </Button>
+                        <Button
+                            className={`${s.timeLifeItem} ${
                                 activeTimeLife === 0 ? s.activeLifeItem : ''
                             }`}
                             onClick={() => handleTimeClick(0)}
@@ -331,10 +331,10 @@ export const FundraiserCreate: FC<FundraiserCreateProps> = ({
                         >
                             ∞ days
                         </Button>
-                    
-                    <Text className={s.timeLifeTitle} fontSize="small" tgStyles={timeLifeTg}>
-                        {activeTimeLife === 0 ? 'Funds can be withdrawn instantly, without blocking ' : `The funds will be blocked for ${activeTimeLife} days - after that they can be withdrawn, if the required amount is not collected - the funds will be returned to the donors`}
-                    </Text>
+
+                        <Text className={s.timeLifeTitle} fontSize="small" tgStyles={timeLifeTg}>
+                            {activeTimeLife === 0 ? 'Funds can be withdrawn instantly, without blocking ' : `The funds will be blocked for ${activeTimeLife} days - after that they can be withdrawn, if the required amount is not collected - the funds will be returned to the donors`}
+                        </Text>
                     </div>
                 </div>
                 <div className={s.fileData}>

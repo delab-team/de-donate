@@ -47,17 +47,18 @@ export async function loadFund (
 
             amountPriority = DictAmountTest.get(addressWalletPriorityFund) ?? 0n
 
-            console.log('amountPriority', fromNano(amountPriority))
-            console.log('amountPriority', (amountPriority / 10n ** 9n))
-            console.log('keys', keys)
-            console.log('values', values)
-            console.log('size', DictAmountTest.size)
+            // console.log('amountPriority', fromNano(amountPriority))
+            // console.log('amountPriority', (amountPriority / 10n ** 9n))
+            // console.log('keys', keys)
+            // console.log('values', values)
+            // console.log('size', DictAmountTest.size)
 
             try {
                 const addr = priority
                 asset = jettons.filter(j => Address.parse(j.address[Number(isTestnet)]).toString() === addr.toString())[0].label
             } catch (e) {
                 console.log(e)
+                return undefined
             }
         }
 
