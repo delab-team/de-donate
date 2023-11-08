@@ -17,7 +17,7 @@ const config: Configuration = {
         compress: true,
         https: true,
         hot: true,
-        port: 8081,
+        port: 3000,
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': '*'
