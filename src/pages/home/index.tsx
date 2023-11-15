@@ -11,7 +11,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { v1 } from 'uuid'
 import { Address } from 'ton-core'
 
-import { Button, IconSelector, Input, Title } from '@delab-team/de-ui'
+import { Button, HeaderTabs, IconSelector, Input, Title } from '@delab-team/de-ui'
 import { useTonConnectUI } from '@tonconnect/ui-react'
 
 import { FundCard } from '../../components/fund-card'
@@ -83,7 +83,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
 
         const arrItemsPromise: Promise<Partial<FundType & FundDetailType> | undefined>[] = []
 
-        api.getItemsV2(coll, 10, offset).then(async (items: Items | undefined) => {
+        api.getItemsV2(coll, 20, offset).then(async (items: Items | undefined) => {
             if (items) {
                 const newFunds: FundType[] = []
 
@@ -120,7 +120,7 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
             // setLoadedFunds(prevFunds => [ ...prevFunds, ...newFunds ])
             setOffset(offset + newFunds.length)
 
-            if (arrItems.length < 10) {
+            if (arrItems.length < 20) {
                 setAllItemsLoaded(true)
             }
 
@@ -192,8 +192,8 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
             </div>
             <div className={s.homeBlock}>
                 <Title variant="h1" className={s.title} color="#fff" tgStyles={{ color: 'var(--tg-theme-text-color)' }}>
-                    <span style={{ opacity: typeLoad ? 1 : 0.5, cursor: 'pointer', color: isTg ? 'var(--tg-theme-text-color)' : '#fff' }} onClick={() => changeType2(true)}>Top fundraiser </span>
-                    <span style={{ opacity: !typeLoad ? 1 : 0.5, cursor: 'pointer', color: isTg ? 'var(--tg-theme-text-color)' : '#fff' }} onClick={() => changeType2(false)}>All fundraiser</span>
+                    <span style={{ opacity: typeLoad ? 1 : 0.5, cursor: 'pointer' }} onClick={() => changeType2(true)}>Top fundraiser </span>
+                    <span style={{ opacity: !typeLoad ? 1 : 0.5, cursor: 'pointer' }} onClick={() => changeType2(false)}>All fundraiser</span>
                 </Title>
 
                 <div className={s.cards}>

@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable max-len */
 import { FC, useState } from 'react'
-import { Alert, Div, IconSelector, ProgressBar, Text } from '@delab-team/de-ui'
+import { Alert, Button, Div, IconSelector, ProgressBar, Text } from '@delab-team/de-ui'
 import { useNavigate } from 'react-router-dom'
 
 import { ExpandableText } from '../expandable-text'
@@ -34,6 +34,8 @@ interface FundCardProps {
 
 const cardTg = { background: 'var(--tg-theme-bg-color)' }
 const cardTextTg = { color: 'var(--tg-theme-text-color)' }
+
+const Btn = { border: '1px solid #B7B7BB' }
 
 export const FundCard: FC<FundCardProps> = ({
     id,
@@ -94,6 +96,15 @@ export const FundCard: FC<FundCardProps> = ({
         document.execCommand('copy')
         document.body.removeChild(tempTextArea)
         alert('The fund link has been successfully copied!')
+    }
+
+    function share () {
+        const isTgCheck = window.Telegram.WebApp.initData !== ''
+        const TgObj = window.Telegram.WebApp
+
+        const idFund = Address.parse(id).toString()
+        const finalUrl = 'https://t.me/delabtonbot/donate?startapp=' + idFund + '&choose=users+groups+channels'
+        window.open(finalUrl)
     }
 
     return (
@@ -215,6 +226,14 @@ export const FundCard: FC<FundCardProps> = ({
                 {description && (
                     <>
                         <ExpandableText text={description} />
+                        <Button
+                            className={s.editButton}
+                            variant={'outline'}
+                            onClick={handleCopyAddress}
+                            tgStyles={Btn}
+                        >
+                        Share
+                        </Button>
                     </>
                 )}
             </Div>
