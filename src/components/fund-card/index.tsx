@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 import { FC, useState } from 'react'
 import { Alert, Button, Div, IconSelector, ProgressBar, Text } from '@delab-team/de-ui'
+import { Address } from 'ton-core'
 import { useNavigate } from 'react-router-dom'
 
 import { ExpandableText } from '../expandable-text'
@@ -14,7 +15,6 @@ import TIME from '../../assets/icons/time.svg'
 import VERIFICATED from '../../assets/icons/verificated.svg'
 import NOT_VERIFICATED from '../../assets/icons/error.svg'
 import { jettons } from '../../constants/jettons'
-import { Address } from 'ton-core'
 
 interface FundCardProps {
     id: string;
@@ -35,7 +35,7 @@ interface FundCardProps {
 const cardTg = { background: 'var(--tg-theme-bg-color)' }
 const cardTextTg = { color: 'var(--tg-theme-text-color)' }
 
-const Btn = { border: '1px solid #B7B7BB' }
+const ButtonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)', border: 'none'  }
 
 export const FundCard: FC<FundCardProps> = ({
     id,
@@ -227,12 +227,12 @@ export const FundCard: FC<FundCardProps> = ({
                     <>
                         <ExpandableText text={description} />
                         <Button
-                            className={s.editButton}
+                            className={s.cardShareButton}
                             variant={'outline'}
                             onClick={handleCopyAddress}
-                            tgStyles={Btn}
+                            tgStyles={ButtonTg}
                         >
-                        Share
+                            Share
                         </Button>
                     </>
                 )}
