@@ -23,14 +23,15 @@ import { formatNumberWithCommas } from '../../utils/formatNumberWithCommas'
 import { Items, TonApi } from '../../logic/tonapi'
 
 import { Smart } from '../../logic/smart'
+import { loadFund } from '../../logic/loadFund'
 
 import { FundDetailType, FundType } from '../../@types/fund'
+
+import { ROUTES } from '../../utils/router'
 
 import useDebounce from '../../hooks/useDebounce'
 
 import s from './home.module.scss'
-import { loadFund } from '../../logic/loadFund'
-import { ROUTES } from '../../utils/router'
 
 interface HomePageProps {
     addressCollection: string[],
@@ -40,6 +41,7 @@ interface HomePageProps {
 
 const inputTgStyles = { input: { background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)' } }
 const buttonTg = { background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)' }
+const tgText = { color: 'var(--tg-theme-text-color)' }
 
 export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg }) => {
     const navigate = useNavigate()
@@ -191,9 +193,9 @@ export const HomePage: FC<HomePageProps> = ({ addressCollection, isTestnet, isTg
                 }
             </div>
             <div className={s.homeBlock}>
-                <Title variant="h1" className={s.title} color="#fff" tgStyles={{ color: 'var(--tg-theme-text-color)' }}>
-                    <span style={{ opacity: typeLoad ? 1 : 0.5, cursor: 'pointer' }} onClick={() => changeType2(true)}>Top fundraiser </span>
-                    <span style={{ opacity: !typeLoad ? 1 : 0.5, cursor: 'pointer' }} onClick={() => changeType2(false)}>All fundraiser</span>
+                <Title variant="h1" className={s.title} color="#fff">
+                    <span style={{ opacity: typeLoad ? 1 : 0.5, cursor: 'pointer', ...tgText }} onClick={() => changeType2(true)}>Top fundraiser </span>
+                    <span style={{ opacity: !typeLoad ? 1 : 0.5, cursor: 'pointer', ...tgText }} onClick={() => changeType2(false)}>All fundraiser</span>
                 </Title>
 
                 <div className={s.cards}>
