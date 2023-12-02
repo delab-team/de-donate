@@ -12,7 +12,7 @@ export const jettons = [
         catalogs: null
     },
     {
-        address: [ '0:90605daea7f8494e554bb33a9ffb53849e958e0607985ec4ebcc77c6d952d401', '0:f6eb371de82aa9cfb5b22ca547f31fdc0fa0fbb41ae89ba84a73272ff0bf2157' ],
+        address: [ '0:f6eb371de82aa9cfb5b22ca547f31fdc0fa0fbb41ae89ba84a73272ff0bf2157', '0:c288b9102a934e1a93435f6a194470da340559a95e9c9816c682ccff2215149d' ],
         value: 'DFC',
         label: 'DFC',
         decimals: 9,
