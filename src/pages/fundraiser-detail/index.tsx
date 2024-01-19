@@ -406,7 +406,7 @@ export const FundraiserDetail: FC<FundraiserDetailProps> = ({ isTestnet, isTg })
                             rounded="l"
                             size="stretched"
                             className="action-btn"
-                            disabled={Number(withdrawalData.amount) > Number(tokenBalance) || isNaN(parseFloat(withdrawalData.amount)) || Number(withdrawalData.amount) === 0}
+                            disabled={Number(withdrawalData.amount) !== 0}
                             tgStyles={editButtonTg}
                             onClick={() => Withdrawal()}
                         >
