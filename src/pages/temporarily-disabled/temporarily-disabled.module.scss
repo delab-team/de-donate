@@ -1,0 +1,14 @@
+.content {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  h1 {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--tg-theme-text-color) !important;
+  }
+}

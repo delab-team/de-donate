@@ -10,6 +10,7 @@ import { FundraiserDetail } from './pages/fundraiser-detail'
 import { FundraiserUpdate } from './pages/fundraiser-update'
 import { Profile } from './pages/profile'
 import { HomePage } from './pages/home'
+import { TemporarilyDisabled } from './pages/temporarily-disabled'
 
 import { ROUTES } from './utils/router'
 import { fixAmount } from './utils/fixAmount'
@@ -111,7 +112,7 @@ export const App: FC = () => {
 
     return (
         <AppInner isTg={isTg}>
-            <Layout>
+            {/* <Layout>
                 <Routes>
                     <Route element={<PrivateRoute />}>
                         <Route element={
@@ -153,7 +154,8 @@ export const App: FC = () => {
                     />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
-            </Layout>
+            </Layout> */}
+            <TemporarilyDisabled />
         </AppInner>
     )
 }
